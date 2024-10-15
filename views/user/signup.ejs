@@ -1,0 +1,138 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    
+<div class="container mt-5" style="width: 25rem;" >
+    <h2 class="text-center">Sign Up</h2>
+    <form id="signupForm" action="signup" method="post" >
+
+      <h6 id="msg" class="text-center text-danger"> &nbsp;<%= message %> </h6>
+
+        <div class="mb-3">
+            <label for="fullName" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="fullName" name="fullName" required>
+        </div>
+        <div class="mb-3">
+            <label for="userName" class="form-label">Username</label>
+            <input type="text" class="form-control" id="userName" name="userName" required>
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" id="phone" name="phone" required pattern="[0-9]{10}">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="mb-3">
+            <label for="confirmPass" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="confirmPass" name="confirmPass" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+        let password = document.getElementById('password').value;
+        let confirmPass = document.getElementById('confirmPass').value;
+        let msg = document.getElementById('msg');
+        
+        if (password !== confirmPass) {
+            // msg.innerHTML("Passwords do not match!")
+            e.preventDefault();
+            alert("Passwords do not match!");
+            
+        }
+    });
+</script>
+</div>
+
+<!-- 
+<div class="login-wrap">
+	<div class="login-html">
+		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+		<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+		<div class="login-form">
+            
+			
+			<div class="sign-in-htm">
+             <form id="loginPage" action="login" method="post">
+
+				<div class="group">
+					<label for="userName" class="label">Email</label>
+					<input id="email" name="email" type="text" class="input" required>
+				</div>
+				<div class="group">
+					<label for="password" class="label">Password</label>
+					<input id="password" name="password" type="password" class="input" data-type="password" required>
+				</div>
+				<div class="group">
+					<input id="check" type="checkbox" class="check" checked>
+					<label for="check"><span class="icon"></span> Keep me Signed in</label>
+				</div>
+				<div class="group">
+					<input type="submit" class="button" value="Sign In">
+				</div>
+				<div class="hr"></div>
+				<div class="foot-lnk">
+					<a href="#forgot">Forgot Password?</a>
+				</div>
+             </form>
+			</div>
+			
+			<div class="sign-up-htm">
+             <form id="signupForm" action="signup" method="post" >
+
+				<div class="group">
+					<label for="fullName" class="label">Full Name</label>
+					<input id="fullName" name="fullName" type="text" class="input" required>
+				</div>
+				<div class="group">
+					<label for="userName" class="label">Username</label>
+					<input id="userName" name="userName" type="text" class="input" required>
+				</div>
+				<div class="group">
+					<label for="phone" class="label">Phone Number</label>
+					<input id="phone" name="phone" type="tel" class="input" pattern="[0-9]{10}" required>
+				</div>
+				<div class="group">
+					<label for="email" class="label">Email Address</label>
+					<input id="email" name="email" type="email" class="input" required>
+				</div>
+				<div class="group">
+					<label for="password" class="label">Password</label>
+					<input id="password" name="password" type="password" class="input" data-type="password" required>
+				</div>
+				<div class="group">
+					<label for="confirmPass" class="label">Confirm Password</label>
+					<input id="confirmPass" name="confirmPass" type="password" class="input" data-type="password" required>
+				</div>
+				<div class="group">
+					<input type="submit" class="button" value="Sign Up">
+				</div>
+				<div class="hr"></div>
+				<div class="foot-lnk">
+					<label for="tab-1">Already Member?</label>
+				</div>
+             </form>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+        let password = document.getElementById('password').value;
+        let confirmPass = document.getElementById('confirmPass').value;
+        let msg = document.getElementById('msg');
+        
+        if (password !== confirmPass) {
+            // msg.innerHTML("Passwords do not match!")
+            e.preventDefault();
+            alert("Passwords do not match!");
+            
+        }
+    });
+</script> -->
