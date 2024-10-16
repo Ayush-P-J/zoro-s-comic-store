@@ -1,0 +1,19 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="container mt-5" style="width: 25rem;">
+    <h2 class="text-center">Login </h2>
+    <form id="loginPage" action="verifyOTP" method="post">
+      <h6 id="msg" class="text-center text-danger"> &nbsp;<%= errorMessage %> </h6>
+
+        
+        <div class="mb-3">
+            <label for="email" class="form-label">Enter the OTP</label>
+            <input type="text" class="form-control" id="otp" name="otp" required>
+        </div>
+        
+        
+        <button type="submit" class="btn btn-primary w-100">Verify</button>
+        
+    </form>
+
+</div>
+</div>

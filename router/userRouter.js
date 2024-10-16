@@ -16,6 +16,10 @@ router.route('/signup')
 .get(controller.getSignupPage)
 .post(controller.postSignup);
 
+router.route('/verifyOTP')
+.get(controller.getOTP)
+.post(controller.verfyOtp)
+
 
 
 
