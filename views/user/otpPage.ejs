@@ -1,19 +1,98 @@
-<div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="container mt-5" style="width: 25rem;">
-    <h2 class="text-center">Login </h2>
-    <form id="loginPage" action="verifyOTP" method="post">
-      <h6 id="msg" class="text-center text-danger"> &nbsp;<%= errorMessage %> </h6>
+<link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/assets/images/favicon.png" />
 
-        
-        <div class="mb-3">
-            <label for="email" class="form-label">Enter the OTP</label>
-            <input type="text" class="form-control" id="otp" name="otp" required>
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="row w-100 m-0">
+            <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+                <div class="card col-lg-4 mx-auto">
+                    <div class="card-body px-5 py-5">
+                        <h3 class="card-title text-left mb-3">OTP Verification</h3>
+                        <form id="loginPage" action="verifyOTP" method="post">
+                            <h6 id="msg" class="text-center text-danger"> &nbsp;<%= errorMessage %> </h6>
+
+                            <div class="form-group">
+                                <label for="otp">Enter the OTP</label>
+                                <input type="text" class="form-control p_input" id="otp" name="otp" required>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-block enter-btn">Verify</button>
+                            </div>
+                        </form>
+
+                        <!-- Resend OTP Section -->
+                        <div class="text-center mt-3">
+                            <button id="resendOtpBtn" class="btn btn-secondary btn-block" onclick="resendOtp()">Resend OTP</button>
+                            <p id="resendMsg" class="text-muted mt-2">You can resend the OTP in <span id="timer">60</span> seconds</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
         </div>
-        
-        
-        <button type="submit" class="btn btn-primary w-100">Verify</button>
-        
-    </form>
+        <!-- row ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
 
-</div>
-</div>
+<!-- plugins:js -->
+<script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="/assets/js/off-canvas.js"></script>
+<script src="/assets/js/hoverable-collapse.js"></script>
+<script src="/assets/js/misc.js"></script>
+<script src="/assets/js/settings.js"></script>
+<script src="/assets/js/todolist.js"></script>
+<!-- endinject -->
+
+<script>
+    // Resend OTP Logic
+    let timerElement = document.getElementById('timer');
+    let resendOtpBtn = document.getElementById('resendOtpBtn');
+    let countdown = 10; // 60 seconds timer
+
+    function startTimer() {
+        resendOtpBtn.disabled = true;
+        let interval = setInterval(() => {
+            countdown--;
+            timerElement.textContent = countdown;
+
+            if (countdown === 0) {
+                clearInterval(interval);
+                resendOtpBtn.disabled = false;
+                countdown = 10; // Reset countdown
+            }
+        }, 1000);
+    }
+    
+
+    function resendOtp() {
+        $.ajax({
+            url: 'resendOTP',
+            type: 'POST',
+            success: function(response) {
+                if (response.success) {
+                    $('#resendMsg').text("OTP has been resent!");
+                    startTimer(); // Restart the timer after resending OTP
+                } else {
+                    $('#resendMsg').text("Failed to resend OTP. Please try again.");
+                }
+            },
+            error: function() {
+                $('#resendMsg').text("An error occurred. Please try again.");
+            }
+        });
+    }
+
+    // Start initial countdown when page loads
+    window.onload = startTimer;
+</script>

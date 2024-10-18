@@ -1,3 +1,4 @@
+const { type } = require("express/lib/response");
 const mongoose = require("mongoose");
 
 async function connection(){
@@ -10,28 +11,38 @@ async function connection(){
 const userSchema = new mongoose.Schema({
     fullName: {
         type: String,
-        required: true,
+        required: false,
         
 
     },
     userName:{
       type: String,
-      required: true,
+      required: false,
 
     },
     phone:{
       type: Number,
-      required: true,
+      required: false,
+      sparse: true,
+      default:null
+
+    },
+    googleId:{
+        type:String,
+        unique:true,
+        sparse:true
 
     },
     email:{
       type: String,
       required: true,
+      unique:true
+
 
     },
     
     password: {
-        required: true,
+        required: false,
         type: String
     },
     // confirmPass: {

@@ -2,8 +2,13 @@ const express = require("express");
 const app = express();
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
+const env = require("dotenv").config()
+
 
 const path = require('path');
+const passport = require("passport")
+
+require('./config/passport')
 
 
 const userRouter = require('./router/userRouter')
@@ -31,6 +36,11 @@ app.use(session({
 
 models.connection();
 
-app.use('/user',userRouter);
+app.use(passport.initialize());
+app.use(passport.session())
+
+
+
+app.use('/',userRouter);
 
 app.listen(PORT,()=> console.log(`Server is running at ${PORT}`));

@@ -37,12 +37,18 @@ exports.getLoginPage = (req,res)=>{
 
 
 exports.postLogin = async (req,res)=>{
-    // const { USERNAME, FULLNAME, PASSWORD } = req.body;
+    try{
+      // const { USERNAME, FULLNAME, PASSWORD } = req.body;
     const EMAIL = req.body.email;
     const PASSWORD = req.body.password
     // const PASSWORD = passwordHash;
     
     const userDetails = await models.User.findOne({email:EMAIL});
+    if(!userDetails){
+      return  res.render('user/login',{ message: 'Invalid Email', title:"Login page" });
+
+
+    }
     const userVerify = await bcrypt.compare(PASSWORD,userDetails.password)
     if(userVerify){
         req.session.email = EMAIL;
@@ -54,15 +60,19 @@ exports.postLogin = async (req,res)=>{
   
         res.redirect('/user/home');
       } else{
+        return  res.render('user/login',{ message: ' Incorrect password', title:"Login page" });
+      } 
+    } catch (error) {
         
-  
-        return  res.render('user/login',{ message: 'Invalid username or password', title:"Login page" });
+        res.status(500).send("Internal server error")
       }
+
+    };
       
       
     
   
-  };
+  
 
 
 exports.getSignupPage = (req, res)=>{
@@ -209,3 +219,38 @@ exports.verfyOtp = async (req, res) => {
       return res.status(500).json({ success: false, message: "An error occurred" });
   }
 };
+
+
+exports.resendOTP = async (req,res)=>{
+  try {
+    
+    console.log('email');
+
+      const {EMAIL} = req.session.userData
+      const email = EMAIL
+      if(!email){
+          return res.status(400).json({success:false, message:"Email not found in session"})
+
+      }
+      console.log(EMAIL);
+      
+      
+
+      const otp = generateOtp()
+          req.session.userOtp = otp
+
+          const emailSend = await sendVerificationEmail(email,otp)
+          if(emailSend){
+              console.log("Resend otp", otp);
+              res.status(200).json({success:true, message:"OTP Resend Successfully"})
+              
+          }else{
+              res.status(500).json({success:false, message:"Failed to OTP resend, Please try again"})
+          }
+      
+  } catch (error) {
+      console.log("Error for resend OTP",error);
+      res.status(500).json({success:false, message:"Internal server error"})
+      
+  }
+}
