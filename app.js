@@ -12,6 +12,7 @@ require('./config/passport')
 
 
 const userRouter = require('./router/userRouter')
+const adminRouter = require('./router/adminRouter')
 
 const models = require('./models/userModels')
 
@@ -42,5 +43,9 @@ app.use(passport.session())
 
 
 app.use('/',userRouter);
+app.use('/admin',adminRouter);
 
 app.listen(PORT,()=> console.log(`Server is running at ${PORT}`));
+
+
+
