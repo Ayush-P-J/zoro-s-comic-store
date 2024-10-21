@@ -45,10 +45,10 @@ const userSchema = new mongoose.Schema({
         required: false,
         type: String
     },
-    // confirmPass: {
-    //     required: true,
-    //     type: String
-    // }
+    isBlocked: {
+        default:false,
+        type: Boolean
+    }
 });
 
 

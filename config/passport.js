@@ -25,7 +25,7 @@ async (accessToken, refreshToken, profile, done) => {
             return done(null, user);
         } else {
             user = new User.User({
-                name: profile.displayName,  // Correct the typo here
+                fullName: profile.displayName,  // Correct the typo here
                 email: profile.emails[0].value,
                 googleId: profile.id,
             });

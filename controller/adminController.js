@@ -1,5 +1,6 @@
 const { redirect } = require('express/lib/response');
 const models = require('../models/adminModels');
+const user = require('../models/userModels');
 
 exports.getLogin = (req, res)=>{
     if (req.session.admin){
@@ -51,4 +52,39 @@ exports.postLogin = async (req, res)=>{
 
 exports.getIndex = (req, res)=>{
     res.render('admin/index')
+}
+
+
+exports.getUserList = async ( req, res)=>{
+    const userData = await user.User.find();
+
+    res.render('admin/userList',{userData:userData});
+}
+
+
+exports.blockUser = async ( req, res) =>{
+    try {
+        const userId = req.params.id;
+    const isBlock = await user.User.findOne({_id:userId})
+    
+    console.log(isBlock.isBlocked);
+    
+    if (isBlock.isBlocked === true){
+        await user.User.updateOne({_id:userId},{$set:{isBlocked:false}});
+        // console.log(isBlocked);
+        console.log("UNBLOCKED");
+        res.redirect('/admin/userList');
+    } else {
+        await user.User.updateOne({_id:userId},{$set:{isBlocked:true}});
+        // console.log(isBlocked);
+        console.log("BLOCKED");
+        res.redirect('/admin/userList');
+        
+    }
+        
+    } catch (error) {
+        res.status(500).send("Internal server error");
+        
+    }
+
 }

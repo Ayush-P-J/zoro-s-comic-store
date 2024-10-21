@@ -9,6 +9,15 @@ router.route('/login')
 router.route('/index')
 .get(controller.getIndex)
 
+router.route('/userList')
+.get(controller.getUserList);
+
+router.get('/userList/:id',controller.blockUser);
+
+
+
+
+
 
 
 

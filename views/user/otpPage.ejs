@@ -12,8 +12,8 @@
                 <div class="card col-lg-4 mx-auto">
                     <div class="card-body px-5 py-5">
                         <h3 class="card-title text-left mb-3">OTP Verification</h3>
-                        <form id="loginPage" action="verifyOTP" method="post">
-                            <h6 id="msg" class="text-center text-danger"> &nbsp;<%= errorMessage %> </h6>
+                        <form id="loginPage" action="verifyOTP" onsubmit="validateOTP()" method="post">
+                            <h6 id="msg" class="text-center text-danger"> &nbsp; </h6>
 
                             <div class="form-group">
                                 <label for="otp">Enter the OTP</label>
@@ -28,7 +28,8 @@
                         <!-- Resend OTP Section -->
                         <div class="text-center mt-3">
                             <button id="resendOtpBtn" class="btn btn-secondary btn-block" onclick="resendOtp()">Resend OTP</button>
-                            <p id="resendMsg" class="text-muted mt-2">You can resend the OTP in <span id="timer">60</span> seconds</p>
+                            <p id="" class="text-muted mt-2">You can resend the OTP in <span id="timer">60</span> seconds</p>
+                            <p id="resendMsg" class="text-muted mt-2">&nbsp;</p>
                         </div>
 
                     </div>
@@ -54,11 +55,13 @@
 <script src="/assets/js/todolist.js"></script>
 <!-- endinject -->
 
-<script>
+<!-- <script>
     // Resend OTP Logic
     let timerElement = document.getElementById('timer');
     let resendOtpBtn = document.getElementById('resendOtpBtn');
-    let countdown = 10; // 60 seconds timer
+    let otp = document.getElementById('otp');
+    let time = 10;
+    let countdown = time; // 60 seconds timer
 
     function startTimer() {
         resendOtpBtn.disabled = true;
@@ -69,9 +72,34 @@
             if (countdown === 0) {
                 clearInterval(interval);
                 resendOtpBtn.disabled = false;
-                countdown = 10; // Reset countdown
+                countdown = time; // Reset countdown
             }
         }, 1000);
+    }
+    startTimer();
+
+    function validateOTP() {
+        $.ajax({
+            url:'verifyOTP',
+            type:'POST',
+            data:{OTP:otp},
+            success:function(response) {
+                if (response.success){
+                  
+                    $('#resendMsg').text("Email verified");
+                    
+                    
+                } else {
+                    $('#resendMsg').text("Invalid OTP ");
+
+                } 
+            },
+            error: function() {
+                $('#resendMsg').text("An error occurred. Please try again.");
+            }
+
+        })
+
     }
     
 
@@ -94,5 +122,70 @@
     }
 
     // Start initial countdown when page loads
-    window.onload = startTimer;
+    
+</script> -->
+
+
+<script>
+    function validateOTP() {
+        let otpValue = $('#otp').val(); // Get OTP value from input field
+        $.ajax({
+            url: 'verifyOTP', // Correct URL for your backend endpoint
+            type: 'POST',
+            data: { OTP: otpValue }, // Send OTP as data
+            success: function(response) {
+                if (response.success) {
+                    $('#msg').text("Email verified");
+                    // Optionally, redirect to another page
+                    if (response.redirectUrl) {
+                        window.location.href = response.redirectUrl;
+                    }
+                } else {
+                    $('#msg').text("Invalid OTP");
+                }
+            },
+            error: function() {
+                $('#msg').text("An error occurred. Please try again.");
+            }
+        });
+    }
+
+    function resendOtp() {
+        $.ajax({
+            url: 'resendOTP', // Correct URL for your resendOTP endpoint
+            type: 'POST',
+            success: function(response) {
+                if (response.success) {
+                    $('#resendMsg').text("OTP has been resent!");
+                    startTimer(); // Restart the timer after resending OTP
+                } else {
+                    $('#resendMsg').text("Failed to resend OTP. Please try again.");
+                }
+            },
+            error: function() {
+                $('#resendMsg').text("An error occurred. Please try again.");
+            }
+        });
+    }
+
+    // Function to start the timer for resend OTP
+    function startTimer() {
+        let timerElement = document.getElementById('timer');
+        let resendOtpBtn = document.getElementById('resendOtpBtn');
+        let time = 10; // Seconds for countdown
+        let countdown = time;
+
+        resendOtpBtn.disabled = true;
+        let interval = setInterval(() => {
+            countdown--;
+            timerElement.textContent = countdown;
+
+            if (countdown === 0) {
+                clearInterval(interval);
+                resendOtpBtn.disabled = false;
+                timerElement.textContent = time; // Reset timer display
+            }
+        }, 1000);
+    }
+    startTimer(); // Start initial countdown when page loads
 </script>
