@@ -112,7 +112,7 @@ exports.postSignup = async (req, res) => {
     }
 
     req.session.userOtp = otp;
-    req.session.otpExpires = Date.now() + 10 * 1000;
+    req.session.otpExpires = Date.now() + 30 * 1000;
 
     req.session.userData = { FULLNAME, USERNAME, PHONE, EMAIL, PASSWORD };
 
@@ -186,7 +186,7 @@ const sendVerificationEmail = async (email, otp) => {
 
 exports.verfyOtp = async (req, res) => {
   try {
-    const { OTP } = req.body;
+    const  OTP  = req.body.otp;
 
     req.session.userOtp = Date.now() > req.session.otpExpires ? null : req.session.userOtp;
 
@@ -223,9 +223,12 @@ exports.verfyOtp = async (req, res) => {
 
 
 
-    } else {
+    } else if(req.session.userOtp === null) {
 
       return res.status(400).json({ success: false, message: "OTP expired" })
+      
+    }else{
+      return res.status(400).json({ success: false, message: "Invalid OTP" })
 
     }
 

@@ -40,28 +40,26 @@
                         <table class="table">
                           <thead>
                             <tr>
-                              <th>
-                                <div class="form-check form-check-muted m-0">
-                                  <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input">
-                                  </label>
-                                </div>
-                              </th>
+                              <th> Sl no </th>
                               <th> Name  </th>
                               <th> Email </th>
                               <th> Phone  </th>
+                              <th> Created  </th>
                               <th> Block/Unblock </th>
                              
                             </tr>
                           </thead>
                           <tbody>
-                            <% userData.forEach((user,index)=>{ %>
+                            <% let sl = limit * (currentPage - 1)   %>
+                            <% userData.forEach((user)=>{ %>
                             <tr>
                                 
-                                <td><%= index+1 %></td>
+                                <td><%= sl += 1   %></td>
+                                                        
                                 <td> <%= user.fullName %> </td>
                                 <td> <%= user.email %> </td>
                                 <td> <%= user.phone %> </td>
+                                <td> <%= user.createdAt %> </td>
                                 <td>
                                     <% if (user.isBlocked == true){ %>
                                      <a type="button" href="/admin/userList/<%=user._id%>" class="btn btn-success ">Unblock</a>
@@ -72,14 +70,23 @@
                                      <% } %>
                                   </td>
                               
-                                <td>
-                                    <div class="badge badge-outline-success">Approved</div>
-                                </td>
+                                
                                 <% }); %>
                             </tr>
                           </tbody>
                         </table>
                       </div>
+                    </div>
+                    <div>
+                      <ul>
+                        <% for( let i = 1; i<= totalPages; i++){ %>
+                          <li class="<%= (i == currentPage)?'active':''%>">
+                            <a href="?page=<%= i %>"><%= i %></a>
+    
+                          </li>
+                          
+                        <% } %>
+                      </ul>
                     </div>
                   </div>
                 </div>

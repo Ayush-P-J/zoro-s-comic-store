@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Corona Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="/assets/vendors/jvectormap/jquery-jvectormap.css">
+  <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
+  <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
+  <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css
+
+
+
+  ">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <!-- endinject -->
+  <!-- Layout styles -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- End layout styles -->
+  <link rel="shortcut icon" href="/assets/images/favicon.png" />
+</head>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_sidebar.html -->
+    <%- include("../partials/admin/sidebar") %>
+
+      <!-- partial -->
+      <%- include("../partials/admin/navbar") %>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Product Form</h4>
+                <p class="card-description">Fill in the product details</p>
+                <form class="forms-sample" enctype="multipart/form-data" method="POST" action="/your-post-route">
+                  <!-- Product Name -->
+                  <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" class="form-control" name="productName" id="productName" placeholder="Enter product name" required>
+                  </div>
+          
+                  <!-- Description -->
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" name="description" id="description" rows="3" placeholder="Enter product description" required></textarea>
+                  </div>
+          
+                  <!-- Quantity -->
+                  <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Enter quantity" required>
+                  </div>
+          
+                  <!-- Stock -->
+                  <div class="form-group">
+                    <label for="stock">Stock</label>
+                    <input type="number" class="form-control" name="stock" id="stock" placeholder="Enter stock quantity" required>
+                  </div>
+          
+                  <!-- Category -->
+                  <div class="form-group">
+                    <label for="category">Category</label>
+                    <select class="form-control" name="category" id="category" required>
+                      <option value="" disabled selected>Select category</option>
+                      <!-- Dynamically populate categories here -->
+                      <option value="category_id">Category 1</option>
+                      <option value="category_id">Category 2</option>
+                    </select>
+                  </div>
+          
+                  <!-- Size -->
+                  <div class="form-group">
+                    <label for="size">Size</label>
+                    <input type="text" class="form-control" name="size" id="size" placeholder="Enter product size">
+                  </div>
+          
+                  <!-- Regular Price -->
+                  <div class="form-group">
+                    <label for="regularPrice">Regular Price</label>
+                    <input type="number" class="form-control" name="regularPrice" id="regularPrice" placeholder="Enter regular price" required>
+                  </div>
+          
+                  <!-- Sale Price -->
+                  <div class="form-group">
+                    <label for="salePrice">Sale Price</label>
+                    <input type="number" class="form-control" name="salePrice" id="salePrice" placeholder="Enter sale price">
+                  </div>
+          
+                  <!-- Status -->
+                  <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control" name="status" id="status" required>
+                      <option value="Available">Available</option>
+                      <option value="Out of Stock">Out of Stock</option>
+                    </select>
+                  </div>
+          
+                  <!-- Colors -->
+                  <div class="form-group">
+                    <label for="colors">Colors</label>
+                    <input type="text" class="form-control" name="colors" id="colors" placeholder="Enter available colors">
+                  </div>
+          
+                  <!-- Review -->
+                  <div class="form-group">
+                    <label for="review">Review</label>
+                    <textarea class="form-control" name="review" id="review" rows="2" placeholder="Enter review"></textarea>
+                  </div>
+          
+                  <!-- Images Upload -->
+                  <div class="form-group">
+                    <label>Upload Images</label>
+                    <input type="file" name="images[]" class="file-upload-default" multiple>
+                    <div class="input-group col-xs-12">
+                      <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Images">
+                      <span class="input-group-append">
+                        <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                      </span>
+                    </div>
+                  </div>
+          
+                  <!-- Submit and Cancel -->
+                  <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                  <button type="reset" class="btn btn-dark">Cancel</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+
+          
+          
+
+
+
+          <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+
+  <script>
+    function setDeleteUrl(url) {
+      document.getElementById('confirmDeleteButton').setAttribute('href', url);
+    }
+  </script>
+  
+
+  
+  <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="/assets/vendors/chart.js/Chart.min.js"></script>
+  <script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
+  <script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+  <script src="/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+  <script src="/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="/assets/js/off-canvas.js"></script>
+  <script src="/assets/js/hoverable-collapse.js"></script>
+  <script src="/assets/js/misc.js"></script>
+  <script src="/assets/js/settings.js"></script>
+  <script src="/assets/js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page -->
+  <script src="/assets/js/dashboard.js"></script>
+  <!-- End custom js for this page -->
+</body>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>
