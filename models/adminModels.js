@@ -47,10 +47,6 @@ const ProductSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    quantity: {
-        type: Number,
-        required: true
-    },
     images: {
         type: [String],  
         required: true,
@@ -62,7 +58,7 @@ const ProductSchema = new mongoose.Schema({
     },
     category: {
         type: mongoose.Schema.ObjectId,
-        ref: 'Category',
+        ref: 'category',
         required: true
     },
     size: {

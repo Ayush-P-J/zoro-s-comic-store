@@ -116,7 +116,7 @@ exports.blockUser = async (req, res) => {
 
 exports.getCategories = async (req, res) => {
     const categories = await models.Category.find()
-    console.log(categories)
+    // console.log(categories)
     res.render('admin/category', { categories: categories, error: "" });
 }
 
@@ -140,7 +140,7 @@ exports.postCategories = async (req, res) => {
             categoryName: category,
             description: description
         });
-        console.log(category);
+        // console.log(category);
 
 
         await newCategory.save();
@@ -189,10 +189,11 @@ exports.getEdit = async (req, res) => {
 
 exports.editCategory = async (req, res) => {
 
-    const category = req.body.category
-    const description = req.body.description;
+    const {category, description} = req.body
+    // const description = req.body.description;
     try {
-        await models.Category.updateOne({ _id: req.params.id }, { categoryName: category, description });
+        await models.Category.updateOne({ _id: req.params.id }, 
+            { categoryName: category, description });
         res.redirect('/admin/categories');
     }
     catch (err) {
@@ -217,13 +218,78 @@ exports.deleteCategory = async (req, res) =>{
     
 }
 
-exports.getProductPage = (req, res)=>{
-    res.render('admin/products')
+exports.getProductPage = async (req, res)=>{
+    const categories = await models.Category.find()
+
+    const products = await models.Product.find().populate('category')
+    // console.log(categories)
+    // return res.json(products)
+    res.render('admin/products',{products:products,categories:categories, error:""})
+
 }
 
-exports.postProducts = (req ,res)=>{
-    const productName = req.body.productName;
-    const image = req.body.image;
+exports.postProduct = async (req ,res)=>{
+    const {
+        productName,
+        description,
+        quantity,
+        stock,
+        category,
+        size,
+        regularPrice,
+        salePrice,
+        status,
+        colors,
+        review,
+        images
+      }
+       = req.body;
+       
+       
+
+    try {
+        const isExist = await models.Product.findOne({productName:productName})
+
+    if(isExist){
+        return res.render('admin/products', { 
+            products: products,
+             error: "This product already exist in the database" 
+            });
+
+    }
     
 
+    const newProduct = new models.Product({
+        productName: productName,
+        description: description,
+        stock: stock,
+        category: category,
+        size: size,
+        regularPrice: regularPrice,
+        salePrice: salePrice,
+        status: status,
+        colors: colors,
+        review: review,
+        images: images
+    });
+    
+
+    await newProduct.save();
+    res.redirect('/admin/products')
+    } catch (error) {
+        throw new Error(error);
+    }
+    
+    
+
+}
+
+exports.getAddProduct = async (req, res)=>{
+console.log("haiiii");
+
+    const categories = await models.Category.find()
+    const products = await models.Product.find().populate('category')
+    console.log(products);
+    
+    res.render('admin/addProduct',{products:products,categories:categories, error:""})
 }

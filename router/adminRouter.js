@@ -33,7 +33,10 @@ router.route('/categories/delete/:id')
 
 router.route('/products')
 .get(controller.getProductPage)
-.post(controller.postProducts)
+
+router.route('/products/addProduct')
+.get(controller.getAddProduct)
+.post(controller.postProduct)
 
 
 
