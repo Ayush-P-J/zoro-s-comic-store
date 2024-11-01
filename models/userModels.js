@@ -36,14 +36,15 @@ const userSchema = new mongoose.Schema({
     email:{
       type: String,
       required: true,
-      unique:true
+      unique:true,
 
 
     },
     
     password: {
         required: false,
-        type: String
+        type: String,
+        default:null
     },
     isBlocked: {
         default:false,
@@ -53,27 +54,27 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     }
-});
+},{ timestamps: true });
 
 
 //schema of otp
-const userOTPSchema = new mongoose.Schema({
-    userId:{
-        type:String
-    },
-    otp:{
-        type:String
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        expires: 60 * 5, // The document will be automatically deleted after 5 minutes of its creation time
-    },
+// const userOTPSchema = new mongoose.Schema({
+//     userId:{
+//         type:String
+//     },
+//     otp:{
+//         type:String
+//     },
+//     createdAt: {
+//         type: Date,
+//         default: Date.now,
+//         expires: 60 * 5, // The document will be automatically deleted after 5 minutes of its creation time
+//     },
 
-});
+// });
 
 
-const OTP = mongoose.model('userOTP',userOTPSchema);
+// const OTP = mongoose.model('userOTP',userOTPSchema);
 const User = mongoose.model('user',userSchema);
 
 
@@ -82,5 +83,5 @@ const User = mongoose.model('user',userSchema);
 module.exports = {
     User,
     connection,
-    OTP
+    
 }

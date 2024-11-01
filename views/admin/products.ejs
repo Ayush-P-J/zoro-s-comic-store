@@ -20,6 +20,11 @@
 
 
   ">
+
+  <!-- Cropper.js CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+  <!-- Cropper.js JS -->
+
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <!-- endinject -->
@@ -27,6 +32,8 @@
   <link rel="stylesheet" href="/assets/css/style.css">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="/assets/images/favicon.png" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.css">
+
 </head>
 
 <body>
@@ -41,141 +48,10 @@
 
 
           <div style="display: flex; " class="m-1">
-            <a type="button" class="btn btn-info m-3 " data-toggle="modal" data-target="#addCategory">Add Product</a>
+            <a type="button" href="products/addProduct" class="btn btn-info m-3 " >Add Product</a>
           </div>
 
-          <!-- Button trigger modal -->
-
-
-          <!-- Modal -->
-          <!-- Modal -->
-          <div class="modal fade" id="addCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <!-- Form inside modal -->
-                  <form class="forms-sample"  method="POST" action="/admin/products/addProduct">
-                    <!-- Product Name -->
-                    <div class="form-group">
-                      <label for="productName">Product Name</label>
-                      <input type="text" class="form-control" name="productName" id="productName"
-                        placeholder="Enter product name" required>
-                    </div>
-
-                    <!-- Description -->
-                    <div class="form-group">
-                      <label for="description">Description</label>
-                      <textarea class="form-control" name="description" id="description" rows="3"
-                        placeholder="Enter product description" required></textarea>
-                    </div>
-
-
-                    <!-- Stock -->
-                    <div class="form-group">
-                      <label for="stock">Stock</label>
-                      <input type="number" class="form-control" name="stock" id="stock"
-                        placeholder="Enter stock quantity" required>
-                    </div>
-
-                    <!-- Category -->
-                    <div class="form-group">
-                      <label for="category">Category</label>
-                      <select class="form-control" name="category" id="category" required>
-                        <option value="" disabled selected>Select a category</option>
-                        <% categories.forEach((category)=> { %>
-                          <% if (category.isDeleted === false) { %>
-                            <option value="<%= category._id %>">
-                              <%= category.categoryName %>
-                            </option>
-
-                          <% } %>
-                          
-                        <% }); %>
-                      </select>
-                    </div>
-
-                    <!-- Size -->
-                    <div class="form-group">
-                      <label for="size">Size</label>
-                      <input type="text" class="form-control" name="size" id="size" placeholder="Enter product size">
-                    </div>
-
-                    <!-- Regular Price -->
-                    <div class="form-group">
-                      <label for="regularPrice">Regular Price</label>
-                      <input type="number" class="form-control" name="regularPrice" id="regularPrice"
-                        placeholder="Enter regular price" required>
-                    </div>
-
-                    <!-- Sale Price -->
-                    <div class="form-group">
-                      <label for="salePrice">Sale Price</label>
-                      <input type="number" class="form-control" name="salePrice" id="salePrice"
-                        placeholder="Enter sale price">
-                    </div>
-
-                    <!-- Status -->
-                    <div class="form-group">
-                      <label for="status">Status</label>
-                      <select class="form-control" name="status" id="status" required>
-                        <option value="Available">Available</option>
-                        <option value="Out of Stock">Out of Stock</option>
-                      </select>
-                    </div>
-
-                    <!-- Colors -->
-                    <div class="form-group">
-                      <label for="colors">Colors</label>
-                      <input type="text" class="form-control" name="colors" id="colors"
-                        placeholder="Enter available colors">
-                    </div>
-
-                    <!-- Review -->
-                    <div class="form-group">
-                      <label for="review">Review</label>
-                      <textarea class="form-control" name="review" id="review" rows="2"
-                        placeholder="Enter review"></textarea>
-                    </div>
-
-                    <!-- Images Upload -->
-                    <!-- <div class="form-group">
-                      <label>Upload Images</label>
-                      <input type="file" name="images[]" class="file-upload-default" multiple>
-                      <div class="input-group col-xs-12">
-                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Images">
-                        <span class="input-group-append">
-                          <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                        </span>
-                      </div>
-                    </div> -->
-
-                    <!-- <div class="form-group">
-                      <label>File upload</label>
-                      <input type="file" name="img[]" class="file-upload-default">
-                      <div class="input-group col-xs-12">
-                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                        <span class="input-group-append">
-                          <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                        </span>
-                      </div>
-                    </div> -->
-
-                    <!-- Submit and Cancel -->
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    <button type="reset" class="btn btn-dark">Cancel</button>
-                  </form>
-                </div>
-
-              </div>
-            </div>
-          </div>
+        
 
 
           <div class="row ">
@@ -199,11 +75,13 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <% let sl=0; %>
+                        <% let sl = limit * (currentPage - 1)   %>
                           <% products.forEach((product)=> { %>
+                            
+
                             <tr>
                               <td>
-                                <%= ++sl %>
+                                <%= sl += 1   %>
                               </td>
                               <td>
                                 <%= product.productName %>
@@ -234,68 +112,154 @@
                                 <a href="/admin/products/edit/<%= product._id %>" class="btn btn-warning btn-sm">
                                   <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="#" class="btn btn-danger btn-sm" data-toggle="modal"
-                                  data-target="#deleteConfirmModal"
-                                  onclick="setDeleteUrl('/admin/products/delete/<%= product._id %>')">
+                                <% if (product.isListed) { %>
+                                  <a href="javascript:void(0);" class="btn btn-danger btn-sm" 
+                                  onclick="confirmDelete('/admin/products/delete/<%= product._id %>')">
                                   <i class="fa-solid fa-trash"></i>
-                                </a>
+                                  </a>
+
+                                <% } else{ %>
+                                  <a href="javascript:void(0);" class="btn btn-success btn-sm" 
+                                  onclick="restoreDelete('/admin/products/delete/<%= product._id %>')">
+                                  <i class="fa-solid fa-trash"></i>
+                                  </a>
+
+                                <% } %>
                               </td>
+                              
+
                             </tr>
                             <% }); %>
                       </tbody>
                     </table>
                   </div>
                 </div>
+                <div class="d-flex justify-content-center mt-4">
+                  <ul class="pagination">
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                      <li class="page-item <%= (i === currentPage) ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                      </li>
+                    <% } %>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Delete Confirmation Modal -->
-          <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
-            aria-labelledby="deleteConfirmLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="deleteConfirmLabel">Confirm Deletion</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  Are you sure you want to delete this product?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <a href="#" id="deleteBtn" class="btn btn-danger">Delete</a>
-                </div>
-              </div>
-            </div>
-          </div>
+          
 
-          <script>
-            function setDeleteUrl(url) {
-              document.getElementById('deleteBtn').setAttribute('href', url);
-            }
-          </script>
+          
 
-
-
-
-
+          
+          
+          
           <!-- main-panel ends -->
         </div>
         <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- plugins:js -->
+      </div>
+      <!-- container-scroller -->
+      <!-- plugins:js -->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      
+  <script>
+    // SweetAlert delete confirmation
+    function confirmDelete(url) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "This will make the users cannot view this product!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = url; // Redirect to delete URL
+        }
+      });
+    }
+    function restoreDelete(url) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to list this product?",
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, retrive it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = url; // Redirect to delete URL
+        }
+      });
+    }
+  </script>
 
   <script>
     function setDeleteUrl(url) {
       document.getElementById('confirmDeleteButton').setAttribute('href', url);
     }
+
+
+    let cropper;
+
+    function viewImage(event, index) {
+      let input = event.target;
+      let reader = new FileReader();
+
+      reader.onload = function () {
+        let dataURL = reader.result;
+        let image = document.getElementById('imgView' + index);
+        image.src = dataURL;
+
+        // Initialize cropper if not already initialized
+        if (cropper) {
+          cropper.destroy(); // Destroy previous cropper instance if any
+        }
+
+        cropper = new Cropper(image, {
+          aspectRatio: 1,  // Adjust aspect ratio as needed
+          viewMode: 1,
+          background: false,
+          autoCropArea: 1,
+          zoomable: true,
+        });
+
+        let saveButton = document.getElementById('saveButton' + index);
+        saveButton.addEventListener('click', async function () {
+          let croppedCanvas = cropper.getCroppedCanvas();
+          let croppedImage = document.getElementById('croppedImg' + index);
+          croppedImage.src = croppedCanvas.toDataURL('image/jpeg', 1.0); // Display cropped image
+
+          // Convert cropped canvas to a file and replace the original input file
+          let timestamp = new Date().getTime();
+          let fileName = `cropped-img-${timestamp}-${index}.png`;
+
+          await croppedCanvas.toBlob(blob => {
+            let imgFile = new File([blob], fileName, { type: blob.type });
+            let fileList = new DataTransfer();
+            fileList.items.add(imgFile);
+            input.files = fileList.files;  // Set the cropped file as the input file
+          });
+
+          cropper.destroy();  // Remove cropper after cropping
+          cropper = null;
+        });
+      };
+
+      reader.readAsDataURL(input.files[0]);  // Read the uploaded file
+    }
+
+    function validateForm() {
+      // Add validation logic here...
+      return true; // Update this based on actual validation
+    }
   </script>
 
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 
   <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->

@@ -1,24 +1,30 @@
 const nodemailer = require("nodemailer")
 const bcrypt = require("bcrypt")
 const models = require('../models/userModels');
+const admin = require('../models/adminModels');
+
 const env = require("dotenv").config()
 
 
 
-exports.getIndexPage = (req, res) => {
+exports.getIndexPage = async (req, res) => {
   if (req.session.email) {
     return res.redirect('/user/home');
 
   }
-  res.render('user/index');
+  const products = await admin.Product.find({isListed:true})
+
+  res.render('user/index',{products});
 
 }
-exports.getHomePage = (req, res) => {
+exports.getHomePage = async(req, res) => {
+  const products = await admin.Product.find({isListed:true}).populate('category')
+
   if (!req.session.email) {
     return res.redirect('/user/login');
 
   }
-  res.render('user/home');
+  res.render('user/home',{products});
 
 }
 
@@ -26,12 +32,16 @@ exports.getHomePage = (req, res) => {
 
 //Get user login page 
 
-exports.getLoginPage = (req, res) => {
+exports.getLoginPage = async (req, res) => {
+
   if (req.session.email) {
     return res.redirect('/user/home');
 
+  } else if (req.session.isBlocked){
+
+    return res.render('user/login', { message: 'This Email is blocked by the admin', title: "Login page" });
   }
-  res.render('user/login', { message: '', title: "Login page" });
+  return res.render('user/login', { message: '', title: "Login page" });
 
 };
 
@@ -41,15 +51,28 @@ exports.postLogin = async (req, res) => {
     // const { USERNAME, FULLNAME, PASSWORD } = req.body;
     const EMAIL = req.body.email;
     const PASSWORD = req.body.password
+    console.log(EMAIL);
+    
     // const PASSWORD = passwordHash;
 
     const userDetails = await models.User.findOne({ email: EMAIL });
+
+
+    if(userDetails.isBlocked === true){
+      req.session.isBlocked = true;
+      return res.redirect('/user/login')
+    }
+
+   
+
+    
     if (!userDetails) {
       return res.render('user/login', { message: 'Invalid Email', title: "Login page" });
 
 
     }
-    const userVerify = await bcrypt.compare(PASSWORD, userDetails.password)
+    
+    const userVerify =  bcrypt.compare(PASSWORD, userDetails.password)
     if (userVerify) {
       req.session.email = EMAIL;
       // req.session.fullName = FULLNAME;
@@ -68,6 +91,22 @@ exports.postLogin = async (req, res) => {
   }
 
 };
+
+exports.googleLogin = async (req,res)=>{
+  const EMAIL = req.user.email
+  console.log(EMAIL);
+  
+  const userDetails = await models.User.findOne({ email: EMAIL });
+
+  if(userDetails.isBlocked){
+    req.session.isBlocked = true;
+      return res.redirect('/user/login')
+      // return res.render('user/login', { message: 'This Email is blocked by the admin', title: "Login page" });
+      
+  }
+  req.session.email = true;
+  res.redirect('/user/home');
+}
 
 
 
@@ -184,18 +223,14 @@ const sendVerificationEmail = async (email, otp) => {
 
 
 
-exports.verfyOtp = async (req, res) => {
+exports.verifyOtp = async (req, res) => {
   try {
-    const  OTP  = req.body.otp;
+    const OTP = req.body.otp; // Ensure lowercase to match frontend
 
     req.session.userOtp = Date.now() > req.session.otpExpires ? null : req.session.userOtp;
+    const user = req.session.userData;
 
-
-    const user = req.session.userData; // Make sure userData is set in the session
-
-    // Verify OTP
     if (OTP === req.session.userOtp) {
-
       const passwordHash = await securePassword(user.PASSWORD);
 
       const newUser = new models.User({
@@ -208,28 +243,21 @@ exports.verfyOtp = async (req, res) => {
 
       await newUser.save();
 
-      req.session.user = newUser._id; //some thing to do with this
+      req.session.user = newUser._id;
       req.session.successMessage = "User registered successfully!";
-
       req.session.userOtp = null;
       req.session.userData = null;
 
-      // Example response from verfyOtp function
       return res.status(200).json({
         success: true,
         message: "Email verified",
-        redirectUrl: "/user/login" // Optional: Redirect URL after successful verification
+        redirectUrl: "/user/login"
       });
 
-
-
-    } else if(req.session.userOtp === null) {
-
-      return res.status(400).json({ success: false, message: "OTP expired" })
-      
-    }else{
-      return res.status(400).json({ success: false, message: "Invalid OTP" })
-
+    } else if (req.session.userOtp === null) {
+      return res.status(400).json({ success: false, message: "OTP expired" });
+    } else {
+      return res.status(400).json({ success: false, message: "Invalid OTP" });
     }
 
   } catch (error) {
@@ -237,6 +265,7 @@ exports.verfyOtp = async (req, res) => {
     return res.status(500).json({ success: false, message: "An error occurred" });
   }
 };
+
 
 
 exports.resendOTP = async (req, res) => {
@@ -271,4 +300,19 @@ exports.resendOTP = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" })
 
   }
+}
+
+exports.viewProduct = async (req,res)=>{
+  const productId = req.params.id;
+
+  
+  const product = await admin.Product.findOne({ _id: productId });
+
+  const products = await admin.Product.find({
+    category:product.category,
+    isListed:true,
+    _id:{$ne:productId}
+  }).limit(3)
+
+  res.render('user/viewProduct', {product,products})
 }

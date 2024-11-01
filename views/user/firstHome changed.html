@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>Example</title>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+                var fullWidth = 864; // Width in pixels of full-sized image
+                var fullHeight = 648; // Height in pixels of full-sized image
+                var thumbnailWidth = 389;  // Width in pixels of thumbnail image
+                var thumbnailHeight = 292;  // Height in pixels of thumbnail image
+
+                // Set size of div
+                $('#picture').css({
+                        'width': thumbnailWidth+'px',
+                        'height': thumbnailHeight+'px'
+                });
+
+                // Hide the full-sized picture
+                $('#full').hide();
+
+                // Toggle pictures on click
+                $('#picture').click(function() {
+                        $('#thumbnail').toggle();
+                        $('#full').toggle();
+                });
+
+                // Do some calculations
+                $('#picture').mousemove(function(e) {
+                        var mouseX = e.pageX - $(this).attr('offsetLeft'); 
+                        var mouseY = e.pageY - $(this).attr('offsetTop'); 
+
+                        var posX = (Math.round((mouseX/thumbnailWidth)*100)/100) * (fullWidth-thumbnailWidth);
+                        var posY = (Math.round((mouseY/thumbnailHeight)*100)/100) * (fullHeight-thumbnailHeight);
+
+                        $('#full').css({
+                                'left': '-' + posX + 'px',
+                                'top': '-' + posY + 'px'
+                        });
+                });
+        });
+    </script>
+
+    <style type="text/css">
+        #picture {
+                overflow: hidden;
+                position: relative;
+                border: 1px solid #000000;
+        }
+
+        #thumbnail {
+                cursor: pointer;
+        }
+
+        #full {
+                position: relative;
+                cursor: crosshair;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="picture">
+        <img alt="" id="thumbnail" src="/public/image/background.png" /><br>erwrrrrrrrrrrrrrrrrrr
+        <div alt="" id="full" style="background-image: url('/public/image/background.png');"></div> 
+    </div>
+</body>
+</html>

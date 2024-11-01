@@ -19,8 +19,10 @@ async (accessToken, refreshToken, profile, done) => {
     
     try {
         let user = await User.User.findOne({ googleId: profile.id });
-        console.log(user);
         
+        
+        console.log(user);
+               
         if (user) {
             return done(null, user);
         } else {

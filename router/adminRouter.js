@@ -3,6 +3,22 @@ const controller = require('../controller/adminController');
 const auth = require('../middlewares/adminAuth');
 const router = express.Router();
 
+const multer = require('multer')
+
+const storage = require('../multer/multer');
+
+const upload = multer({storage:storage});
+
+
+router.use((req, res, next) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    res.set('Surrogate-Control', 'no-store');
+    next();
+});
+  
+
 router.route('/login')
 .get(controller.getLogin)
 .post(controller.postLogin)
@@ -25,18 +41,28 @@ router.route('/categories')
 router.get('/categories/:id',auth.adminAuth,controller.listOrUnlist);
 
 router.route('/categories/edit/:id')
-.get(auth.adminAuth,controller.getEdit)
+.get(auth.adminAuth,controller.getCategoryEdit)
 .post(controller.editCategory)
 
 router.route('/categories/delete/:id')
 .get(auth.adminAuth,controller.deleteCategory)
 
 router.route('/products')
-.get(controller.getProductPage)
+.get(auth.adminAuth,controller.getProductPage)
 
 router.route('/products/addProduct')
-.get(controller.getAddProduct)
-.post(controller.postProduct)
+.get(auth.adminAuth,controller.getAddProduct)
+.post(upload.array('images',3),controller.postProduct)
+
+router.route('/products/delete/:id')
+.get((req,res,next)=>{
+    console.log("hhhh");
+    next();
+},auth.adminAuth,controller.deleteProduct)
+
+router.route('/products/edit/:id')
+.get(auth.adminAuth,controller.getProductEdit)
+.post(controller.editProduct)
 
 
 

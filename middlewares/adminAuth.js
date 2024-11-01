@@ -19,3 +19,4 @@ exports.adminLogout = (req, res)=>{
     req.session.Admin = null;
     res.redirect('/admin/login');
 }
+

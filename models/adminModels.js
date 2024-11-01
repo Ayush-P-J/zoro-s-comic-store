@@ -30,7 +30,7 @@ const categorySchema = new mongoose.Schema({
     isDeleted:{
         type:Boolean,
         default:false
-    }
+    },
 
 
 });
@@ -46,6 +46,9 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
+    },language:{
+        type:String,
+        required:false     
     },
     images: {
         type: [String],  
@@ -63,7 +66,9 @@ const ProductSchema = new mongoose.Schema({
     },
     size: {
         type: String,
-        required: false
+        required: false,
+        enum: ['Small', 'Medium',"Large"]
+
     },
     status: {
         type: String,
@@ -82,10 +87,6 @@ const ProductSchema = new mongoose.Schema({
     isListed: {
         type: Boolean,
         default: true
-    },
-    colors: {
-        type: String,
-        required: false
     },
     review: {
         type: String,

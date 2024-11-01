@@ -20,6 +20,48 @@
 
 
   ">
+  <style>
+    .image-upload-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+  
+    .upload-card {
+      width: 300px;
+      height: 250px;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+      text-align: center;
+    }
+  
+   
+  
+    .upload-card img {
+      max-width: 100%;
+      max-height: 150px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 2px solid #ddd;
+    }
+  
+    .preview-image img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+  
+    .image-cropper .btn-sm {
+      margin: 5px;
+    }
+  </style>
+  
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <!-- endinject -->
@@ -47,62 +89,67 @@
                   </h4>
                   <p class="card-description"> Basic form elements </p>
                   <form class="forms-sample" enctype="multipart/form-data" method="POST" action="/admin/products/addProduct">
-                    <!-- Product Name -->
+  
+                    <!-- Product Name with required and max length validation -->
                     <div class="form-group">
                       <label for="productName">Product Name</label>
-                      <input type="text" class="form-control" name="productName" id="productName"
-                        placeholder="Enter product name" required>
+                      <input type="text" class="form-control" name="productName" id="productName" placeholder="Enter product name" required maxlength="100">
                     </div>
-
-                    <!-- Description -->
+                  
+                    <!-- Description with required validation and max length -->
                     <div class="form-group">
                       <label for="description">Description</label>
-                      <textarea class="form-control" name="description" id="description" rows="3"
-                        placeholder="Enter product description" required></textarea>
+                      <textarea class="form-control" name="description" id="description" rows="3" placeholder="Enter product description" required maxlength="500"></textarea>
                     </div>
-
-
-                    <!-- Stock -->
+                  
+                    <!-- Language Field -->
+                    <div class="form-group">
+                      <label for="language">Language</label>
+                      <input type="text" class="form-control" name="language" id="language" placeholder="Enter language" required maxlength="50">
+                    </div>
+                  
+                    <!-- Stock with number, required, and min validation -->
                     <div class="form-group">
                       <label for="stock">Stock</label>
-                      <input type="number" class="form-control" name="stock" id="stock"
-                        placeholder="Enter stock quantity" required>
+                      <input type="number" class="form-control" name="stock" id="stock" placeholder="Enter stock quantity" required min="0">
                     </div>
-
-                    <!-- Category -->
+                  
+                    <!-- Category with required validation -->
                     <div class="form-group">
                       <label for="category">Category</label>
                       <select class="form-control" name="category" id="category" required>
                         <option value="" disabled selected>Select a category</option>
-                        <% products.forEach((product)=> { %>
-                          <option value="<%= product.category._id %>">
-                            <%= product.category.categoryName %>
-                          </option>
-                          <% }); %>
+                        <% categories.forEach((category) => { %>
+                          <% if (category.isDeleted === false) { %>
+                            <option value="<%= category._id %>"><%= category.categoryName %></option>
+                          <% } %>
+                        <% }); %>
                       </select>
                     </div>
-
-                    <!-- Size -->
+                  
+                    <!-- Size with required validation -->
                     <div class="form-group">
                       <label for="size">Size</label>
-                      <input type="text" class="form-control" name="size" id="size" placeholder="Enter product size">
+                      <select class="form-control" name="size" id="size" required>
+                        <option value="Small">Small</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Large">Large</option>
+                      </select>
                     </div>
-
-                    <!-- Regular Price -->
+                  
+                    <!-- Regular Price with number, required, and min validation -->
                     <div class="form-group">
                       <label for="regularPrice">Regular Price</label>
-                      <input type="number" class="form-control" name="regularPrice" id="regularPrice"
-                        placeholder="Enter regular price" required>
+                      <input type="number" class="form-control" name="regularPrice" id="regularPrice" placeholder="Enter regular price" required min="0">
                     </div>
-
-                    <!-- Sale Price -->
+                  
+                    <!-- Sale Price with number and min validation -->
                     <div class="form-group">
                       <label for="salePrice">Sale Price</label>
-                      <input type="number" class="form-control" name="salePrice" id="salePrice"
-                        placeholder="Enter sale price">
+                      <input type="number" class="form-control" name="salePrice" id="salePrice" placeholder="Enter sale price" min="0">
                     </div>
-
-                    <!-- Status -->
+                  
+                    <!-- Status with required validation -->
                     <div class="form-group">
                       <label for="status">Status</label>
                       <select class="form-control" name="status" id="status" required>
@@ -110,48 +157,44 @@
                         <option value="Out of Stock">Out of Stock</option>
                       </select>
                     </div>
-
-                    <!-- Colors -->
-                    <div class="form-group">
-                      <label for="colors">Colors</label>
-                      <input type="text" class="form-control" name="colors" id="colors"
-                        placeholder="Enter available colors">
-                    </div>
-
-                    <!-- Review -->
+                  
+                    <!-- Review with optional max length validation -->
                     <div class="form-group">
                       <label for="review">Review</label>
-                      <textarea class="form-control" name="review" id="review" rows="2"
-                        placeholder="Enter review"></textarea>
+                      <textarea class="form-control" name="review" id="review" rows="2" placeholder="Enter review" maxlength="200"></textarea>
                     </div>
-
+                  
                     <!-- Images Upload -->
-                    <!-- <div class="form-group">
-                      <label>Upload Images</label>
-                      <input type="file" name="images[]" class="file-upload-default" multiple>
-                      <div class="input-group col-xs-12">
-                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Images">
-                        <span class="input-group-append">
-                          <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                        </span>
+                    <div class="image-upload-container">
+                      <!-- Image Upload Card 1 with image file validation -->
+                      <div class="upload-card">
+                        <label for="input1">Upload Image 1:</label>
+                        <input class="form-control mt-2" type="file" name="images" id="input1" accept="image/png, image/jpeg, image/jpg" required>
+                        <div id="images-error1" class="error-message text-danger mt-1"></div>
                       </div>
-                    </div> -->
-
-                    <div class="form-group">
-                      <label>File upload</label>
-                      <input type="file" name="img[]" class="file-upload-default">
-                      <div class="input-group col-xs-12">
-                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                        <span class="input-group-append">
-                          <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                        </span>
+                  
+                      <!-- Image Upload Card 2 with image file validation -->
+                      <div class="upload-card">
+                        <label for="input2">Upload Image 2:</label>
+                        <input class="form-control mt-2" type="file" name="images" id="input2" accept="image/png, image/jpeg, image/jpg">
+                        <div id="images-error2" class="error-message text-danger mt-1"></div>
+                      </div>
+                  
+                      <!-- Image Upload Card 3 with image file validation -->
+                      <div class="upload-card">
+                        <label for="input3">Upload Image 3:</label>
+                        <input class="form-control mt-2" type="file" name="images" id="input3" accept="image/png, image/jpeg, image/jpg">
+                        <div id="images-error3" class="error-message text-danger mt-1"></div>
                       </div>
                     </div>
-
-                    <!-- Submit and Cancel -->
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    <button type="reset" class="btn btn-dark">Cancel</button>
+                  
+                    <!-- Submit and Cancel Buttons -->
+                    <div class="">
+                      <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                      <button type="reset" class="btn btn-dark">Cancel</button>
+                    </div>
                   </form>
+                  
                 </div>
               </div>
             </div>
@@ -165,6 +208,99 @@
   </div>
   <!-- container-scroller -->
   <!-- plugins:js -->
+
+  <script>
+    function setDeleteUrl(url) {
+      document.getElementById('confirmDeleteButton').setAttribute('href', url);
+    }
+
+
+    let cropper;
+
+function viewImage(event, index) {
+  let input = event.target;
+  let reader = new FileReader();
+
+  reader.onload = function () {
+    let dataURL = reader.result;
+    let image = document.getElementById('imgView' + index);
+    let previewImage = document.getElementById('preview-image' + index);
+    let preview = document.getElementById('preview' + index);
+
+    image.src = dataURL;
+    preview.classList.remove('d-none'); // Show cropping section
+
+    // Initialize or reinitialize cropper
+    if (cropper) {
+      cropper.destroy();
+    }
+    cropper = new Cropper(image, {
+      aspectRatio: 1,
+      viewMode: 1,
+      background: false,
+      autoCropArea: 1,
+      zoomable: true,
+    });
+
+    let saveButton = document.getElementById('saveButton' + index);
+    saveButton.addEventListener('click', async function () {
+      let croppedCanvas = cropper.getCroppedCanvas();
+      let croppedImage = document.getElementById('croppedImg' + index);
+      
+      croppedImage.src = croppedCanvas.toDataURL('image/jpeg', 1.0);
+      previewImage.style.display = 'none';
+
+      await croppedCanvas.toBlob(blob => {
+        let imgFile = new File([blob], `cropped-img-${index}.jpg`, { type: blob.type });
+        let fileList = new DataTransfer();
+        fileList.items.add(imgFile);
+        input.files = fileList.files;
+      });
+
+      cropper.destroy();
+      // Hide cropping section after saving
+    });
+
+    let cancelButton = document.getElementById('cancelButton' + index);
+    cancelButton.addEventListener('click', () => {
+      previewImage.style.display = 'block';
+
+      preview.classList.add('d-none'); // Hide cropping section
+      image.src = "" // Clear the preview image
+      croppedImage.src =""
+    });
+  };
+
+  reader.readAsDataURL(input.files[0]);
+}
+
+    
+document.addEventListener("DOMContentLoaded", function() {
+  const numberInputs = document.querySelectorAll("input[type='number']");
+  const imageInputs = document.querySelectorAll("input[type='file']");
+
+  numberInputs.forEach(input => {
+    input.addEventListener("input", function() {
+      if (input.value < 0) {
+        input.value = "";
+        alert("Please enter a positive number");
+      }
+    });
+  });
+
+  imageInputs.forEach(input => {
+    input.addEventListener("change", function() {
+      const file = input.files[0];
+      if (file && !["image/png", "image/jpeg", "image/jpg"].includes(file.type)) {
+        alert("Please upload a valid image file (PNG, JPEG, JPG)");
+        input.value = "";
+      }
+    });
+  });
+});
+
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 
   <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->

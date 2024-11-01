@@ -48,43 +48,56 @@
                         <div class="card-body px-5 py-5">
                             <h3 class="card-title text-left mb-3">Register</h3>
                             <form id="signupForm" action="signup" method="post">
-                                <h6 id="msg" class="text-center text-danger"> &nbsp;<%= message %> </h6>
 
                                 <div class="form-group">
-                                    <label for="fullName">Full Name</label>
-                                    <input type="text" class="form-control p_input" id="fullName" name="fullName" required>
+                                  <label for="fullName">Full Name</label>
+                                  <input type="text" class="form-control" id="fullName" name="fullName" >
+                                  <small id="error-fullName" class="text-danger"></small>
                                 </div>
+                          
                                 <div class="form-group">
-                                    <label for="userName">Username</label>
-                                    <input type="text" class="form-control p_input" id="userName" name="userName" required>
+                                  <label for="userName">Username</label>
+                                  <input type="text" class="form-control" id="userName" name="userName" >
+                                  <small id="error-userName" class="text-danger"></small>
                                 </div>
+                          
                                 <div class="form-group">
-                                    <label for="phone">Phone Number</label>
-                                    <input type="tel" class="form-control p_input" id="phone" name="phone" required pattern="[0-9]{10}">
+                                  <label for="phone">Phone Number</label>
+                                  <input type="tel" class="form-control" id="phone" name="phone"  pattern="[0-9]{10}">
+                                  <small id="error-phone" class="text-danger"></small>
                                 </div>
+                          
                                 <div class="form-group">
-                                    <label for="email">Email address</label>
-                                    <input type="email" class="form-control p_input" id="email" name="email" required>
+                                  <label for="email">Email address</label>
+                                  <input type="email" class="form-control" id="email" name="email" >
+                                  <small id="error-email" class="text-danger"></small>
                                 </div>
+                          
                                 <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" class="form-control p_input" id="password" name="password" required>
+                                  <label for="password">Password</label>
+                                  <input type="password" class="form-control" id="password" name="password" >
+                                  <small id="error-password" class="text-danger"></small>
                                 </div>
+                          
                                 <div class="form-group">
-                                    <label for="confirmPass">Confirm Password</label>
-                                    <input type="password" class="form-control p_input" id="confirmPass" name="confirmPass" required>
+                                  <label for="confirmPass">Confirm Password</label>
+                                  <input type="password" class="form-control" id="confirmPass" name="confirmPass" >
+                                  <small id="error-confirmPass" class="text-danger"></small>
                                 </div>
+                          
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-primary btn-block enter-btn">Sign Up</button>
+                                  <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
                                 </div>
-                                <div class="g-signin2" onclick="onSignIn">
-                                    <a class="btn btn-google col" href="auth/google">
-                                        <i class="mdi mdi-google-plus"></i> Google plus
-                                    </a>
+                          
+                                <div class="text-center mt-3">
+                                  <a class="btn btn-google col" href="auth/google">
+                                    <i class="mdi mdi-google-plus"></i> Google Plus
+                                  </a>
                                 </div>
-                                <p class="sign-up text-center">Already have an Account?<a href="/user/login">Login</a></p>
-                                <p class="terms text-center">By creating an account, you accept our <a href="#">Terms & Conditions</a></p>
-                            </form>
+                          
+                                <p class="sign-up text-center mt-3">Already have an Account? <a href="/user/login">Login</a></p>
+                                <p class="terms text-center mt-3">By creating an account, you accept our <a href="#">Terms & Conditions</a></p>
+                              </form>
                         </div>
                     </div>
                 </div>
@@ -113,18 +126,78 @@
 
 
 <script>
-    document.getElementById('signupForm').addEventListener('submit', function(e) {
-        let password = document.getElementById('password').value;
-        let confirmPass = document.getElementById('confirmPass').value;
-        let msg = document.getElementById('msg');
-        
-        if (password !== confirmPass) {
-            // msg.innerHTML("Passwords do not match!")
-            e.preventDefault();
-            alert("Passwords do not match!");
-            
-        }
+    const fullName = document.getElementById('fullName');
+    const userName = document.getElementById('userName');
+    const phone = document.getElementById('phone');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const confirmPass = document.getElementById('confirmPass');
+    const signupForm = document.getElementById('signupForm');
+
+    // Error message elements
+    const errorFullName = document.getElementById('error-fullName');
+    const errorUserName = document.getElementById('error-userName');
+    const errorPhone = document.getElementById('error-phone');
+    const errorEmail = document.getElementById('error-email');
+    const errorPassword = document.getElementById('error-password');
+    const errorConfirmPass = document.getElementById('error-confirmPass');
+
+    // Regular Expressions
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const phoneRegex = /^[0-9]{10}$/;
+
+    signupForm.addEventListener('submit', (e) => {
+      let valid = true;
+
+      // Clear previous messages
+      errorFullName.innerText = "";
+      errorUserName.innerText = "";
+      errorPhone.innerText = "";
+      errorEmail.innerText = "";
+      errorPassword.innerText = "";
+      errorConfirmPass.innerText = "";
+
+      // Full Name Validation
+      if (fullName.value.trim() === '') {
+        errorFullName.innerText = "Please enter your full name.";
+        valid = false;
+      }
+
+      // Username Validation
+      if (userName.value.trim() === '') {
+        errorUserName.innerText = "Please enter a username.";
+        valid = false;
+      }
+
+      // Phone Number Validation
+      if (!phoneRegex.test(phone.value)) {
+        errorPhone.innerText = "Please enter a valid 10-digit phone number.";
+        valid = false;
+      }
+
+      // Email Validation
+      if (email.value.trim() === '') {
+        errorEmail.innerText = "Please enter your email address.";
+        valid = false;
+      }
+
+      // Password Validation
+      if (!passwordRegex.test(password.value)) {
+        errorPassword.innerText = "Password must be at least 8 characters long, with an uppercase letter, lowercase letter, number, and special character.";
+        valid = false;
+      }
+
+      // Confirm Password Validation
+      if (password.value !== confirmPass.value) {
+        errorConfirmPass.innerText = "Passwords do not match.";
+        valid = false;
+      }
+
+      // Prevent form submission if any field is invalid
+      if (!valid) {
+        e.preventDefault();
+      }
     });
-</script>
+  </script>
 </div>
 

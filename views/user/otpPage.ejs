@@ -12,16 +12,16 @@
                 <div class="card col-lg-4 mx-auto">
                     <div class="card-body px-5 py-5">
                         <h3 class="card-title text-left mb-3">OTP Verification</h3>
-                        <form id="loginPage"   method="post">
+                        <form id="loginPage"  onsubmit="return validateOTP()" method="post" >
                             <h6 id="msg" class="text-center text-danger"> &nbsp; </h6>
 
                             <div class="form-group">
                                 <label for="otp">Enter the OTP</label>
-                                <input type="text" class="form-control p_input" id="otp" name="otp" required>
+                                <input type="text" class="form-control p_input" id="otpInput" name="otp" required>
                             </div>
 
                             <div class="text-center">
-                                <button  onclick="validateOTP()" class="btn btn-primary btn-block enter-btn">Verify</button>
+                                <button type="submit" id="verify"  class="btn btn-primary btn-block enter-btn">Verify</button>
                             </div>
                         </form>
 
@@ -59,7 +59,8 @@
     // Resend OTP Logic
     let timerElement = document.getElementById('timer');
     let resendOtpBtn = document.getElementById('resendOtpBtn');
-    let otp = document.getElementById('otp');
+    let otpInput = document.getElementById('otpInput');
+    let verify = document.getElementById('verify');
     let time = 10;
     let countdown = time; // 60 seconds timer
 
@@ -72,6 +73,9 @@
             if (countdown === 0) {
                 clearInterval(interval);
                 resendOtpBtn.disabled = false;
+                otpInput.disabled = false;
+                verify.innerHTML = "Expired"
+
                 countdown = time; // Reset countdown
             }
         }, 1000);
@@ -79,31 +83,36 @@
     startTimer();
 
     function validateOTP() {
-        $.ajax({
-            url:'verifyOTP',
-            type:'POST',
-            data:{OTP:otp},
-            success:function(response) {
-                if (response.success){
-                  
-                    $('#resendMsg').text("Email verified");
-                    
-                    
-                } else {
-                    $('#resendMsg').text("Invalid OTP ");
+    const otp = $('#otpInput').val(); // Ensure otp is taken from the user input
 
-                } 
-                if (response.redirectUrl) {
-                        window.location.href = response.redirectUrl;
-                    }
-            },
-            error: function() {
-                $('#resendMsg').text("An error occurred. Please try again.");
+    $.ajax({
+        url: '/user/verifyOTP',
+        type: 'POST',
+        data: { otp: otp }, // Use lowercase 'otp' to match the backend
+        success: function(response) {
+            console.log("helloo");
+            
+            console.log(response)
+            if (response.success) {
+                $('#msg').text("Email verified");
+            } else if (!response.success) {
+                $('#msg').text(response.message || "Invalid OTP");
+            }else{
+                $('#msg').text(response.message || "podaa");
+
             }
 
-        })
+            if (response.redirectUrl) {
+                window.location.href = response.redirectUrl;
+            }
+        },
+        error: function() {
+            $('#resendMsg').text("An error occurred. Please try again.");
+        }
+    });
+}
 
-    }
+
     
 
     function resendOtp() {
@@ -112,6 +121,8 @@
             type: 'POST',
             success: function(response) {
                 if (response.success) {
+                    otpInput.disabled = true;
+                    verify.innerHTML = "Verify"
                     $('#resendMsg').text("OTP has been resent!");
                     startTimer(); // Restart the timer after resending OTP
                 } else {
