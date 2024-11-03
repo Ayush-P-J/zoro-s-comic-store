@@ -126,78 +126,78 @@
 
 
 <script>
-    const fullName = document.getElementById('fullName');
-    const userName = document.getElementById('userName');
-    const phone = document.getElementById('phone');
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
-    const confirmPass = document.getElementById('confirmPass');
-    const signupForm = document.getElementById('signupForm');
+    // const fullName = document.getElementById('fullName');
+    // const userName = document.getElementById('userName');
+    // const phone = document.getElementById('phone');
+    // const email = document.getElementById('email');
+    // const password = document.getElementById('password');
+    // const confirmPass = document.getElementById('confirmPass');
+    // const signupForm = document.getElementById('signupForm');
 
-    // Error message elements
-    const errorFullName = document.getElementById('error-fullName');
-    const errorUserName = document.getElementById('error-userName');
-    const errorPhone = document.getElementById('error-phone');
-    const errorEmail = document.getElementById('error-email');
-    const errorPassword = document.getElementById('error-password');
-    const errorConfirmPass = document.getElementById('error-confirmPass');
+    // // Error message elements
+    // const errorFullName = document.getElementById('error-fullName');
+    // const errorUserName = document.getElementById('error-userName');
+    // const errorPhone = document.getElementById('error-phone');
+    // const errorEmail = document.getElementById('error-email');
+    // const errorPassword = document.getElementById('error-password');
+    // const errorConfirmPass = document.getElementById('error-confirmPass');
 
-    // Regular Expressions
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    const phoneRegex = /^[0-9]{10}$/;
+    // // Regular Expressions
+    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    // const phoneRegex = /^[0-9]{10}$/;
 
-    signupForm.addEventListener('submit', (e) => {
-      let valid = true;
+    // signupForm.addEventListener('submit', (e) => {
+    //   let valid = true;
 
-      // Clear previous messages
-      errorFullName.innerText = "";
-      errorUserName.innerText = "";
-      errorPhone.innerText = "";
-      errorEmail.innerText = "";
-      errorPassword.innerText = "";
-      errorConfirmPass.innerText = "";
+    //   // Clear previous messages
+    //   errorFullName.innerText = "";
+    //   errorUserName.innerText = "";
+    //   errorPhone.innerText = "";
+    //   errorEmail.innerText = "";
+    //   errorPassword.innerText = "";
+    //   errorConfirmPass.innerText = "";
 
-      // Full Name Validation
-      if (fullName.value.trim() === '') {
-        errorFullName.innerText = "Please enter your full name.";
-        valid = false;
-      }
+    //   // Full Name Validation
+    //   if (fullName.value.trim() === '') {
+    //     errorFullName.innerText = "Please enter your full name.";
+    //     valid = false;
+    //   }
 
-      // Username Validation
-      if (userName.value.trim() === '') {
-        errorUserName.innerText = "Please enter a username.";
-        valid = false;
-      }
+    //   // Username Validation
+    //   if (userName.value.trim() === '') {
+    //     errorUserName.innerText = "Please enter a username.";
+    //     valid = false;
+    //   }
 
-      // Phone Number Validation
-      if (!phoneRegex.test(phone.value)) {
-        errorPhone.innerText = "Please enter a valid 10-digit phone number.";
-        valid = false;
-      }
+    //   // Phone Number Validation
+    //   if (!phoneRegex.test(phone.value)) {
+    //     errorPhone.innerText = "Please enter a valid 10-digit phone number.";
+    //     valid = false;
+    //   }
 
-      // Email Validation
-      if (email.value.trim() === '') {
-        errorEmail.innerText = "Please enter your email address.";
-        valid = false;
-      }
+    //   // Email Validation
+    //   if (email.value.trim() === '') {
+    //     errorEmail.innerText = "Please enter your email address.";
+    //     valid = false;
+    //   }
 
-      // Password Validation
-      if (!passwordRegex.test(password.value)) {
-        errorPassword.innerText = "Password must be at least 8 characters long, with an uppercase letter, lowercase letter, number, and special character.";
-        valid = false;
-      }
+    //   // Password Validation
+    //   if (!passwordRegex.test(password.value)) {
+    //     errorPassword.innerText = "Password must be at least 8 characters long, with an uppercase letter, lowercase letter, number, and special character.";
+    //     valid = false;
+    //   }
 
-      // Confirm Password Validation
-      if (password.value !== confirmPass.value) {
-        errorConfirmPass.innerText = "Passwords do not match.";
-        valid = false;
-      }
+    //   // Confirm Password Validation
+    //   if (password.value !== confirmPass.value) {
+    //     errorConfirmPass.innerText = "Passwords do not match.";
+    //     valid = false;
+    //   }
 
-      // Prevent form submission if any field is invalid
-      if (!valid) {
-        e.preventDefault();
-      }
-    });
+    //   // Prevent form submission if any field is invalid
+    //   if (!valid) {
+    //     e.preventDefault();
+    //   }
+    // });
   </script>
 </div>
 

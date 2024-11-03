@@ -283,7 +283,7 @@
 						
 						<% products.forEach((product)=>{ %>
 							
-								<% if (product.category.categoryName === 'comics'){ %>
+								<% if (product.category.categoryName === 'comics' && product.category.status === true ){ %>
 									<div class="product-item women m-4 p-1" >
 										<a href="viewProduct/<%= product._id %>">
 										<div class="product discount product_filter">
@@ -306,7 +306,7 @@
 						<% }) %>
 						<% products.forEach((product)=>{ %>
 							
-								<% if (product.category.categoryName === 'Action figuress'){ %>
+								<% if (product.category.categoryName === 'Action figuress' && product.category.status === true){ %>
 									<div class="product-item accessories m-4 p-1" >
 										<a href="viewProduct/<%= product._id %>">
 										<div class="product discount product_filter">
@@ -329,7 +329,7 @@
 						<% }) %>
 						<% products.forEach((product)=>{ %>
 							
-								<% if (product.category.categoryName === 'Posters'){ %>
+								<% if (product.category.categoryName === 'Posters' && product.category.status === true){ %>
 									<div class="product-item accessories m-4 p-1" >
 										<a href="viewProduct/<%= product._id %>">
 										<div class="product discount product_filter">
@@ -471,7 +471,6 @@
 								</div>
 							</div>
 
-							<!-- Slide 4 -->
 
 							<div class="owl-item product_slider_item">
 								<div class="product-item accessories">
@@ -489,7 +488,6 @@
 								</div>
 							</div>
 
-							<!-- Slide 5 -->
 
 							<div class="owl-item product_slider_item">
 								<div class="product-item women men">
@@ -506,7 +504,6 @@
 								</div>
 							</div>
 
-							<!-- Slide 6 -->
 
 							<div class="owl-item product_slider_item">
 								<div class="product-item accessories">
@@ -524,7 +521,6 @@
 								</div>
 							</div>
 
-							<!-- Slide 7 -->
 
 							<div class="owl-item product_slider_item">
 								<div class="product-item women">
@@ -541,7 +537,6 @@
 								</div>
 							</div>
 
-							<!-- Slide 8 -->
 
 							<div class="owl-item product_slider_item">
 								<div class="product-item accessories">
@@ -558,7 +553,6 @@
 								</div>
 							</div>
 
-							<!-- Slide 9 -->
 
 							<div class="owl-item product_slider_item">
 								<div class="product-item men">
@@ -576,7 +570,6 @@
 								</div>
 							</div>
 
-							<!-- Slide 10 -->
 
 							<div class="owl-item product_slider_item">
 								<div class="product-item men">
@@ -594,7 +587,6 @@
 							</div>
 						</div>
 
-						<!-- Slider Navigation -->
 
 						<div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
 							<i class="fa fa-chevron-left" aria-hidden="true"></i>

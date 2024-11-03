@@ -6,6 +6,8 @@ const { use } = require('../router/adminRouter');
 const res = require('express/lib/response');
 const bcrypt = require("bcrypt")
 const mongoose = require("mongoose");
+const nocache = require('nocache');
+
 
 
 
@@ -60,6 +62,7 @@ exports.postLogin = async (req, res) => {
 }
 
 exports.getIndex = (req, res) => {
+    nocache()
     res.render('admin/index')
 }
 
@@ -119,19 +122,21 @@ exports.blockUser = async (req, res) => {
 
 exports.getCategories = async (req, res) => {
 
-    const page = parseInt(req.query.page) || 1;
-    const limit = 5;
-
+    
     try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = 5;
         const skip = (page - 1) * limit;
         // const items = await user.User.find().skip(skip).limit(limit);
         const total = await models.Category.countDocuments();
         // console.log(total);
+        let error = req.session.isExist?"This category is already exists":"";
+        req.session.isExist = false
 
         const categories = await models.Category.find().skip(skip).limit(limit);
         // console.log(categories)
         res.render('admin/category', { categories: categories, 
-            error: "",
+            error: error,
             currentPage: page,
             limit:limit,
             totalPages: Math.ceil(total / limit),
@@ -154,10 +159,12 @@ exports.postCategories = async (req, res) => {
         const categories = await models.Category.find()
 
 
-        const isExist = await models.Category.findOne({categoryName:category})
+        const isExist = await models.Category.find({ categoryName: { $regex: /category/i } });
+        console.log(isExist)
 
         if (isExist) {
-            return res.render('admin/category', { categories: categories, error: "This category is already exsts" });
+            req.session.isExist = true;
+            return res.redirect('/admin/categories' );
 
         }
 
@@ -233,7 +240,7 @@ exports.editCategory = async (req, res) => {
 exports.deleteCategory = async (req, res) =>{
     const categoryId = req.params.id;
     try{
-        await models.Category.updateOne({_id:categoryId},{$set:{isDeleted:true}});
+        await models.Category.deleteOne({_id:categoryId});
         res.redirect('/admin/categories');
 
 
@@ -423,8 +430,9 @@ exports.getProductEdit = async (req, res) => {
 
 exports.editProduct = async (req, res) => {
     
+    console.log("haiiillkkkk");
 
-    console.log(req.body.formData)
+    
 
     try {
         // Collect updates from req.body
@@ -444,34 +452,34 @@ exports.editProduct = async (req, res) => {
         console.log(req.body);
 
         // Array to store image filenames
-    const uploadImages = [];
+        const uploadImages = [];
 
-    // Handle file uploads using multer
-    if (req.files && req.files.length > 0) {
-        for (let i = 0; i < req.files.length; i++) {
-            const originalImagePath = req.files[i].path;
-            const resizedFilename = Date.now() + req.files[i].filename;
-            const resizedImagesPath = path.join('public', 'images', resizedFilename);
-
-            const supportedFormats = ['image/jpeg', 'image/png', 'image/webp'];
-            if (!supportedFormats.includes(req.files[i].mimetype)) {
-                return res.status(400).json({ error: 'Unsupported image format' });
+        // Handle file uploads using multer
+        if (req.files && req.files.length > 0) {
+            for (let i = 0; i < req.files.length; i++) {
+                const originalImagePath = req.files[i].path;
+                const resizedFilename = Date.now() + req.files[i].filename;
+                const resizedImagesPath = path.join('public', 'images', resizedFilename);
+    
+                const supportedFormats = ['image/jpeg', 'image/png', 'image/webp'];
+                if (!supportedFormats.includes(req.files[i].mimetype)) {
+                    return res.status(400).json({ error: 'Unsupported image format' });
+                }
+    
+                // Resize the image using Sharp
+                try {
+                    await Sharp(originalImagePath)
+                        .resize({ width: 440, height: 440 })
+                        .toFile(resizedImagesPath);
+                } catch (sharpError) {
+                    console.log('Error processing image with Sharp:', sharpError);
+                    return res.status(500).json({ error: 'Error processing image' });
+                }
+    
+                // Push the resized filename to the array
+                uploadImages.push(resizedFilename);
             }
-
-            // Resize the image using Sharp
-            try {
-                await Sharp(originalImagePath)
-                    .resize({ width: 440, height: 440 })
-                    .toFile(resizedImagesPath);
-            } catch (sharpError) {
-                console.log('Error processing image with Sharp:', sharpError);
-                return res.status(500).json({ error: 'Error processing image' });
-            }
-
-            // Push the resized filename to the array
-            uploadImages.push(resizedFilename);
         }
-    }
         
 
         const updatedProduct = await models.Product.updateOne({ _id: req.params.id }, {
@@ -486,6 +494,8 @@ exports.editProduct = async (req, res) => {
             review: review,
             images:uploadImages,
         });
+
+        console.log(uploadImages);
 
         if (!updatedProduct) {
             return res.status(404).json({ message: 'Product not found' });

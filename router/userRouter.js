@@ -12,7 +12,7 @@ router.route('/user/home')
 .get(controller.getHomePage)
 
 router.route('/user/login')
-.get(controller.getLoginPage)
+.get(auth.isLogged,controller.getLoginPage)
 .post(controller.postLogin);
 
 router.route('/user/logout')

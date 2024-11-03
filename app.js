@@ -6,7 +6,6 @@ const env = require("dotenv").config()
 
 const nocache = require('nocache');
 
-app.use('/admind', nocache()); // Apply it to specific routes
 
 
 
@@ -51,13 +50,23 @@ app.use(session({
     secret: 'secret-key',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }
+    cookie: { secure: false , maxAge: 1000 * 60 * 60 * 24}
 }));
 
 models.connection();
 
 app.use(passport.initialize());
 app.use(passport.session())
+
+app.use('/admin', nocache(), adminRouter);
+
+app.use((req, res, next) => {
+    if (req.isAuthenticated() && req.path === '/admin/login') {
+        return res.redirect('/admin/index'); // Redirect to dashboard or home after login
+    }
+    next();
+});
+
 
 
   

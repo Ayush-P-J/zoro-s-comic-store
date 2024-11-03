@@ -77,10 +77,6 @@ exports.postLogin = async (req, res) => {
       req.session.email = EMAIL;
       // req.session.fullName = FULLNAME;
 
-      res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-      res.set('Pragma', 'no-cache');
-      res.set('Expires', '0');
-
       res.redirect('/user/home');
     } else {
       return res.render('user/login', { message: ' Incorrect password', title: "Login page" });
@@ -226,6 +222,8 @@ const sendVerificationEmail = async (email, otp) => {
 exports.verifyOtp = async (req, res) => {
   try {
     const OTP = req.body.otp; // Ensure lowercase to match frontend
+    console.log('AAAA');
+    
 
     req.session.userOtp = Date.now() > req.session.otpExpires ? null : req.session.userOtp;
     const user = req.session.userData;
@@ -255,9 +253,9 @@ exports.verifyOtp = async (req, res) => {
       });
 
     } else if (req.session.userOtp === null) {
-      return res.status(400).json({ success: false, message: "OTP expired" });
+      return res.status(200).json({ success: false, message: "OTP expired" });
     } else {
-      return res.status(400).json({ success: false, message: "Invalid OTP" });
+      return res.status(200).json({ success: false, message: "Invalid OTP" });
     }
 
   } catch (error) {
@@ -297,7 +295,7 @@ exports.resendOTP = async (req, res) => {
 
   } catch (error) {
     console.log("Error for resend OTP", error);
-    res.status(500).json({ success: false, message: "Internal server error" })
+    res.status(500)
 
   }
 }

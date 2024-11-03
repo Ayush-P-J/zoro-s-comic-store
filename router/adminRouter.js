@@ -20,7 +20,7 @@ router.use((req, res, next) => {
   
 
 router.route('/login')
-.get(controller.getLogin)
+.get(auth.isLogged,controller.getLogin)
 .post(controller.postLogin)
 
 router.route('/logout')
@@ -62,7 +62,7 @@ router.route('/products/delete/:id')
 
 router.route('/products/edit/:id')
 .get(auth.adminAuth,controller.getProductEdit)
-.post(controller.editProduct)
+.post(upload.array('images',3),controller.editProduct)
 
 
 

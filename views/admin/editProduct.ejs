@@ -68,7 +68,7 @@
                   </h4>
               
 
-                  <form class="forms-sample" action="/admin/products/edit/<%= product._id %>" method="post" id="editProductForm">
+                  <form class="forms-sample" enctype="multipart/form-data" action="/admin/products/edit/<%= product._id %>" method="post" id="editProductForm">
                     <!-- Product Name -->
                     <div class="form-group">
                         <label for="productName">Product Name</label>
@@ -92,7 +92,7 @@
                         <label for="category">Category</label>
                         <select class="form-control" name="category" id="category" required>
                             <% categories.forEach((category)=> { %>
-                                <% if (category.isDeleted === false) { %>
+                                <% if (category.status === true) { %>
                                     <option value="<%= category._id %>" <%= category._id === product.category ? "selected" : "" %>>
                                         <%= category.categoryName %>
                                     </option>
@@ -133,64 +133,82 @@
                         <label for="review">Review</label>
                         <textarea class="form-control" name="review" id="review" rows="2" placeholder="Enter review"><%= product.review %></textarea>
                     </div>
-
-                    <div class="row">
-                      <!-- Image Section for Product Image 1 -->
-                      <div class="col-md-4 card-body text-center" style="margin-bottom: 20px;">
-                        <img src="/images/<%= product.images[0] %>" alt="Current Product Image 1" id="currentImg1" style="width: 100px; height: auto;">
-                        <p>Change Image:</p>
-                        <input class="form-control" type="file" name="images" id="input1" value="<%= product.images[0] %>"
+                    
+                    <div class="image-upload-container">
+                      <!-- Image Upload Card 1 -->
+                      <div class="upload-card">
+                        <div class="preview-image" id="preview-image1">
+                          <img id="imgView1" src="/images/<%= product.images[0] %>" alt="Preview 1">
+                        </div>
+                        <input class="form-control mt-2" type="file" name="images" id="input1" value="<%= product.images[0] %>"
                                accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 1)">
-                        <div id="images-error1" class="error-message"></div>
-                        
-                        <!-- Cropper Section for Image 1 -->
-                        <div class="image-cropper d-none" id="cropperSection1" style="width: 300px; height: 200px; margin-top: 10px;">
-                          <img src="/images/<%= product.images[0] %>" id="croppedImg1" alt="Crop Preview">
-                          <button type="button" id="saveButton1" class="btn btn-sm btn-primary mt-2">Save</button>
-                          <button type="button" id="cancelButton1" class="btn btn-sm btn-secondary mt-2">Cancel</button>
+                        <div id="images-error1" class="error-message text-danger mt-1"></div>
+                    
+                        <!-- Hidden Cropper Section -->
+                        <div id="preview1" class="image-cropper mt-3 d-none">
+                          <img id="croppedImg1" alt="Cropped Preview 1">
+                          <button type="button" id="saveButton1" class="btn btn-primary btn-sm">Save</button>
+                          <button type="button" id="cancelButton1" class="btn btn-secondary btn-sm">Cancel</button>
                         </div>
                       </div>
-                  
-                      <!-- Images Upload -->
-                    <div class="image-upload-container">
-                      <!-- Image Upload Card 1 with image file validation -->
+                    
+                      <!-- Image Upload Card 2 -->
                       <div class="upload-card">
-                        <label for="input1">Upload Image 1:</label>
-                        <input class="form-control mt-2" type="file" name="images" id="input1" accept="image/png, image/jpeg, image/jpg" required>
-                        <div id="images-error1" class="error-message text-danger mt-1"></div>
-                      </div>
-                  
-                      <!-- Image Upload Card 2 with image file validation -->
-                      <div class="upload-card">
-                        <label for="input2">Upload Image 2:</label>
-                        <input class="form-control mt-2" type="file" name="images" id="input2" accept="image/png, image/jpeg, image/jpg">
+                        <div class="preview-image" id="preview-image2">
+                          <img id="imgView2" src="/images/<%= product.images[1] %>" alt="Preview 2">
+                        </div>
+                        <input class="form-control mt-2" type="file" name="images" id="input2" value="<%= product.images[1] %>"
+                               accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 2)">
                         <div id="images-error2" class="error-message text-danger mt-1"></div>
+                    
+                        <div id="preview2" class="image-cropper mt-3 d-none">
+                          <img id="croppedImg2" alt="Cropped Preview 2">
+                          <button type="button" id="saveButton2" class="btn btn-primary btn-sm">Save</button>
+                          <button type="button" id="cancelButton2" class="btn btn-secondary btn-sm">Cancel</button>
+                        </div>
                       </div>
-                  
-                      <!-- Image Upload Card 3 with image file validation -->
+                    
+                      <!-- Image Upload Card 3 -->
                       <div class="upload-card">
-                        <label for="input3">Upload Image 3:</label>
-                        <input class="form-control mt-2" type="file" name="images" id="input3" accept="image/png, image/jpeg, image/jpg">
+                        <div class="preview-image" id="preview-image3">
+                          <img id="imgView3" src="/images/<%= product.images[2] %>" alt="Preview 3">
+                        </div>
+                        <input class="form-control mt-2"  name="images" id="input3" value="<%= product.images[2] %>"
+                               accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 3)">
                         <div id="images-error3" class="error-message text-danger mt-1"></div>
+                    
+                        <div id="preview3" class="image-cropper mt-3 d-none">
+                          <img id="croppedImg3" alt="Cropped Preview 3">
+                          <button type="button" id="saveButton3" class="btn btn-primary btn-sm">Save</button>
+                          <button type="button" id="cancelButton3" class="btn btn-secondary btn-sm">Cancel</button>
+                        </div>
                       </div>
                     </div>
+                  
+                      <!-- Images Upload -->
+
+                      
+                    
+                 
+                  
+  
+                  </div>
+              </div>
+            </div>
+          </div>
+
+                    
+                    
+                    
 
                     
                     <!-- Submit and Cancel -->
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <button type="reset" class="btn btn-dark">Cancel</button>
                   </form>
-                <h1>image edit</h1>
-                <form action="" method="post">
                   <!-- Row for Image Sections -->
-                  
-                </form>
-                
 
-                </div>
-            </div>
-          </div>
-        </div>
+                  
 
 
 
@@ -201,78 +219,7 @@
 <!-- container-scroller -->
 <!-- plugins:js -->
 
-<script>
-  let cropper;
 
-function viewImage(event, index) {
-  let input = event.target;
-  let reader = new FileReader();
-
-  reader.onload = function () {
-    let dataURL = reader.result;
-    let cropperSection = document.getElementById('cropperSection' + index);
-    let croppedImg = document.getElementById('croppedImg' + index);
-
-
-    croppedImg.src = dataURL;
-    cropperSection.classList.remove('d-none'); 
-    
-    document.getElementById('currentImg' + index).style.display = 'none';
-    input.style.display = 'none';
-
-    if (cropper) {
-      cropper.destroy(); 
-    }
-
-    cropper = new Cropper(croppedImg, {
-      aspectRatio: 1,
-      viewMode: 1,
-      background: false,
-      autoCropArea: 1,
-      zoomable: true,
-    });
-
-    
-    document.getElementById('saveButton' + index).onclick = async function () {
-      let croppedCanvas = cropper.getCroppedCanvas();
-      let currentImg = document.getElementById('currentImg' + index);
-
-     
-      croppedCanvas.toBlob(blob => {
-        let imgFile = new File([blob], `cropped-img-${index}.jpg`, { type: blob.type });
-        let fileList = new DataTransfer();
-        fileList.items.add(imgFile);
-        input.files = fileList.files;
-
-       
-        currentImg.src = croppedCanvas.toDataURL('image/jpeg', 1.0);
-        currentImg.style.display = 'block';
-        cropperSection.classList.add('d-none'); 
-      });
-
-      cropper.destroy();
-    };
-
-    
-    document.getElementById('cancelButton' + index).onclick = function () {
-      cropperSection.classList.add('d-none'); 
-      document.getElementById('currentImg' + index).style.display = 'block';
-      input.style.display = 'block';
-
-      if (cropper) {
-        cropper.destroy(); 
-      }
-    };
-  };
-
-  reader.readAsDataURL(input.files[0]);
-}
-
-
-
-
-  
-</script>
 
 <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
@@ -292,6 +239,263 @@ function viewImage(event, index) {
 <!-- endinject -->
 <!-- Custom js for this page -->
 <script src="/assets/js/dashboard.js"></script>
+
+<script>
+//   let cropper;
+
+// function viewImage(event, index) {
+//   let input = event.target;
+//   let reader = new FileReader();
+
+//   reader.onload = function () {
+//     let dataURL = reader.result;
+//     let cropperSection = document.getElementById('cropperSection' + index);
+//     let croppedImg = document.getElementById('croppedImg' + index);
+
+
+//     croppedImg.src = dataURL;
+//     cropperSection.classList.remove('d-none'); 
+    
+//     document.getElementById('currentImg' + index).style.display = 'none';
+//     input.style.display = 'none';
+
+//     if (cropper) {
+//       cropper.destroy(); 
+//     }
+
+//     cropper = new Cropper(croppedImg, {
+//       aspectRatio: 1,
+//       viewMode: 1,
+//       background: false,
+//       autoCropArea: 1,
+//       zoomable: true,
+//     });
+
+    
+//     document.getElementById('saveButton' + index).onclick = async function () {
+//       let croppedCanvas = cropper.getCroppedCanvas();
+//       let currentImg = document.getElementById('currentImg' + index);
+
+     
+//       croppedCanvas.toBlob(blob => {
+//         let imgFile = new File([blob], `cropped-img-${index}.jpg`, { type: blob.type });
+//         let fileList = new DataTransfer();
+//         fileList.items.add(imgFile);
+//         input.files = fileList.files;
+
+       
+//         currentImg.src = croppedCanvas.toDataURL('image/jpeg', 1.0);
+//         currentImg.style.display = 'block';
+//         cropperSection.classList.add('d-none'); 
+//       });
+
+//       cropper.destroy();
+//     };
+
+    
+//     document.getElementById('cancelButton' + index).onclick = function () {
+//       cropperSection.classList.add('d-none'); 
+//       document.getElementById('currentImg' + index).style.display = 'block';
+//       input.style.display = 'block';
+
+//       if (cropper) {
+//         cropper.destroy(); 
+//       }
+//     };
+//   };
+
+//   reader.readAsDataURL(input.files[0]);
+// }
+
+let cropper;
+
+function viewImage(event, index) {
+  let input = event.target;
+  let reader = new FileReader();
+
+  reader.onload = function () {
+    let dataURL = reader.result;
+    let image = document.getElementById('imgView' + index);
+    let previewImage = document.getElementById('preview-image' + index);
+    let preview = document.getElementById('preview' + index);
+
+    image.src = dataURL;
+    preview.classList.remove('d-none'); // Show cropping section
+
+    // Initialize or reinitialize cropper
+    if (cropper) {
+      cropper.destroy();
+    }
+    cropper = new Cropper(image, {
+      aspectRatio: 4/5,
+      viewMode: 4/5,
+      background: false,
+      autoCropArea: 4/5,
+      zoomable: true,
+    });
+
+    let saveButton = document.getElementById('saveButton' + index);
+    saveButton.addEventListener('click', async function () {
+      let croppedCanvas = cropper.getCroppedCanvas();
+      let croppedImage = document.getElementById('croppedImg' + index);
+      
+      croppedImage.src = croppedCanvas.toDataURL('image/jpeg', 1.0);
+      previewImage.style.display = 'none';
+
+      await croppedCanvas.toBlob(blob => {
+        let imgFile = new File([blob], `cropped-img-${index}.jpg`, { type: blob.type });
+        let fileList = new DataTransfer();
+        fileList.items.add(imgFile);
+        input.files = fileList.files;
+      });
+
+      cropper.destroy();
+      // Hide cropping section after saving
+    });
+
+    let cancelButton = document.getElementById('cancelButton' + index);
+    cancelButton.addEventListener('click', () => {
+      previewImage.style.display = 'block';
+
+      preview.classList.add('d-none'); // Hide cropping section
+      image.src = "" // Clear the preview image
+      croppedImage.src =""
+    });
+  };
+
+  reader.readAsDataURL(input.files[0]);
+}
+
+// function viewImage(event, index) {
+//   let input = event.target;
+//   let reader = new FileReader();
+
+//   reader.onload = function () {
+//     let dataURL = reader.result;
+//     let image = document.getElementById('imgView' + index);
+//     let previewImage = document.getElementById('preview-image' + index);
+//     let preview = document.getElementById('preview' + index);
+
+//     image.src = dataURL;
+//     preview.classList.remove('d-none'); // Show cropping section
+
+//     // Initialize or reinitialize cropper
+//     if (cropper) {
+//       cropper.destroy();
+//     }
+//     cropper = new Cropper(image, {
+//       aspectRatio: 1,
+//       viewMode: 1,
+//       background: false,
+//       autoCropArea: 1,
+//       zoomable: true,
+//     });
+
+//     let saveButton = document.getElementById('saveButton' + index);
+//     saveButton.addEventListener('click', async function () {
+//       let croppedCanvas = cropper.getCroppedCanvas();
+//       let croppedImage = document.getElementById('croppedImg' + index);
+      
+//       croppedImage.src = croppedCanvas.toDataURL('image/jpeg', 1.0);
+//       previewImage.style.display = 'none';
+
+//       await croppedCanvas.toBlob(blob => {
+//         let imgFile = new File([blob], `cropped-img-${index}.jpg`, { type: blob.type });
+//         let fileList = new DataTransfer();
+//         fileList.items.add(imgFile);
+//         input.files = fileList.files;
+//       });
+
+//       cropper.destroy();
+//       // Hide cropping section after saving
+//     });
+
+//     let cancelButton = document.getElementById('cancelButton' + index);
+//     cancelButton.addEventListener('click', () => {
+//       previewImage.style.display = 'block';
+
+//       preview.classList.add('d-none'); // Hide cropping section
+//       image.src = "" // Clear the preview image
+//       croppedImage.src =""
+//     });
+//   };
+
+//   reader.readAsDataURL(input.files[0]);
+// }
+
+
+
+  document.getElementById("editProductForm").addEventListener("submit", function(event) {
+    let isValid = true;
+    
+    // Product Name validation (required)
+    const productName = document.getElementById("productName").value.trim();
+    if (productName === "") {
+      alert("Product Name is required.");
+      isValid = false;
+    }else{
+      isValid = true
+    }
+
+    // Description validation (required, min length)
+    const description = document.getElementById("description").value.trim();
+    if (description.length < 10) {
+      alert("Description must be at least 10 characters long.");
+      isValid = false;
+    }else{
+      isValid = true
+    }
+
+    // Stock validation (required, positive integer)
+    const stock = document.getElementById("stock").value;
+    if (stock === "" || isNaN(stock) || stock <= 0) {
+      alert("Stock must be a positive integer.");
+      isValid = false;
+    }else{
+      isValid = true
+    }
+
+    // Regular Price validation (required, positive number)
+    const regularPrice = document.getElementById("regularPrice").value;
+    if (regularPrice === "" || isNaN(regularPrice) || regularPrice <= 0) {
+      alert("Regular Price must be a positive number.");
+      isValid = false;
+    }else{
+      isValid = true
+    }
+
+    // Sale Price validation (optional, must be lower than regular price)
+    const salePrice = document.getElementById("salePrice").value;
+    if (salePrice !== "" && (isNaN(salePrice) || salePrice <= 0)) {
+      alert("Sale Price must be a positive number.");
+      isValid = false;
+    } else if (salePrice !== "" && parseFloat(salePrice) >= parseFloat(regularPrice)) {
+      alert("Sale Price must be less than Regular Price.");
+      isValid = false;
+    }else{
+      isValid = true
+    }
+
+    // Size validation (optional, alphanumeric)
+    const size = document.getElementById("size").value.trim();
+    if (size !== "" && !/^[a-zA-Z0-9]+$/.test(size)) {
+      alert("Size must contain only alphanumeric characters.");
+      isValid = false;
+    }else{
+      isValid = true
+    }
+
+    // Prevent form submission if validation fails
+    if (!isValid) {
+      event.preventDefault();
+      alert('fill all')
+    }
+  });
+
+
+
+  
+</script>
 <!-- End custom js for this page -->
 </body>
 

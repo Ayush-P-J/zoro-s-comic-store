@@ -103,11 +103,11 @@
                     </div>
                   
                     <!-- Language Field -->
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                       <label for="language">Language</label>
                       <input type="text" class="form-control" name="language" id="language" placeholder="Enter language" required maxlength="50">
                     </div>
-                  
+                   -->
                     <!-- Stock with number, required, and min validation -->
                     <div class="form-group">
                       <label for="stock">Stock</label>
@@ -120,7 +120,7 @@
                       <select class="form-control" name="category" id="category" required>
                         <option value="" disabled selected>Select a category</option>
                         <% categories.forEach((category) => { %>
-                          <% if (category.isDeleted === false) { %>
+                          <% if (category.status === true) { %>
                             <option value="<%= category._id %>"><%= category.categoryName %></option>
                           <% } %>
                         <% }); %>
@@ -165,26 +165,75 @@
                     </div>
                   
                     <!-- Images Upload -->
-                    <div class="image-upload-container">
-                      <!-- Image Upload Card 1 with image file validation -->
+                    <!-- <div class="image-upload-container">
                       <div class="upload-card">
                         <label for="input1">Upload Image 1:</label>
                         <input class="form-control mt-2" type="file" name="images" id="input1" accept="image/png, image/jpeg, image/jpg" required>
                         <div id="images-error1" class="error-message text-danger mt-1"></div>
                       </div>
                   
-                      <!-- Image Upload Card 2 with image file validation -->
                       <div class="upload-card">
                         <label for="input2">Upload Image 2:</label>
                         <input class="form-control mt-2" type="file" name="images" id="input2" accept="image/png, image/jpeg, image/jpg">
                         <div id="images-error2" class="error-message text-danger mt-1"></div>
                       </div>
                   
-                      <!-- Image Upload Card 3 with image file validation -->
                       <div class="upload-card">
                         <label for="input3">Upload Image 3:</label>
                         <input class="form-control mt-2" type="file" name="images" id="input3" accept="image/png, image/jpeg, image/jpg">
                         <div id="images-error3" class="error-message text-danger mt-1"></div>
+                      </div>
+                    </div> -->
+
+                    <!-- Images Upload -->
+                    <div class="image-upload-container">
+                      <!-- Image Upload Card 1 -->
+                      <div class="upload-card">
+                        <div class="preview-image" id="preview-image1">
+                          <img id="imgView1" src="" alt="Preview 1">
+                        </div>
+                        <input class="form-control mt-2" type="file" name="images" id="input1"
+                               accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 1)">
+                        <div id="images-error1" class="error-message text-danger mt-1"></div>
+                    
+                        <!-- Hidden Cropper Section -->
+                        <div id="preview1" class="image-cropper mt-3 d-none">
+                          <img id="croppedImg1" alt="Cropped Preview 1">
+                          <button type="button" id="saveButton1" class="btn btn-primary btn-sm">Save</button>
+                          <button type="button" id="cancelButton1" class="btn btn-secondary btn-sm">Cancel</button>
+                        </div>
+                      </div>
+                    
+                      <!-- Image Upload Card 2 -->
+                      <div class="upload-card">
+                        <div class="preview-image" id="preview-image2">
+                          <img id="imgView2" src="" alt="Preview 2">
+                        </div>
+                        <input class="form-control mt-2" type="file" name="images" id="input2"
+                               accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 2)">
+                        <div id="images-error2" class="error-message text-danger mt-1"></div>
+                    
+                        <div id="preview2" class="image-cropper mt-3 d-none">
+                          <img id="croppedImg2" alt="Cropped Preview 2">
+                          <button type="button" id="saveButton2" class="btn btn-primary btn-sm">Save</button>
+                          <button type="button" id="cancelButton2" class="btn btn-secondary btn-sm">Cancel</button>
+                        </div>
+                      </div>
+                    
+                      <!-- Image Upload Card 3 -->
+                      <div class="upload-card">
+                        <div class="preview-image" id="preview-image3">
+                          <img id="imgView3" src="" alt="Preview 3">
+                        </div>
+                        <input class="form-control mt-2" type="file" name="images" id="input3"
+                               accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 3)">
+                        <div id="images-error3" class="error-message text-danger mt-1"></div>
+                    
+                        <div id="preview3" class="image-cropper mt-3 d-none">
+                          <img id="croppedImg3" alt="Cropped Preview 3">
+                          <button type="button" id="saveButton3" class="btn btn-primary btn-sm">Save</button>
+                          <button type="button" id="cancelButton3" class="btn btn-secondary btn-sm">Cancel</button>
+                        </div>
                       </div>
                     </div>
                   
@@ -235,10 +284,10 @@ function viewImage(event, index) {
       cropper.destroy();
     }
     cropper = new Cropper(image, {
-      aspectRatio: 1,
-      viewMode: 1,
+      aspectRatio: 4/5,
+      viewMode: 4/5,
       background: false,
-      autoCropArea: 1,
+      autoCropArea: 4/5,
       zoomable: true,
     });
 
@@ -292,7 +341,7 @@ document.addEventListener("DOMContentLoaded", function() {
     input.addEventListener("change", function() {
       const file = input.files[0];
       if (file && !["image/png", "image/jpeg", "image/jpg"].includes(file.type)) {
-        alert("Please upload a valid image file (PNG, JPEG, JPG)");
+        alert("The image file will change into these format (PNG, JPEG, JPG)");
         input.value = "";
       }
     });

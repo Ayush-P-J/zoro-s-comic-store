@@ -28,7 +28,7 @@
                         <!-- Resend OTP Section -->
                         <div class="text-center mt-3">
                             <button id="resendOtpBtn" class="btn btn-secondary btn-block" onclick="resendOtp()">Resend OTP</button>
-                            <p id="" class="text-muted mt-2">You can resend the OTP in <span id="timer">60</span> seconds</p>
+                            <p id="" class="text-muted mt-2">You can resend the OTP in <span id="timer">10</span> seconds</p>
                             <p id="resendMsg" class="text-muted mt-2">&nbsp;</p>
                         </div>
 
@@ -73,8 +73,8 @@
             if (countdown === 0) {
                 clearInterval(interval);
                 resendOtpBtn.disabled = false;
-                otpInput.disabled = false;
-                verify.innerHTML = "Expired"
+                // verify.disabled = true;
+                // verify.innerHTML = "Expired"
 
                 countdown = time; // Reset countdown
             }
@@ -82,71 +82,72 @@
     }
     startTimer();
 
-    function validateOTP() {
-    const otp = $('#otpInput').val(); // Ensure otp is taken from the user input
+//     function validateOTP() {
+//     const otp = $('#otpInput').val(); // Ensure otp is taken from the user input
 
-    $.ajax({
-        url: '/user/verifyOTP',
-        type: 'POST',
-        data: { otp: otp }, // Use lowercase 'otp' to match the backend
-        success: function(response) {
-            console.log("helloo");
+//     $.ajax({
+//         url: '/user/verifyOTP',
+//         type: 'POST',
+//         data: { otp: otp }, // Use lowercase 'otp' to match the backend
+//         success: function(response) {
+//             console.log("helloo");
             
-            console.log(response)
-            if (response.success) {
-                $('#msg').text("Email verified");
-            } else if (!response.success) {
-                $('#msg').text(response.message || "Invalid OTP");
-            }else{
-                $('#msg').text(response.message || "podaa");
+//             console.log(response)
+//             if (response.success) {
+//                 $('#msg').text("Email verified");
+            
+//             }else{
+//                 $('#msg').text(response.message || "podaa");
 
-            }
+//             }
 
-            if (response.redirectUrl) {
-                window.location.href = response.redirectUrl;
-            }
-        },
-        error: function() {
-            $('#resendMsg').text("An error occurred. Please try again.");
-        }
-    });
-}
+//             if (response.redirectUrl) {
+//                 window.location.href = response.redirectUrl;
+//             }
+//         },
+//         error: function() {
+//             $('#msg').text("An error occurred. Please try again.");
+//         }
+//     });
+//     return false
+// }
+
 
 
     
 
-    function resendOtp() {
-        $.ajax({
-            url: 'resendOTP',
-            type: 'POST',
-            success: function(response) {
-                if (response.success) {
-                    otpInput.disabled = true;
-                    verify.innerHTML = "Verify"
-                    $('#resendMsg').text("OTP has been resent!");
-                    startTimer(); // Restart the timer after resending OTP
-                } else {
-                    $('#resendMsg').text("Failed to resend OTP. Please try again.");
-                }
-            },
-            error: function() {
-                $('#resendMsg').text("An error occurred. Please try again.");
-            }
-        });
-    }
+    // function resendOtp() {
+    //     $.ajax({
+    //         url: 'resendOTP',
+    //         type: 'POST',
+    //         success: function(response) {
+    //             if (response.success) {
+    //                 otpInput.disabled = true;
+    //                 verify.innerHTML = "Verify"
+    //                 $('#resendMsg').text("OTP has been resent!");
+    //                 startTimer(); // Restart the timer after resending OTP
+    //             } else {
+    //                 $('#resendMsg').text("Failed to resend OTP. Please try again.");
+    //             }
+    //         },
+    //         error: function() {
+    //             $('#resendMsg').text("An error occurred. Please try again.");
+    //         }
+    //     });
+    // }
 
     // Start initial countdown when page loads
     
 </script>
 
-<!-- 
+
 <script>
     function validateOTP() {
         let otpValue = $('#otp').val(); // Get OTP value from input field
         $.ajax({
-            url: 'verifyOTP', // Correct URL for your backend endpoint
+            url: '/user/verifyOTP', // Correct URL for your backend endpoint
             type: 'POST',
-            data: { OTP: otpValue }, // Send OTP as data
+             // Send OTP as data
             success: function(response) {
                 console.log(response)
                 if (response.success) {
@@ -155,14 +156,15 @@
                     if (response.redirectUrl) {
                         window.location.href = response.redirectUrl;
                     }
-                } else {
-                    $('#msg').text("Invalid OTP");
+                } else if(response.success == false){
+                    $('#msg').text(response.message || "Invalid OTP");
                 }
             },
             error: function() {
                 $('#msg').text("An error occurred. Please try again.");
             }
         });
+        return false
     }
 
     function resendOtp() {
@@ -203,4 +205,52 @@
         }, 1000);
     }
     startTimer(); // Start initial countdown when page loads
+</script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    function validateOTP() {
+    const otp = document.getElementById('otpInput').value; // Get the OTP from user input
+
+    axios.post('/user/verifyOTP', { otp: otp })
+        .then(response => {
+            console.log("Axios Call Succeeded");
+            console.log(response.data);
+            
+            if (response.data.success) {
+                document.getElementById('msg').textContent = "Email verified";
+            } else {
+                document.getElementById('msg').textContent = response.data.message || "Invalid OTP";
+            }
+
+            if (response.data.redirectUrl) {
+                window.location.href = response.data.redirectUrl;
+            }
+        })
+        .catch(error => {
+            console.error("Error occurred:", error);
+            document.getElementById('resendMsg').textContent = "An error occurred. Please try again.";
+        });
+
+    return false; // Prevent traditional form submission
+}
+
+function resendOtp() {
+    axios.post('/resendOTP')
+        .then(response => {
+            if (response.data.success) {
+                document.getElementById('otpInput').disabled = true;
+                document.getElementById('verify').textContent = "Verify";
+                document.getElementById('resendMsg').textContent = "OTP has been resent!";
+                startTimer(); // Restart the timer after resending OTP
+            } else {
+                document.getElementById('resendMsg').textContent = "Failed to resend OTP. Please try again.";
+            }
+        })
+        .catch(error => {
+            console.error("Error occurred:", error);
+            document.getElementById('resendMsg').textContent = "An error occurred. Please try again.";
+        });
+}
+
 </script> -->
