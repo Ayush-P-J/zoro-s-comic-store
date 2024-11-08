@@ -1,5 +1,7 @@
 const express = require('express');
-const controller = require('../controller/adminController');
+const adminController = require('../controller/adminController');
+const categoryController = require('../controller/categoryController');
+const productController = require('../controller/productController');
 const auth = require('../middlewares/adminAuth');
 const router = express.Router();
 
@@ -20,49 +22,49 @@ router.use((req, res, next) => {
   
 
 router.route('/login')
-.get(auth.isLogged,controller.getLogin)
-.post(controller.postLogin)
+.get(auth.isLogged,adminController.getLogin)
+.post(adminController.postLogin)
 
 router.route('/logout')
 .get(auth.adminLogout)
 
 router.route('/index')
-.get(auth.adminAuth,controller.getIndex)
+.get(auth.adminAuth,adminController.getIndex)
 
 router.route('/userList')
-.get(auth.adminAuth,controller.getUserList);
+.get(auth.adminAuth,adminController.getUserList);
 
-router.get('/userList/:id',auth.adminAuth,controller.blockUser);
+router.get('/userList/:id',auth.adminAuth,adminController.blockUser);
 
 router.route('/categories')
-.get(auth.adminAuth,controller.getCategories)
-.post(controller.postCategories)
+.get(auth.adminAuth,categoryController.getCategories)
+.post(categoryController.postCategories)
 
-router.get('/categories/:id',auth.adminAuth,controller.listOrUnlist);
+router.get('/categories/:id',auth.adminAuth,categoryController.listOrUnlist);
 
 router.route('/categories/edit/:id')
-.get(auth.adminAuth,controller.getCategoryEdit)
-.post(controller.editCategory)
+.get(auth.adminAuth,categoryController.getCategoryEdit)
+.post(categoryController.editCategory)
 
 router.route('/categories/delete/:id')
-.get(auth.adminAuth,controller.deleteCategory)
+.get(auth.adminAuth,categoryController.deleteCategory)
 
 router.route('/products')
-.get(auth.adminAuth,controller.getProductPage)
+.get(auth.adminAuth,productController.getProductPage)
 
 router.route('/products/addProduct')
-.get(auth.adminAuth,controller.getAddProduct)
-.post(upload.array('images',3),controller.postProduct)
+.get(auth.adminAuth,productController.getAddProduct)
+.post(upload.array('images',3),productController.postProduct)
 
 router.route('/products/delete/:id')
 .get((req,res,next)=>{
     console.log("hhhh");
     next();
-},auth.adminAuth,controller.deleteProduct)
+},auth.adminAuth,productController.deleteProduct)
 
 router.route('/products/edit/:id')
-.get(auth.adminAuth,controller.getProductEdit)
-.post(upload.array('images',3),controller.editProduct)
+.get(auth.adminAuth,productController.getProductEdit)
+.post(upload.array('images',3),productController.editProduct)
 
 
 

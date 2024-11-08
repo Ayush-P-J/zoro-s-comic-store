@@ -141,7 +141,7 @@
 </script>
 
 
-<script>
+<!-- <script>
     function validateOTP() {
         let otpValue = $('#otp').val(); // Get OTP value from input field
         $.ajax({
@@ -157,7 +157,7 @@
                         window.location.href = response.redirectUrl;
                     }
                 } else if(response.success == false){
-                    $('#msg').text(response.message || "Invalid OTP");
+                    $('#msg').text(response.message || "Invaliiid OTP");
                 }
             },
             error: function() {
@@ -205,8 +205,8 @@
         }, 1000);
     }
     startTimer(); // Start initial countdown when page loads
-</script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</script> -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
     function validateOTP() {
@@ -253,4 +253,4 @@ function resendOtp() {
         });
 }
 
-</script> -->
+</script>

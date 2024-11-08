@@ -1,30 +1,33 @@
 const nodemailer = require("nodemailer")
 const bcrypt = require("bcrypt")
-const models = require('../models/userModels');
+const user = require('../models/userModels');
 const admin = require('../models/adminModels');
 
 const env = require("dotenv").config()
 
-
+// let userEmail = "";
 
 exports.getIndexPage = async (req, res) => {
   if (req.session.email) {
     return res.redirect('/user/home');
 
   }
-  const products = await admin.Product.find({isListed:true})
+  const products = await admin.Product.find({ isListed: true })
 
-  res.render('user/index',{products});
+  res.render('user/index', { products });
 
 }
-exports.getHomePage = async(req, res) => {
-  const products = await admin.Product.find({isListed:true}).populate('category')
+exports.getHomePage = async (req, res) => {
+  const categories = await admin.Category.find({status:true})
+  const products = await admin.Product.find({ isListed: true }).populate('category')
+  console.log(this.userEmail);
+
 
   if (!req.session.email) {
     return res.redirect('/user/login');
 
   }
-  res.render('user/home',{products});
+  res.render('user/home', { products,categories });
 
 }
 
@@ -37,9 +40,11 @@ exports.getLoginPage = async (req, res) => {
   if (req.session.email) {
     return res.redirect('/user/home');
 
-  } else if (req.session.isBlocked){
+  } else if (req.session.isBlocked) {
 
     return res.render('user/login', { message: 'This Email is blocked by the admin', title: "Login page" });
+  } else if (req.session.isExist) {
+    return res.render('user/login', { message: 'This user already exists', title: "Login page" })
   }
   return res.render('user/login', { message: '', title: "Login page" });
 
@@ -54,25 +59,28 @@ exports.postLogin = async (req, res) => {
     console.log(EMAIL);
     
     // const PASSWORD = passwordHash;
+    
+    const userDetails = await user.User.findOne({ email: EMAIL });
+    this.userEmail = EMAIL
+    console.log("user: " + this.userEmail)
+    req.session.userId = userDetails._id
 
-    const userDetails = await models.User.findOne({ email: EMAIL });
 
-
-    if(userDetails.isBlocked === true){
+    if (userDetails.isBlocked === true) {
       req.session.isBlocked = true;
       return res.redirect('/user/login')
     }
 
-   
 
-    
+
+
     if (!userDetails) {
       return res.render('user/login', { message: 'Invalid Email', title: "Login page" });
 
 
     }
-    
-    const userVerify =  bcrypt.compare(PASSWORD, userDetails.password)
+
+    const userVerify = bcrypt.compare(PASSWORD, userDetails.password)
     if (userVerify) {
       req.session.email = EMAIL;
       // req.session.fullName = FULLNAME;
@@ -88,17 +96,26 @@ exports.postLogin = async (req, res) => {
 
 };
 
-exports.googleLogin = async (req,res)=>{
+exports.googleLogin = async (req, res) => {
   const EMAIL = req.user.email
-  console.log(EMAIL);
-  
-  const userDetails = await models.User.findOne({ email: EMAIL });
+  this.userEmail = EMAIL
 
-  if(userDetails.isBlocked){
+  const isExist = req.isExist
+  console.log(EMAIL);
+  console.log(isExist);
+
+  const userDetails = await user.User.findOne({ email: EMAIL });
+
+  if (!userDetails.googleId) {
+    req.session.isExist = true;
+    return res.redirect('/user/login')
+
+  }
+  if (userDetails.isBlocked) {
     req.session.isBlocked = true;
-      return res.redirect('/user/login')
-      // return res.render('user/login', { message: 'This Email is blocked by the admin', title: "Login page" });
-      
+    return res.redirect('/user/login')
+    // return res.render('user/login', { message: 'This Email is blocked by the admin', title: "Login page" });
+
   }
   req.session.email = true;
   res.redirect('/user/home');
@@ -130,7 +147,7 @@ exports.postSignup = async (req, res) => {
 
 
   try {
-    const existingUser = await models.User.findOne({ email: EMAIL });
+    const existingUser = await user.User.findOne({ email: EMAIL });
 
 
     if (existingUser) {
@@ -223,20 +240,23 @@ exports.verifyOtp = async (req, res) => {
   try {
     const OTP = req.body.otp; // Ensure lowercase to match frontend
     console.log('AAAA');
-    
+    console.log(OTP);
+
+
 
     req.session.userOtp = Date.now() > req.session.otpExpires ? null : req.session.userOtp;
-    const user = req.session.userData;
+    const users = req.session.userData;
 
     if (OTP === req.session.userOtp) {
-      const passwordHash = await securePassword(user.PASSWORD);
+      const passwordHash = await securePassword(users.PASSWORD);
 
-      const newUser = new models.User({
-        fullName: user.FULLNAME,
-        userName: user.USERNAME,
-        phone: user.PHONE,
-        email: user.EMAIL,
-        password: passwordHash
+      const newUser = new user.User({
+        fullName: users.FULLNAME,
+        userName: users.USERNAME,
+        phone: users.PHONE,
+        email: users.EMAIL,
+        addresses:[],
+        password: passwordHash,
       });
 
       await newUser.save();
@@ -300,17 +320,99 @@ exports.resendOTP = async (req, res) => {
   }
 }
 
-exports.viewProduct = async (req,res)=>{
+exports.viewProduct = async (req, res) => {
   const productId = req.params.id;
 
-  
-  const product = await admin.Product.findOne({ _id: productId });
+
+  const product = await admin.Product.findOne({ _id: productId }).populate('category');
 
   const products = await admin.Product.find({
-    category:product.category,
-    isListed:true,
-    _id:{$ne:productId}
+    category: product.category,
+    isListed: true,
+    _id: { $ne: productId }
   }).limit(3)
 
-  res.render('user/viewProduct', {product,products})
+  res.render('user/viewProduct', { product, products })
+}
+
+
+exports.getProfilePage = async (req, res) => {
+  const userId = this.userEmail
+  const userData = await user.User.findOne({ email: userId })
+  console.log("aa ithaa" + userData);
+
+  res.render('user/profile', { userData, });
+}
+
+exports.editProfile = async (req, res) => {
+  try {
+    const { fullName, userName, email, phoneNumber } = req.body;
+
+    await user.User.updateOne({email:this.userEmail },{fullName,userName,email,phone:phoneNumber});
+
+
+
+    res.status(200).json({ message: 'Profile updated successfully' }); xc
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to update profile' });
+  }
+
+}
+
+
+exports.postAddress = async (req, res)=>{
+  try {
+    const {
+      recipientName,
+      phoneNumber,
+      addressLine,
+      landmark,
+      city,
+      state,
+      pinCode,
+      country,
+      isDefault
+  } = req.body;
+  console.log(recipientName);
+  
+  const userId = req.session.userId;
+  console.log(userId);
+const newAddress = {
+  recipientName,
+  phoneNumber,
+  addressLine,
+  landmark,
+  city,
+  state,
+  pinCode,
+  country: country || 'India', // Use default if not provided
+  isDefault: isDefault === 'on' // Convert checkbox value to boolean
+};
+const use = await user.User.findOne({_id:userId}) 
+console.log(use);
+
+
+await user.User.updateOne(
+  {_id:userId},
+  { $push: { addresses: newAddress } }
+);
+console.log("aaaaaaaaaashsa");
+res.redirect('/user/profile')
+
+
+
+  
+  } catch (error) {
+    
+  }
+}
+
+
+exports.getCategoryUser = async (req, res)=>{
+
+  const products = await admin.Product.find({ isListed: true }).populate('category');
+
+
+  res.render('user/categories',{ products })
 }

@@ -1,5 +1,6 @@
 const express = require('express');
 const controller = require('../controller/userController');
+const cartController = require('../controller/cartController');
 const passport = require('passport');
 const auth = require('../middlewares/userAuth');
 
@@ -35,7 +36,31 @@ router.route('/user/auth/google')
 router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/signup'}),controller.googleLogin);
 
 router.route('/user/viewProduct/:id')
-.get(controller.viewProduct)
+.get(auth.userAuth,controller.viewProduct)
+
+router.route('/user/profile')
+.get(auth.userAuth,controller.getProfilePage)
+.post(controller.editProfile)
+
+router.route('/user/addAddress')
+.post(controller.postAddress)
+
+
+router.route('/user/cart')
+.get(auth.userAuth,cartController.getCartPage)
+
+router.route('/user/addToCart')
+.post(cartController.addToCart)
+
+router.route('/user/updateQuantity')
+.post(cartController.updateQuantity)
+
+
+router.route('/user/cart/:id')
+.get(auth.userAuth,cartController.deleteFromCart)
+
+router.route('/user/categories')
+.get(controller.getCategoryUser)
 
 
 

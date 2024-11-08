@@ -40,7 +40,44 @@ const userSchema = new mongoose.Schema({
 
 
     },
-    
+    addresses: [{
+        recipientName: {
+            type: String,
+            required: true
+        },
+        phoneNumber: {
+            type: String,
+            required: true
+        },
+        addressLine: {
+            type: String,
+            required: true
+        },
+        landmark: {
+            type: String // Optional second line for apartment or suite number
+        },
+        city: {
+            type: String,
+            required: true
+        },
+        state: {
+            type: String,
+            required: true
+        },
+        pinCode: {
+            type: String,
+            required: true
+        },
+        country: {
+            type: String,
+            required: true,
+            default: "India"
+        },
+        isDefault: {
+            type: Boolean,
+            default: false 
+        }
+    }],
     password: {
         required: false,
         type: String,
@@ -72,6 +109,7 @@ const userSchema = new mongoose.Schema({
 //     },
 
 // });
+
 
 
 // const OTP = mongoose.model('userOTP',userOTPSchema);

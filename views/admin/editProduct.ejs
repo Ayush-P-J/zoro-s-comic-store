@@ -173,7 +173,7 @@
                         <div class="preview-image" id="preview-image3">
                           <img id="imgView3" src="/images/<%= product.images[2] %>" alt="Preview 3">
                         </div>
-                        <input class="form-control mt-2"  name="images" id="input3" value="<%= product.images[2] %>"
+                        <input class="form-control mt-2" type="file" name="images" id="input3" value="<%= product.images[2] %>"
                                accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 3)">
                         <div id="images-error3" class="error-message text-danger mt-1"></div>
                     

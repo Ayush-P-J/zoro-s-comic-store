@@ -15,6 +15,9 @@
 <link rel="stylesheet" type="text/css" href="/user/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="/user/styles/single_styles.css">
 <link rel="stylesheet" type="text/css" href="/user/styles/main_styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.css">
+
+
 
 <link rel="stylesheet" type="text/css" href="/user/styles/single_responsive.css">
 
@@ -133,6 +136,7 @@
 				<div class="breadcrumbs d-flex flex-row align-items-center">
 					<ul>
 						<li><a href="/user/home">Home</a></li>
+						<li class="active"><a href="/user/categories"><i class="fa fa-angle-right" aria-hidden="true"></i><%= product.category.categoryName %></a></li>
 						<li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Single Product</a></li>
 					</ul>
 				</div>
@@ -175,7 +179,7 @@
 						<span class="ti-truck"></span><span>free delivery</span>
 					</div>
 					<div class="original_price">$<%= product.regularPrice %></div>
-					<div class="product_price">$<%= product.salePrice %></div>
+					<div class="product_price" id="">$<a id="price"><%= product.salePrice %></a></div>
 					<ul class="star_rating">
 						<li><i class="fa fa-star" aria-hidden="true"></i></li>
 						<li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -197,11 +201,12 @@
 					<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
 						<span>Quantity:</span>
 						<div class="quantity_selector">
-							<span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
+							<span class="minus" ><i class="fa fa-minus" aria-hidden="true"></i></span>
 							<span id="quantity_value">1</span>
-							<span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+							<span class="plus" ><i class="fa fa-plus" aria-hidden="true"></i></span>
 						</div>
-						<div class="red_button add_to_cart_button1"><a href="#">add to cart</a></div>
+						<div class="red_button add_to_cart_button1" id="add" ><a  >add to cart</a></div>
+						<!-- <button onclick="addToCarts()">sfgd</button> -->
 						<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>
 					</div>
 				</div>
@@ -254,6 +259,7 @@
 								</div>
 								<!-- <p>COLOR:<span>Gold, Red</span></p> -->
 								<p>SIZE:<span><%= product.size %></span></p>
+								<p>category :<span><%= product.category.categoryName %></span></p>
 							</div>
 						</div>
 					</div>
@@ -511,6 +517,8 @@
 
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     $(document).ready(function(){
         $('.single_product_image').on('mousemove', function(e) {
@@ -533,8 +541,149 @@
             }).removeClass('zoomed');
         });
     });
+	function addToCarts() {
+		alert("haiiii")
+
+	}
+    const price = parseInt(document.getElementById('price').textContent);  // Use textContent instead of value
+    
+	const quantity = parseInt(document.getElementById('quantity_value').textContent);  // Use textContent instead of value
+// alert(price)
+
+	document.getElementById('add').addEventListener('click', () => {
+    const price = parseInt(document.getElementById('price').textContent);  // Use textContent instead of value
+    const quantity = parseInt(document.getElementById('quantity_value').textContent);  // Use textContent instead of value
+
+    const productData = {
+        productId: "<%= product._id %>",  // Ensure this value is rendered correctly
+        quantity: quantity,
+        productName: "<%= product.productName %>",
+        totalPrice: price * quantity,
+    };
+
+    // axios.post('/user/addToCart', productData)
+    //     .then(response => {
+			
+    //         console.log("Quantity updated:", response.data);
+    //     })
+    //     .catch(error => {
+    //         console.error("Error updating quantity:", error);
+    //     });
+	axios.post('/user/addToCart', productData)
+    .then(response => {
+        // Success SweetAlert notification
+        if(response.data.success === true){
+			Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Added to cart successfully!',
+            confirmButtonText: 'OK'
+        });
+		}else{
+			Swal.fire({
+            icon: 'error',
+            title: 'error',
+            text: response.data.message,
+            confirmButtonText: 'OK'
+        });
+
+		}
+        console.log("Quantity updated:", response.data);
+    })
+    .catch(error => {
+        // Error SweetAlert notification
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'There was an error updating the quantity. Please try again.',
+            confirmButtonText: 'OK'
+        });
+        console.error("Error updating quantity:", error);
+    });
+
+});
+
+
+// const add = document.getElementById('click',()=>{
+	
+// 		const price = parseInt(document.getElementById('price').value);
+// 		const quantity = parseInt(document.getElementById('quantity_value').value)
+
+// 		const productData = {
+// 			productId:<%= product._id %>,
+// 			quantity:quantity,
+// 			productName:<%= product.productName %>,
+// 			totalPrice: price * quantity,
+			
+
+
+// 		}
+// 		axios.post('/user/addToCart', productData)
+//             .then(response => {
+//                 console.log("Quantity updated:", response.data);
+//             })
+//             .catch(error => {
+//                 console.error("Error updating quantity:", error);
+//             });
+
+	
+// })
+	 
+	// function addToCart() {
+	// 	const price = parseInt(document.getElementById('price').value);
+	// 	const quantity = parseInt(document.getElementById('quantity_value').value)
+
+	// 	const productData = {
+	// 		productId:<%= product._id %>,
+	// 		quantity:quantity,
+	// 		productName:<%= product.productName %>,
+	// 		totalPrice: price * quantity,
+			
+
+
+	// 	}
+	// 	axios.post('/user/addToCart', productData)
+    //         .then(response => {
+    //             console.log("Quantity updated:", response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error("Error updating quantity:", error);
+    //         });
+
+	// }
+
+
+	// function updateQuantity(event, action) {
+    //         // event.preventDefault();  // Prevent default link behavior
+
+    //         const quantityElement = document.getElementById("quantity");
+    //         let quantity = parseInt(quantityElement.innerText);
+
+    //         // Increment or decrement quantity locally
+    //         if (action === 'increment') {
+    //             quantity += 1;
+    //         } else if (action === 'decrement' && quantity > 1) {
+    //             quantity -= 1;
+    //         }
+
+    //         // Update the quantity in the DOM
+    //         quantityElement.innerText = quantity;
+
+    //         // Make an Axios request to update the quantity on the server
+    //         axios.post('/update-quantity', {
+    //             productId: '12345',  // Example product ID
+    //             quantity: quantity
+    //         })
+    //         .then(response => {
+    //             console.log("Quantity updated:", response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error("Error updating quantity:", error);
+    //         });
+    //     }
 </script>	
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script src="/user/js/jquery-3.2.1.min.js"></script>
 <script src="/user/styles/bootstrap4/popper.js"></script>

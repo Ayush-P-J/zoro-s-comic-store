@@ -18,8 +18,17 @@ passport.use(new GoogleStrtegy({
 async (accessToken, refreshToken, profile, done) => {
     
     try {
-        let user = await User.User.findOne({ googleId: profile.id });
+        const email = profile.emails[0].value
+        console.log(email);
         
+        let user = await User.User.findOne({ googleId: profile.id});
+        let isExist = await User.User.findOne({email:email} )
+        
+        console.log('ahh');
+        if (isExist){
+            return done(null,isExist);
+        }
+        console.log('dfgsfg');
         
         console.log(user);
                

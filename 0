@@ -1,3 +1,152 @@
 sudo systemctl start mongod
 
  npm start
+
+ sudo kill -9 $(sudo lsof -t -i :3006)
+
+
+
+
+ <% userData.addresses.forEach((address, index) => { %>
+                            <h3>Address <%= index + 1 %></h3>
+                        
+                            <!-- Address Form -->
+                            <form id="addressForm<%= index %>" action="/user/addAddress" method="POST">
+                                <!-- Recipient Name -->
+                                <div class="form-group">
+                                    <label for="recipientName<%= index %>">Recipient Name</label>
+                                    <input type="text" class="form-control" id="recipientName<%= index %>" name="recipientName" value="<%= address.recipientName %>" required disabled>
+                                </div>
+                        
+                                <!-- Phone Number -->
+                                <div class="form-group">
+                                    <label for="phoneNumber<%= index %>">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phoneNumber<%= index %>" name="phoneNumber" value="<%= address.phoneNumber %>" required disabled>
+                                </div>
+                        
+                                <!-- Address Line 1 -->
+                                <div class="form-group">
+                                    <label for="addressLine1<%= index %>">Address Line 1</label>
+                                    <input type="text" class="form-control" id="addressLine1<%= index %>" name="addressLine1" value="<%= address.addressLine1 %>" required disabled>
+                                </div>
+                        
+                                <!-- Landmark (Optional) -->
+                                <div class="form-group">
+                                    <label for="landmark<%= index %>">Landmark</label>
+                                    <input type="text" class="form-control" id="landmark<%= index %>" name="landmark" value="<%= address.landmark %>" disabled>
+                                </div>
+                        
+                                <!-- City -->
+                                <div class="form-group">
+                                    <label for="city<%= index %>">City</label>
+                                    <input type="text" class="form-control" id="city<%= index %>" name="city" value="<%= address.city %>" required disabled>
+                                </div>
+                        
+                                <!-- State -->
+                                <div class="form-group">
+                                    <label for="state<%= index %>">State</label>
+                                    <input type="text" class="form-control" id="state<%= index %>" name="state" value="<%= address.state %>" required disabled>
+                                </div>
+                        
+                                <!-- Pin Code -->
+                                <div class="form-group">
+                                    <label for="pinCode<%= index %>">Pin Code</label>
+                                    <input type="text" class="form-control" id="pinCode<%= index %>" name="pinCode" value="<%= address.pinCode %>" required disabled>
+                                </div>
+                        
+                                <!-- Country -->
+                                <div class="form-group">
+                                    <label for="country<%= index %>">Country</label>
+                                    <input type="text" class="form-control" id="country<%= index %>" name="country" value="India" readonly disabled>
+                                </div>
+                        
+                                <!-- Set as Default Address -->
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" id="isDefault<%= index %>" name="isDefault" <%= address.isDefault ? 'checked' : '' %> disabled>
+                                        Set as Default Address
+                                    </label>
+                                </div>
+                        
+                                <!-- Action Buttons -->
+                                <button type="button" class="btn btn-success" id="submitButton<%= index %>" onclick="submitAddress(<%= index %>)" style="display: none;">Submit</button>
+                                <button type="button" class="btn btn-secondary" id="cancelButton<%= index %>" onclick="toggleEdit(<%= index %>, false)" style="display: none;">Cancel</button>
+                            </form>
+                            <button type="button" class="btn btn-primary" id="editButton<%= index %>" onclick="toggleEdit(<%= index %>, true)">Edit Address</button>
+                        <% }); %>
+
+
+
+
+
+
+
+                        <!-- <% products.forEach((product)=>{ %>
+							
+								<% if (product.category.categoryName === 'comics' && product.category.status === true ){ %>
+									<div class="product-item <%= product.category.categoryName %> m-4 p-1" >
+										<a href="viewProduct/<%= product._id %>">
+										<div class="product discount product_filter">
+											<div class="product_image">
+												<img src="/images/<%= product.images[0] %>" alt="">
+											</div>
+											<div class="favorite favorite_left"></div>
+											<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>
+											<div class="product_info">
+												<h6 class="product_name"><a href="viewProduct/<%= product._id %>"><%= product.productName %></a></h6>
+												<div class="product_price">$<%= product.salePrice %><span>$<%= product.regularPrice %></span></div>
+											</div>
+										</div>
+										</a>
+										<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+									</div>
+								<% } %>
+
+						
+						<% }) %> -->
+						<!-- <% products.forEach((product)=>{ %>
+							
+								<% if (product.category.categoryName === 'Action figuress' && product.category.status === true){ %>
+									<div class="product-item accessories m-4 p-1" >
+										<a href="viewProduct/<%= product._id %>">
+										<div class="product discount product_filter">
+											<div class="product_image">
+												<img src="/images/<%= product.images[0] %>" alt="">
+											</div>
+											<div class="favorite favorite_left"></div>
+											<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>
+											<div class="product_info">
+												<h6 class="product_name"><a href="viewProduct/<%= product._id %>"><%= product.productName %></a></h6>
+												<div class="product_price">$<%= product.salePrice %><span>$<%= product.regularPrice %></span></div>
+											</div>
+										</div>
+										</a>
+										<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+									</div>
+								<% } %>
+
+						
+						<% }) %>
+						<% products.forEach((product)=>{ %>
+							
+								<% if (product.category.categoryName === 'Posters' && product.category.status === true){ %>
+									<div class="product-item accessories m-4 p-1" >
+										<a href="viewProduct/<%= product._id %>">
+										<div class="product discount product_filter">
+											<div class="product_image">
+												<img src="/images/<%= product.images[0] %>" alt="">
+											</div>
+											<div class="favorite favorite_left"></div>
+											<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>
+											<div class="product_info">
+												<h6 class="product_name"><a href="viewProduct/<%= product._id %>"><%= product.productName %></a></h6>
+												<div class="product_price">$<%= product.salePrice %><span>$<%= product.regularPrice %></span></div>
+											</div>
+										</div>
+										</a>
+										<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+									</div>
+								<% } %>
+
+						
+						<% }) %> -->

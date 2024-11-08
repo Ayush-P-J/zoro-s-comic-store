@@ -10,3 +10,10 @@ exports.isLogged = (req, res, next)=>{
     }
     next()
 }
+exports.userAuth = (req, res, next)=>{
+    if (req.session.email){
+        next()
+    }else{
+        res.redirect('/user/login');
+    }
+}

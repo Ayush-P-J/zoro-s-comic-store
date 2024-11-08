@@ -135,9 +135,9 @@
 							</ul>
 							<ul class="navbar_user">
 								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+								<li><a href="profile"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li class="checkout">
-									<a href="#">
+									<a href="cart">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 										<span id="checkout_items" class="checkout_items">2</span>
 									</a>
@@ -185,7 +185,7 @@
 				</li>
 				<li class="menu_item has-children">
 					<a href="#">
-						My Account
+						My Accounts
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="menu_selection">
@@ -268,9 +268,14 @@
 					<div class="new_arrivals_sorting">
 						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
 							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">all</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women">Manga and Comics</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".accessories">Action Figures</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men">Wall Posters</li>
+						<% categories.forEach((category)=>{ %>
+
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".<%= category._id %>"><%= category.categoryName %></li>
+
+						<% }) %>
+
+							<!-- <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".accessories">Action Figures</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men">Wall Posters</li> -->
 						</ul>
 					</div>
 				</div>
@@ -282,9 +287,9 @@
 						<!-- Product 1 -->
 						
 						<% products.forEach((product)=>{ %>
-							
-								<% if (product.category.categoryName === 'comics' && product.category.status === true ){ %>
-									<div class="product-item women m-4 p-1" >
+							<div class="product-item <%= product.category._id %> m-4 p-1" >
+							<% categories.forEach((category)=>{ %>
+								<% if (product.category.categoryName === category.categoryName && product.category.status === true){ %>
 										<a href="viewProduct/<%= product._id %>">
 										<div class="product discount product_filter">
 											<div class="product_image">
@@ -294,62 +299,22 @@
 											<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>
 											<div class="product_info">
 												<h6 class="product_name"><a href="viewProduct/<%= product._id %>"><%= product.productName %></a></h6>
+												<!-- <h6 class="product_name"><a href="viewProduct/<%= product._id %>"><%= category.categoryName %></a></h6>
+												<h6 class="product_name"><a href="viewProduct/<%= product._id %>"><%= category.description %></a></h6> -->
 												<div class="product_price">$<%= product.salePrice %><span>$<%= product.regularPrice %></span></div>
 											</div>
 										</div>
 										</a>
 										<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+										<% } %>
+										
+										<% }) %>
 									</div>
-								<% } %>
+								
 
 						
 						<% }) %>
-						<% products.forEach((product)=>{ %>
-							
-								<% if (product.category.categoryName === 'Action figuress' && product.category.status === true){ %>
-									<div class="product-item accessories m-4 p-1" >
-										<a href="viewProduct/<%= product._id %>">
-										<div class="product discount product_filter">
-											<div class="product_image">
-												<img src="/images/<%= product.images[0] %>" alt="">
-											</div>
-											<div class="favorite favorite_left"></div>
-											<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>
-											<div class="product_info">
-												<h6 class="product_name"><a href="viewProduct/<%= product._id %>"><%= product.productName %></a></h6>
-												<div class="product_price">$<%= product.salePrice %><span>$<%= product.regularPrice %></span></div>
-											</div>
-										</div>
-										</a>
-										<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
-									</div>
-								<% } %>
-
 						
-						<% }) %>
-						<% products.forEach((product)=>{ %>
-							
-								<% if (product.category.categoryName === 'Posters' && product.category.status === true){ %>
-									<div class="product-item accessories m-4 p-1" >
-										<a href="viewProduct/<%= product._id %>">
-										<div class="product discount product_filter">
-											<div class="product_image">
-												<img src="/images/<%= product.images[0] %>" alt="">
-											</div>
-											<div class="favorite favorite_left"></div>
-											<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>
-											<div class="product_info">
-												<h6 class="product_name"><a href="viewProduct/<%= product._id %>"><%= product.productName %></a></h6>
-												<div class="product_price">$<%= product.salePrice %><span>$<%= product.regularPrice %></span></div>
-											</div>
-										</div>
-										</a>
-										<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
-									</div>
-								<% } %>
-
-						
-						<% }) %>
 						
 
 

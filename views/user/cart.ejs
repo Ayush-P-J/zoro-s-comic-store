@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Single Product</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Colo Shop Template">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="/user/styles/bootstrap4/bootstrap.min.css">
+<link href="/user/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="/user/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="/user/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="/user/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" href="/user/plugins/themify-icons/themify-icons.css">
+<link rel="stylesheet" type="text/css" href="/user/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/user/styles/single_styles.css">
+<link rel="stylesheet" type="text/css" href="/user/styles/main_styles.css">
+
+<link rel="stylesheet" type="text/css" href="/user/styles/single_responsive.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.css">
+
+<style>
+    body{
+    background: #ddd;
+    min-height: 100vh;
+    vertical-align: middle;
+    display: flex;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.title{
+    margin-bottom: 5vh;
+}
+.card{
+    margin: auto;
+    max-width: 950px;
+    width: 90%;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 1rem;
+    border: transparent;
+}
+@media(max-width:767px){
+    .card{
+        margin: 3vh auto;
+    }
+}
+.cart{
+    background-color: #fff;
+    padding: 4vh 5vh;
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem;
+}
+@media(max-width:767px){
+    .cart{
+        padding: 4vh;
+        border-bottom-left-radius: unset;
+        border-top-right-radius: 1rem;
+    }
+}
+.summary{
+    background-color: #ddd;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 4vh;
+    color: rgb(65, 65, 65);
+}
+@media(max-width:767px){
+    .summary{
+    border-top-right-radius: unset;
+    border-bottom-left-radius: 1rem;
+    }
+}
+.summary .col-2{
+    padding: 0;
+}
+.summary .col-10
+{
+    padding: 0;
+}.row{
+    margin: 0;
+}
+.title b{
+    font-size: 1.5rem;
+}
+.main{
+    margin: 0;
+    padding: 2vh 0;
+    width: 100%;
+}
+.col-2, .col{
+    padding: 0 1vh;
+}
+a{
+    padding: 0 1vh;
+}
+.close{
+    margin-left: auto;
+    font-size: 0.7rem;
+}
+img{
+    width: 3.5rem;
+}
+.back-to-shop{
+    margin-top: 4.5rem;
+}
+h5{
+    margin-top: 4vh;
+}
+hr{
+    margin-top: 1.25rem;
+}
+form{
+    padding: 2vh 0;
+}
+select{
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1.5vh 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247);
+}
+input{
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247);
+}
+input:focus::-webkit-input-placeholder
+{
+      color:transparent;
+}
+.btn{
+    background-color: #000;
+    border-color: #000;
+    color: white;
+    width: 100%;
+    font-size: 0.7rem;
+    margin-top: 4vh;
+    padding: 1vh;
+    border-radius: 0;
+}
+.btn:focus{
+    box-shadow: none;
+    outline: none;
+    box-shadow: none;
+    color: white;
+    -webkit-box-shadow: none;
+    -webkit-user-select: none;
+    transition: none; 
+}
+.btn:hover{
+    color: white;
+}
+a{
+    color: black; 
+    cursor: pointer;
+}
+a:hover{
+    color: black;
+    text-decoration: none;
+}
+ #code{
+    background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253) , rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: center;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<div class="super_container">
+
+	<!-- Header -->
+
+	<header class="header trans_300">
+
+		<!-- Top Navigation -->
+
+		
+
+		<!-- Main Navigation -->
+
+		<div class="main_nav_container">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-right">
+						<div class="logo_container">
+							<a href="#">ZORO<span>'S</span></a>
+						</div>
+						<nav class="navbar">
+							<ul class="navbar_menu">
+								<li><a href="index.html">home</a></li>
+								<li><a href="#">shop</a></li>
+								<li><a href="#">promotion</a></li>
+								<li><a href="#">pages</a></li>
+								<li><a href="#">blog</a></li>
+								<li><a href="contact.html">contact</a></li>
+							</ul>
+							<ul class="navbar_user">
+								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+								<li class="checkout">
+									<a href="#">
+										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+										<span id="checkout_items" class="checkout_items">2</span>
+									</a>
+								</li>
+							</ul>
+							<div class="hamburger_container">
+								<i class="fa fa-bars" aria-hidden="true"></i>
+							</div>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</header>
+
+	<div class="fs_menu_overlay"></div>
+
+	<!-- Hamburger Menu -->
+
+	<div class="hamburger_menu">
+		<div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+		<div class="hamburger_menu_content text-right">
+			<ul class="menu_top_nav">
+				<li class="menu_item has-children">
+					<a href="#">
+						usd
+						<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="menu_selection">
+						<li><a href="#">cad</a></li>
+						<li><a href="#">aud</a></li>
+						<li><a href="#">eur</a></li>
+						<li><a href="#">gbp</a></li>
+					</ul>
+				</li>
+				<li class="menu_item has-children">
+					<a href="#">
+						English
+						<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="menu_selection">
+						<li><a href="#">French</a></li>
+						<li><a href="#">Italian</a></li>
+						<li><a href="#">German</a></li>
+						<li><a href="#">Spanish</a></li>
+					</ul>
+				</li>
+				<li class="menu_item has-children">
+					<a href="#">
+						My Account
+						<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="menu_selection">
+						<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+						<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+					</ul>
+				</li>
+				<li class="menu_item"><a href="#">home</a></li>
+				<li class="menu_item"><a href="#">shop</a></li>
+				<li class="menu_item"><a href="#">promotion</a></li>
+				<li class="menu_item"><a href="#">pages</a></li>
+				<li class="menu_item"><a href="#">blog</a></li>
+				<li class="menu_item"><a href="#">contact</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="container single_product_container">
+		<div class="row">
+			<div class="col">
+
+				<!-- Breadcrumbs -->
+
+				<div class="breadcrumbs d-flex flex-row align-items-center">
+					<ul>
+						<li><a href="/user/home">Home</a></li>
+						<li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Single Product</a></li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+        <div class="card">
+            <div class="row">
+                <div class="col-md-8 cart">
+                    <div class="title">
+                        <div class="row">
+                            <div class="col"><h4><b>Shopping Cart</b></h4></div>
+                            <div class="col align-self-center text-right text-muted"><% userCart.length %> items</div>
+                        </div>
+                    </div>    
+                     <% if (userCart.length > 0){ %>
+                        <% userCart.forEach((cart,i)=>{ %>
+                            
+                            <div class="row border-top border-bottom">
+                                <div class="row main align-items-center">
+                                    <div class="col-2"><img class="img-fluid" src="/images/<%= cart.productId.images[0] %>"></div>
+                                    <div class="col">
+                                        <div class="row text-muted"><%= cart.productId.productName %></div>
+                                        <div class="row"><%= cart.productId._id %></div>
+                                    </div>
+                                    <div class="col">
+                                        <!-- onclck="updateQuantity(event, 'decrement',<%=i%>,<%= cart.productId._id %>)" -->
+                                        <a  onclick="decrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')" >-</a>
+                                        <a  id="quantity<%=i%>" class="border "><%= cart.quantity %></a>
+                                        <a  onclick="incrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')">+</a>
+                                    </div>
+                                    <div class="col"  >&dollar;<a id="totalPrice<=%i%>"><%= cart.totalPrice.toFixed(2) %></a>
+                                         <a id="salePrice<=%i%>">d<%= cart.productId.salePrice %></a> 
+                                         <span class="close" id="close">
+                                                <a href="javascript:void(0);" onclick="confirmDelete('/user/cart/<%= cart.productId._id %>')">&#10005;</a>
+                                         </span>
+                                    </div>
+                                </div>
+                            </div>
+    
+                         <% }) %>
+
+                     <%} else{%>
+                        
+                            <div class="empty-cart-notice" style="text-align: center; padding: 20px; font-size: 1.5em; color: #555;">
+                                The cart is empty
+                            </div>
+                        
+
+                     <% }%>
+                        
+
+                    <!-- <div class="row">
+                        <div class="row main align-items-center">
+                            <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/ba3tvGm.jpg"></div>
+                            <div class="col">
+                                <div class="row text-muted">Shirt</div>
+                                <div class="row">Cotton T-shirt</div>
+                            </div>
+                            <div class="col">
+                                <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
+                            </div>
+                            <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
+                        </div>
+                    </div>
+                    <div class="row border-top border-bottom">
+                        <div class="row main align-items-center">
+                            <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/pHQ3xT3.jpg"></div>
+                            <div class="col">
+                                <div class="row text-muted">Shirt</div>
+                                <div class="row">Cotton T-shirt</div>
+                            </div>
+                            <div class="col">
+                                <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
+                            </div>
+                            <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
+                        </div>
+                    </div> -->
+                    <div class="back-to-shop"  ><a href="#">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+                </div>
+                <% if (userCart.length > 0){ %>
+                    
+
+
+                <%}%>
+
+                <div class="col-md-4 summary">
+                    <div><h5><b>Summary</b></h5></div>
+                    <hr>
+                    <div class="row">
+                        <div class="col" style="padding-left:0;">ITEMS <% userCart.length %></div>
+                        <div class="col text-right">&euro; </div>
+                    </div>
+                    <form>
+                        <p>SHIPPING</p>
+                        <select><option class="text-muted">Standard-Delivery- &euro;5.00</option></select>
+                        <p>GIVE CODE</p>
+                        <input id="code" placeholder="Enter your code">
+                    </form>
+                    <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                        <div class="col">TOTAL PRICE</div>
+                        <div class="col text-right">&euro; <%= checkoutTotal %></div>
+                    </div>
+                    <button class="btn">CHECKOUT</button>
+                </div>
+            </div>
+            
+        </div>
+        
+        
+
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+            async function incrementQuantity(event,i,product) {
+                // event.preventDefault();
+                // alert("skdjhfkdsjh")
+                const quantityElement = document.getElementById("quantity"+i);
+                const totalElement = document.getElementById("totalPrice" + i);
+
+                
+               
+                
+                
+                let quantity = parseInt(quantityElement.innerText);
+              
+                
+                if(quantity < 5){
+                    quantity += 1
+                    
+                }
+                
+                await axios.post('/user/updateQuantity', {
+                    productId: product,  // Example product ID
+                    quantity: quantity,
+                    
+                })
+                .then(async response => {
+                    const {quantity,totalPrice} = response.data
+                    quantityElement.innerText = quantity;
+                    await Swal.fire({
+    icon: 'success',
+    title: 'Success',
+    text: 'The quantity was updated successfully.',
+    showConfirmButton: false, // Hide the OK button
+    timer: 2000 // Auto-close after 2 seconds
+});
+
+
+                    // total.innerText = totalPrice;
+                    window.location.href = "/user/cart"
+                    console.log("Quantity updated:", response.data);
+
+                })
+                .catch(error => {
+                    console.error("Error updating quantity:", error);
+                });
+            }
+        
+            async function decrementQuantity(event, i, product) {
+    const quantityElement = document.getElementById("quantity" + i);
+    const totalElement = document.getElementById("totalPrice" + i);
+    
+    let quantity = parseInt(quantityElement.innerText);
+    
+    if (quantity > 1) {
+        quantity -= 1;
+    }
+    
+    await axios.post('/user/updateQuantity', {
+        productId: product,
+        quantity: quantity
+    })
+    .then(async response => {
+        const { quantity, totalPrice } = response.data;
+        
+        // Update quantity and total price in the DOM
+        quantityElement.innerText = quantity;
+        totalElement.innerText = totalPrice;
+
+        // Display success message
+        await Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'The quantity was updated successfully.',
+            showConfirmButton: false,
+            timer: 2000 // Auto-close after 2 seconds
+        });
+
+        // Reload the cart page
+        window.location.href = "/user/cart";
+        
+        console.log("Quantity updated:", response.data);
+    })
+    .catch(error => {
+        console.error("Error updating quantity:", error);
+    });
+}
+
+
+
+            function updateQuantity(event, action, i,product) {
+            // event.preventDefault();  // Prevent default link behavior
+            alert("kdhjfkjs")
+
+            const quantityElement = document.getElementById("quantity"+i);
+            let quantity = parseInt(quantityElement.innerText);
+
+            // Increment or decrement quantity locally
+            if (action === 'increment') {
+                quantity += 1;
+            } else if (action === 'decrement' && quantity > 1) {
+                quantity -= 1;
+            }
+
+            // Update the quantity in the DOM
+            quantityElement.innerText = quantity;
+
+            // Make an Axios request to update the quantity on the server
+            axios.post('/user/updateQuantity', {
+                productId: product,  // Example product ID
+                quantity: quantity
+            })
+            .then(response => {
+                console.log("Quantity updated:", response.data);
+            })
+            .catch(error => {
+                console.error("Error updating quantity:", error);
+            });
+        }
+
+
+        function confirmDelete(url) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "This will make the users cannot view this product!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = url; // Redirect to delete URL
+        }
+      });
+    }
+        </script>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+    <script src="/user/js/jquery-3.2.1.min.js"></script>
+    <script src="/user/styles/bootstrap4/popper.js"></script>
+    <script src="/user/styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="/user/plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="/user/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="/user/plugins/easing/easing.js"></script>
+    <script src="/user/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script src="/user/js/single_custom.js"></script>
+    <script src='/user/plugins/zoom/jquery.zoom.min.js' type="text/javascript"></script><!-- product zoom -->
+
+
+</body>
+
+</html>

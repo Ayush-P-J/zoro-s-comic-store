@@ -46,9 +46,6 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
-    },language:{
-        type:String,
-        required:false     
     },
     images: {
         type: [String],  
@@ -65,7 +62,7 @@ const ProductSchema = new mongoose.Schema({
         required: true
     },
     size: {
-        type: String,
+        type: [String],
         required: false,
         enum: ['Small', 'Medium',"Large"]
 
