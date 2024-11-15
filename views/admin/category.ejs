@@ -27,6 +27,27 @@
   <link rel="stylesheet" href="/assets/css/style.css">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="/assets/images/favicon.png" />
+  <style>
+    .error-popup {
+  background-color: red;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  position: fixed;
+  top: 120px;
+  right: 50%;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+.product-name-cell {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+  </style>
 </head>
 
 <body>
@@ -120,9 +141,13 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Categories</h4>
-                  <h4 class="card-title">
-                    &nbsp;<%= error %>
-                  </h4>
+                  <% if (error){ %>
+
+                    <div id="errorPopup" class="error-popup">
+                      &nbsp;<%= error %>
+                    </div>
+                  <%}%>
+                  
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
@@ -146,10 +171,10 @@
                               <td>
                                 <%= sl += 1   %>                     
                               </td>
-                              <td>
+                              <td class="product-name-cell">
                                 <%= category.categoryName %>
                               </td>
-                              <td>
+                              <td class="product-name-cell">
                                 <%= category.description %>
                               </td>
   
@@ -261,6 +286,18 @@
     });
 }
   </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const errorPopup = document.getElementById("errorPopup");
+      if (errorPopup) {
+        setTimeout(() => {
+          errorPopup.style.opacity = '0'; // fade out
+          setTimeout(() => errorPopup.remove(), 500); // remove from DOM after fade out
+        }, 3000); // disappear after 3 seconds
+      }
+    });
+  </script>
+  
   
 
   

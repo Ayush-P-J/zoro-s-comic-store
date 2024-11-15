@@ -2,6 +2,9 @@ const nodemailer = require("nodemailer")
 const bcrypt = require("bcrypt")
 const user = require('../models/userModels');
 const admin = require('../models/adminModels');
+const cart = require('../models/cartModels');
+const order = require('../models/orderModels');
+const { error } = require("console");
 
 const env = require("dotenv").config()
 
@@ -18,16 +21,19 @@ exports.getIndexPage = async (req, res) => {
 
 }
 exports.getHomePage = async (req, res) => {
-  const categories = await admin.Category.find({status:true})
+  const userId = req.session.userId
+  const categories = await admin.Category.find({ status: true })
   const products = await admin.Product.find({ isListed: true }).populate('category')
-  console.log(this.userEmail);
+  const userCart = await cart.Cart.find({ userId }).populate('productId')
+
+  console.log("efsdf" + this.userEmail);
 
 
   if (!req.session.email) {
     return res.redirect('/user/login');
 
   }
-  res.render('user/home', { products,categories });
+  res.render('user/home', { products, categories, userCart });
 
 }
 
@@ -42,29 +48,143 @@ exports.getLoginPage = async (req, res) => {
 
   } else if (req.session.isBlocked) {
 
-    return res.render('user/login', { message: 'This Email is blocked by the admin', title: "Login page" });
+    return res.render('user/login', { success: false, message: 'This Email is blocked by the admin', title: "Login page" });
   } else if (req.session.isExist) {
-    return res.render('user/login', { message: 'This user already exists', title: "Login page" })
+    return res.render('user/login', { success: false, message: 'This user already exists', title: "Login page" })
+  } else if (req.session.passChanged) {
+    return res.render('user/login', { success: true, message: 'Password Changed Successfully', title: "Login page" })
   }
-  return res.render('user/login', { message: '', title: "Login page" });
+  return res.render('user/login', { success: "nothing", message: '', title: "Login page" });
 
 };
 
+exports.getForgotPage = (req, res) => {
+
+  return res.render('user/forgotPassword', { success: true, message: "" });
+}
+
+exports.postForgotPass = async (req, res) => {
+  const email = req.body.email;
+  const userEmail = await user.User.findOne({ email: email })
+  if (userEmail && !userEmail.googleId) {
+    // if (userEmail.googleId){
+    //   return res.render('user/forgotPassword', { success: false, message: "This Email is " })
+    // }
+    const otp = generateOtp()
+
+    const emailSent = await sendVerificationEmail(email, otp);
+    console.log("forget password Otp: " + otp);
+
+    if (!emailSent) {
+      return res.json("email-error")
+    }
+    req.session.userEmail = email
+    req.session.userOtp = otp;
+    req.session.otpExpires = Date.now() + 30 * 1000;
+    return res.redirect('/user/forgotPasswordOtp')
+  } else {
+    return res.render('user/forgotPassword', { success: false, message: "Invalid Email!!!" })
+  }
+
+}
+
+exports.getForgetPasswordOtp = async (req, res) => {
+  return res.render('user/forgotPasswordOtp', { success: false, message: "" })
+}
+
+exports.forgetPassOtpVerify = async (req, res) => {
+  try {
+    const OTP = req.body.otp;
+    req.session.userOtp = Date.now() > req.session.otpExpires ? null : req.session.userOtp;
+    if (OTP === req.session.userOtp) {
+      req.session.userOtp = null;
+
+      return res.status(200).json({
+        success: true,
+        message: "Email verified",
+        redirectUrl: "/user/changePassword"
+      });
+    } else if (req.session.userOtp === null) {
+      return res.status(200).json({ success: false, message: "OTP expired" });
+    } else {
+      return res.status(200).json({ success: false, message: "Invalid OTP" });
+    }
+  } catch (error) {
+    console.error("Error verifying OTP", error);
+    return res.status(500).json({ success: false, message: "An error occurred" });
+  }
+}
+
+
+exports.getChangePassword = async (req, res) => {
+
+  res.render('user/changePassword')
+}
+
+exports.postChangePassword = async (req, res) => {
+  try {
+    const password = req.body.password;
+    console.log(password);
+    const passwordHash = await securePassword(password);
+
+
+    await user.User.updateOne({ email: req.session.userEmail }, { password: passwordHash })
+    req.session.passChanged = true;
+    res.redirect('/user/login')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+exports.forgetPassResendOTP = async (req, res) => {
+  try {
+
+    console.log('reached forgetPassResendOTP');
+
+    const email = req.session.userEmail;
+    if (!email) {
+      return res.status(400).json({ success: false, message: "Email not found in session" })
+
+    }
+    console.log(" forgetPassResendOTP email: " + email);
+
+
+
+    const otp = generateOtp()
+    req.session.userOtp = otp
+
+    const emailSend = await sendVerificationEmail(email, otp)
+    if (emailSend) {
+      console.log("Resend otp", otp);
+      res.status(200).json({ success: true, message: "OTP Resend Successfully" })
+
+    } else {
+      res.status(200).json({ success: false, message: "Failed to OTP resend, Please try again" })
+    }
+
+  } catch (error) {
+    console.log("Error for resend OTP", error);
+    res.status(500)
+
+  }
+}
 
 exports.postLogin = async (req, res) => {
   try {
     // const { USERNAME, FULLNAME, PASSWORD } = req.body;
-    const EMAIL = req.body.email;
-    const PASSWORD = req.body.password
-    console.log(EMAIL);
-    
-    // const PASSWORD = passwordHash;
-    
-    const userDetails = await user.User.findOne({ email: EMAIL });
-    this.userEmail = EMAIL
-    console.log("user: " + this.userEmail)
-    req.session.userId = userDetails._id
+    const email = req.body.email;
+    const password = req.body.password
+    console.log("email: " + email);
 
+    // const PASSWORD = passwordHash;
+
+    const userDetails = await user.User.findOne({ email: email });
+
+    if (!userDetails) {
+      return res.render('user/login', { message: 'Invalid Email', title: "Login page" });
+
+
+    }
 
     if (userDetails.isBlocked === true) {
       req.session.isBlocked = true;
@@ -74,15 +194,18 @@ exports.postLogin = async (req, res) => {
 
 
 
-    if (!userDetails) {
-      return res.render('user/login', { message: 'Invalid Email', title: "Login page" });
 
+    const userVerify = await bcrypt.compare(password, userDetails.password)
+    console.log("user" + userVerify);
 
-    }
-
-    const userVerify = bcrypt.compare(PASSWORD, userDetails.password)
     if (userVerify) {
-      req.session.email = EMAIL;
+      req.session.email = email;
+      this.userEmail = email
+      req.session.userId = userDetails._id
+      console.log("user: " + this.userEmail)
+
+
+
       // req.session.fullName = FULLNAME;
 
       res.redirect('/user/home');
@@ -105,6 +228,8 @@ exports.googleLogin = async (req, res) => {
   console.log(isExist);
 
   const userDetails = await user.User.findOne({ email: EMAIL });
+  req.session.userId = userDetails._id
+
 
   if (!userDetails.googleId) {
     req.session.isExist = true;
@@ -179,6 +304,7 @@ exports.postSignup = async (req, res) => {
   }
 
 };
+
 
 exports.getOTP = (req, res) => {
   res.render('user/otpPage', { errorMessage: "" });
@@ -255,7 +381,7 @@ exports.verifyOtp = async (req, res) => {
         userName: users.USERNAME,
         phone: users.PHONE,
         email: users.EMAIL,
-        addresses:[],
+        addresses: [],
         password: passwordHash,
       });
 
@@ -310,7 +436,7 @@ exports.resendOTP = async (req, res) => {
       res.status(200).json({ success: true, message: "OTP Resend Successfully" })
 
     } else {
-      res.status(500).json({ success: false, message: "Failed to OTP resend, Please try again" })
+      res.status(200).json({ success: false, message: "Failed to OTP resend, Please try again" })
     }
 
   } catch (error) {
@@ -322,9 +448,12 @@ exports.resendOTP = async (req, res) => {
 
 exports.viewProduct = async (req, res) => {
   const productId = req.params.id;
+  const userId = req.session.userId;
 
 
   const product = await admin.Product.findOne({ _id: productId }).populate('category');
+  const userCart = await cart.Cart.find({ userId }).populate('productId')
+
 
   const products = await admin.Product.find({
     category: product.category,
@@ -332,36 +461,69 @@ exports.viewProduct = async (req, res) => {
     _id: { $ne: productId }
   }).limit(3)
 
-  res.render('user/viewProduct', { product, products })
+  res.render('user/viewProduct', { product, products, userCart })
+}
+
+exports.getCategoryUser = async (req, res) => {
+
+  const categories = await admin.Category.find({ status: true })
+
+
+  const products = await admin.Product.find({ isListed: true }).populate('category');
+
+
+
+
+  res.render('user/categories', { products ,categories})
 }
 
 
 exports.getProfilePage = async (req, res) => {
-  const userId = this.userEmail
-  const userData = await user.User.findOne({ email: userId })
-  console.log("aa ithaa" + userData);
+  // const userId = this.userEmail
+  const userId = req.session.userId;
+  
+  const userData = await user.User.findOne({ _id: userId })
+  const orderDetails = await order.Order.find({userId}).populate('userId').populate('addressId')
+  // console.log("aa ithaa" + userData);
 
-  res.render('user/profile', { userData, });
+  res.render('user/profile', { userData, orderDetails });
 }
+
+// exports.editProfile = async (req, res) => {
+//   try {
+//     const { fullName, userName, phoneNumber } = req.body;
+
+//     await user.User.updateOne({ email: this.userEmail }, { fullName, userName, phone: phoneNumber });
+
+
+//     return res.redirect('/user/profile')
+//     // res.status(200).json({ message: 'Profile updated successfully' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Failed to update profile' });
+//   }
+
+// }
 
 exports.editProfile = async (req, res) => {
   try {
-    const { fullName, userName, email, phoneNumber } = req.body;
+    console.log("edit Profile");
 
-    await user.User.updateOne({email:this.userEmail },{fullName,userName,email,phone:phoneNumber});
+    const { fullName, userName, phoneNumber } = req.body;
 
+    await user.User.updateOne({ email: this.userEmail }, { fullName, userName, phone: phoneNumber });
 
-
-    res.status(200).json({ message: 'Profile updated successfully' }); xc
+    return res.status(200).json({ message: 'Profile updated successfully' });
   } catch (error) {
     console.error(error);
+    console.log("eorroor");
+
     res.status(500).json({ message: 'Failed to update profile' });
   }
+};
 
-}
 
-
-exports.postAddress = async (req, res)=>{
+exports.postAddress = async (req, res) => {
   try {
     const {
       recipientName,
@@ -373,46 +535,160 @@ exports.postAddress = async (req, res)=>{
       pinCode,
       country,
       isDefault
-  } = req.body;
-  console.log(recipientName);
-  
-  const userId = req.session.userId;
-  console.log(userId);
-const newAddress = {
-  recipientName,
-  phoneNumber,
-  addressLine,
-  landmark,
-  city,
-  state,
-  pinCode,
-  country: country || 'India', // Use default if not provided
-  isDefault: isDefault === 'on' // Convert checkbox value to boolean
-};
-const use = await user.User.findOne({_id:userId}) 
-console.log(use);
+    } = req.body;
+    console.log(recipientName);
+
+    const userId = req.session.userId;
+    console.log(userId);
+    const newAddress = {
+      recipientName,
+      phoneNumber,
+      addressLine,
+      landmark,
+      city,
+      state,
+      pinCode,
+      country: country || 'India', // Use default if not provided
+      isDefault: isDefault === 'on' // Convert checkbox value to boolean
+    };
+    const use = await user.User.findOne({ _id: userId })
+    console.log(use);
 
 
-await user.User.updateOne(
-  {_id:userId},
-  { $push: { addresses: newAddress } }
-);
-console.log("aaaaaaaaaashsa");
-res.redirect('/user/profile')
+    await user.User.updateOne(
+      { _id: userId },
+      { $push: { addresses: newAddress } }
+    );
+    console.log("aaaaaaaaaashsa");
+    if (req.params.address == "checkout") {
+      return res.redirect('/user/checkout')
+
+    } else if (req.params.address == "profile") {
+      return res.redirect('/user/profile')
+
+    }
 
 
 
-  
+
   } catch (error) {
-    
+
   }
 }
 
+// exports.editAddress = async (req, res) => {
+//   const { recipientName,
+//     phoneNumber,
+//     addressLine,
+//     landmark,
+//     city,
+//     state,
+//     pinCode,
+//     isDefault
+//   } = req.body;
 
-exports.getCategoryUser = async (req, res)=>{
+//   const updates = {
+//     "addresses.$.recipientName": recipientName,
+//     "addresses.$.phoneNumber": phoneNumber,
+//     "addresses.$.addressLine": addressLine,
+//     "addresses.$.landmark": landmark,
+//     "addresses.$.city": city,
+//     "addresses.$.state": state,
+//     "addresses.$.pinCode": pinCode,
+//     "addresses.$.country": "India", // Setting default as 'India' if not provided
+//     "addresses.$.isDefault": isDefault === 'on' // Convert checkbox value to boolean
+//   };
 
-  const products = await admin.Product.find({ isListed: true }).populate('category');
+
+//   const addressId = req.params.id;
+
+//   const userId = req.session.userId;
+
+  
+//   await user.User.updateOne(
+//     { _id: userId, "addresses._id": addressId },
+//     { $set: updates }
+//   );
+//   res.status(200).json({ message: 'Address updated successfully' });
+// } catch (error) {
+//   console.error(error);
+//   res.status(500).json({ message: 'Failed to update address' });
+// }
 
 
-  res.render('user/categories',{ products })
+
+// }
+
+exports.editAddress = async (req, res) => {
+  try {
+    const {
+      recipientName,
+      phoneNumber,
+      addressLine,
+      landmark,
+      city,
+      state,
+      pinCode,
+      isDefault
+    } = req.body;
+
+    const addressId = req.params.id; // Address ID to identify which address to edit
+    const userId = req.session.userId; // User ID to identify the user
+
+    // Construct the updates object based on provided fields
+    const updates = {
+      "addresses.$.recipientName": recipientName,
+      "addresses.$.phoneNumber": phoneNumber,
+      "addresses.$.addressLine": addressLine,
+      "addresses.$.landmark": landmark,
+      "addresses.$.city": city,
+      "addresses.$.state": state,
+      "addresses.$.pinCode": pinCode,
+      "addresses.$.country": "India", // Setting default as 'India' if not provided
+      "addresses.$.isDefault": isDefault === 'on' // Convert checkbox value to boolean
+    };
+
+    // Update the specific address in the user's address list
+    await user.User.updateOne(
+      { _id: userId, "addresses._id": addressId },
+      { $set: updates }
+    );
+
+    res.status(200).json({ message: 'Address updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to update address' });
+  }
+};
+
+
+
+exports.deleteAddress = async (req, res) => {
+  try {
+    const addressId = req.params.id;
+    console.log(addressId);
+    console.log(req.params.address);
+
+    const userId = req.session.userId;
+    console.log("delete ethi");
+
+    await user.User.updateOne(
+      { _id: userId },
+      { $pull: { addresses: { _id: addressId } } }
+    );
+    console.log("delete over");
+    if (req.params.address == "checkout") {
+      return res.redirect('/user/checkout')
+
+    } else if (req.params.address == "profile") {
+      return res.redirect('/user/profile')
+
+    }
+
+
+
+  } catch (error) {
+
+  }
+
 }

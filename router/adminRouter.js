@@ -2,6 +2,8 @@ const express = require('express');
 const adminController = require('../controller/adminController');
 const categoryController = require('../controller/categoryController');
 const productController = require('../controller/productController');
+const orderController = require('../controller/orderController');
+
 const auth = require('../middlewares/adminAuth');
 const router = express.Router();
 
@@ -52,6 +54,7 @@ router.route('/categories/delete/:id')
 router.route('/products')
 .get(auth.adminAuth,productController.getProductPage)
 
+
 router.route('/products/addProduct')
 .get(auth.adminAuth,productController.getAddProduct)
 .post(upload.array('images',3),productController.postProduct)
@@ -65,6 +68,16 @@ router.route('/products/delete/:id')
 router.route('/products/edit/:id')
 .get(auth.adminAuth,productController.getProductEdit)
 .post(upload.array('images',3),productController.editProduct)
+
+router.route('/orders')
+.get(auth.adminAuth,orderController.getOrders)
+
+router.route('/orders/updateStatus')
+.post(orderController.changeOrderStatus)
+
+router.route('/orders/cancel')
+.post(orderController.orderCancel)
+
 
 
 

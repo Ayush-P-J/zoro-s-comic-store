@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Single Product</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Colo Shop Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/user/styles/bootstrap4/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/user/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="/user/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="/user/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" href="/user/plugins/themify-icons/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="/user/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="/user/styles/single_styles.css">
+    <link rel="stylesheet" type="text/css" href="/user/styles/main_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.css">
+
+
+
+    <link rel="stylesheet" type="text/css" href="/user/styles/single_responsive.css">
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        .address-card {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+
+    <style>
+        .profile-header {
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+
+        .profile-header img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            padding-top: 10px;
+        }
+
+        .sidebar .nav-link {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .active-section {
+            display: block;
+        }
+
+        .active-link {
+            background-color: rgb(230, 230, 230);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        /* .active-link:hover { */
+        /* background-color: rgb(216, 216, 216); */
+        /* Slightly darker gray on hover */
+        /* transform: scale(1.05); */
+        /* Slightly enlarges the element */
+        /* } */
+
+        /* Styling the entire payment container box */
+        .payment-container {
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 400px;
+            background-color: #f9f9f9;
+        }
+
+        /* Styling each payment method option */
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            /* Adds space between options */
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .payment-option label {
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .payment-option input[type="radio"] {
+            cursor: pointer;
+        }
+
+        /* Styling for the Order Summary container */
+        .order-summary-box {
+            border: 2px solid #ccc;
+            /* Box border */
+            border-radius: 8px;
+            /* Rounded corners */
+            padding: 20px;
+            /* Inner padding */
+            background-color: #f9f9f9;
+            /* Light background color */
+            margin-top: 15px;
+            /* Space from surrounding content */
+        }
+
+        .order-summary-box .row {
+            padding: 10px 0;
+            /* Padding for each row */
+        }
+
+        .order-summary-box img {
+            max-width: 100%;
+            /* Make images responsive */
+            height: auto;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <div class="super_container">
+
+        <!-- Header -->
+
+
+
+        <div class="container ">
+            <div class="row">
+                <div class="col">
+
+                    <!-- Breadcrumbs -->
+
+
+
+                </div>
+            </div>
+            <div class="breadcrumbs d-flex flex-row align-items-center " style="padding: 0px; margin: 0px;">
+                <ul>
+                    <li><a href="/user/home">Home</a></li>
+                    <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Single
+                            Product</a></li>
+                </ul>
+            </div>
+
+            <center>
+                <h2>Checkout</h2>
+            </center>
+            <div class="row">
+                <!-- Sidebar -->
+                <div class="col-md-3 col-lg-2 ">
+
+                    <ul class="nav flex-column mt-4">
+                        <li class="nav-item">
+
+                            <ul>
+
+                                <li>
+                                    <a class="nav-link active-link" onclick="showSection('address')">
+                                        <h3>Address</h3>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="nav-link " onclick="showSection('orderSummary')">
+                                        <h3>Summary</h3>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="nav-link " onclick="showSection('payment')">
+                                        <h3>Payment</h3>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link " href="" onclick="showSection('overview')">Overview</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="" onclick="showSection('orders')">Orders</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="" onclick="showSection('wishlist')">Wishlist</a>
+                        </li> -->
+                    </ul>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-md-9 col-lg-10">
+
+
+                    <!-- address  -->
+
+                    <div id="address" class="content-section active-section mt-4 ml-4">
+                        <h4>Address selection</h4>
+
+
+                        <button type="button" id="addAddressBtn" class="nav-link btn btn-primary"
+                            onclick="addAddressFrom('open')">Add Address</button>
+                        <div>
+                            <!-- Add Address Button -->
+                            <section id="addressSection" style="display: none;" class="">
+                                <div class="container">
+                                    <h2>Add Address</h2>
+                                    <form id="addressForm" action="/user/addAddress/checkout" method="POST">
+                                        <!-- Recipient Name -->
+                                        <div class="form-group">
+                                            <label for="recipientName">Recipient Name</label>
+                                            <input type="text" class="form-control" id="recipientName"
+                                                name="recipientName" required>
+                                        </div>
+                                        <!-- Phone Number -->
+                                        <div class="form-group">
+                                            <label for="phoneNumber">Phone Number</label>
+                                            <input type="tel" class="form-control" id="phone" name="phoneNumber"
+                                                required>
+                                        </div>
+                                        <!-- Address Line 1 -->
+                                        <div class="form-group">
+                                            <label for="addressLine1">Address Line</label>
+                                            <input type="text" class="form-control" id="addressLine" name="addressLine"
+                                                required>
+                                        </div>
+                                        <!-- Landmark (Optional) -->
+                                        <div class="form-group">
+                                            <label for="landmark">Landmark</label>
+                                            <input type="text" class="form-control" id="landmark" name="landmark">
+                                        </div>
+                                        <!-- City -->
+                                        <div class="form-group">
+                                            <label for="city">City</label>
+                                            <input type="text" class="form-control" id="city" name="city" required>
+                                        </div>
+                                        <!-- State -->
+                                        <div class="form-group">
+                                            <label for="state">State</label>
+                                            <input type="text" class="form-control" id="state" name="state" required>
+                                        </div>
+                                        <!-- Pin Code -->
+                                        <div class="form-group">
+                                            <label for="pinCode">Pin Code</label>
+                                            <input type="text" class="form-control" id="pinCode" name="pinCode"
+                                                required>
+                                        </div>
+                                        <!-- Country -->
+                                        <div class="form-group">
+                                            <label for="country">Country</label>
+                                            <input type="text" class="form-control" id="country" name="country"
+                                                value="India" readonly>
+                                        </div>
+                                        <!-- Set as Default Address -->
+                                        <div class="form-group">
+                                            <label>
+                                                <input type="checkbox" id="isDefault" name="isDefault">
+                                                Set as Default Address
+                                            </label>
+                                        </div>
+                                        <!-- Submit Button -->
+                                        <button type="submit" class="btn btn-success">Save Address</button>
+                                        <button id="cancelBtn" onclick="addAddressFrom('close')"
+                                            class="btn btn-success">Cancel</button>
+                                    </form>
+                                </div>
+                            </section>
+
+                            <!-- edit form section  -->
+                            <div class="modal" id="editAddressModal" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Edit Address</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="editAddressForm">
+                                                <input type="hidden" id="addressId" name="addressId">
+
+                                                <div class="mb-3">
+                                                    <label for="recipientName" class="form-label">Recipient Name</label>
+                                                    <input type="text" class="form-control" id="editRecipientName"
+                                                        name="recipientName" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                                                    <input type="tel" class="form-control" id="editPhoneNumber"
+                                                        name="phoneNumber" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="addressLine" class="form-label">Address Line</label>
+                                                    <input type="text" class="form-control" id="editAddressLine"
+                                                        name="addressLine" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="landmark" class="form-label">Landmark</label>
+                                                    <input type="text" class="form-control" id="editLandmark"
+                                                        name="landmark">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="city" class="form-label">City</label>
+                                                    <input type="text" class="form-control" id="editCity" name="city"
+                                                        required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="state" class="form-label">State</label>
+                                                    <input type="text" class="form-control" id="editState" name="state"
+                                                        required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="pinCode" class="form-label">Pin Code</label>
+                                                    <input type="text" class="form-control" id="editPinCode"
+                                                        name="pinCode" required>
+                                                </div>
+                                                <div class="mb-3 form-check">
+                                                    <input type="checkbox" class="form-check-input" id="editIsDefault"
+                                                        name="isDefault">
+                                                    <label for="isDefault" class="form-check-label">Set as Default
+                                                        Address</label>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-primary" onclick="saveAddress()">Save
+                                                Changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Display Address List -->
+                            <div id="addressList">
+                                <% userData.addresses.forEach((address, index)=> { %>
+                                    <div class="address-card" id="addressCard<%= index %>">
+                                        <h3>Address <%= index + 1 %>
+                                                <%= address.isDefault ? '*' : '' %>
+                                        </h3>
+                                        <label for="Select address">Select address: </label>
+                                        <% if (index===0){ %>
+                                            <input type="radio" name="addressSelected" value="<%= address._id %>"
+                                                id="<%= address._id %>" checked>
+
+                                            <% } else{ %>
+
+                                                <input type="radio" name="addressSelected" value="<%= address._id %>"
+                                                    id="<%= address._id %>">
+                                                <% } %>
+                                                    <p>
+                                                        <strong>Recipient Name:</strong>
+                                                        <%= address.recipientName %>,
+                                                            <strong>Phone Number:</strong>
+                                                            <%= address.phoneNumber %>,
+                                                                <strong>Address Line 1:</strong>
+                                                                <%= address.addressLine1 %>,
+                                                                    <strong>Landmark:</strong>
+                                                                    <%= address.landmark %>,
+                                                                        <strong>Place:</strong>
+                                                                        <%= address.city %>,
+                                                                            <%= address.state %>,
+                                                                                India,
+                                                                                <strong>Pin Code:</strong>
+                                                                                <%= address.pinCode %>,
+
+                                                    </p>
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="showEditForm('<%= index %>', '<%= JSON.stringify(address) %>')"><i
+                                                            class="fa-solid fa-pen-to-square"></i></button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="showAlert('<%= address._id %>')"><i
+                                                            class="fa-solid fa-trash"></i>
+                                                    </button>
+                                    </div>
+
+                                    <hr>
+                                    <% }); %>
+                                        <a href="/user/checkout?product='Book'">dfgdfgf</a>
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+                    <div id="orderSummary" class="content-section  mt-4 ml-4 p-4">
+                        <!-- Add recent order items here -->
+
+                        <h4>Order Summary</h4>
+                        <div class="container p-4">
+                            <% userCart.forEach((cart,i)=>{ %>
+
+                                <div class="row border-top border-bottom">
+                                    <div class="row main align-items-center">
+                                        <div class="col-2"><img class="img-fluid"
+                                                src="/images/<%= cart.productId.images[0] %>"></div>
+                                        <div class="col">
+                                            <div class="row text-muted">
+                                                <%= cart.productId.productName %>
+                                            </div>
+                                            <!-- <div class="row">
+                                                <%= cart.productId._id %>
+                                            </div> -->
+                                        </div>
+                                        <div class="col">
+                                            <!-- <a
+                                                onclick="decrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')">-</a> -->
+                                            <a id="quantity<%=i%>" class="border ">
+                                                <%= cart.quantity %>
+                                            </a>
+                                            <!-- <a
+                                                onclick="incrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')">+</a> -->
+                                        </div>
+                                        <div class="col">&dollar;<a id="totalPrice<=%i%>">
+                                                <%= cart.totalPrice.toFixed(2) %>
+                                            </a>
+                                            <!-- <a id="salePrice<=%i%>">d<%= cart.productId.salePrice %></a> -->
+                                            <!-- <span class="close" id="close">
+                                                <a href="javascript:void(0);"
+                                                    onclick="confirmDelete('/user/cart/<%= cart.productId._id %>')">&#10005;</a>
+                                            </span> -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <% }) %>
+                                    <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                                        <div class="col">
+                                            <h3>TOTAL PRICE:</h3>
+                                        </div>
+                                        <div class="col text-right" id="checkoutTotal">
+                                            <h3>&dollar; <%= checkout %>
+                                            </h3>
+                                        </div>
+                                    </div>
+                        </div>
+
+
+                    </div>
+
+                    <div id="payment" class="content-section mt-4 ml-4 payment-container">
+                        <h4>Select Payment Method</h4>
+                        <p>Select your payment method that you want to provide</p>
+
+                        <!-- Payment Method Options in a Box -->
+                        <div class="payment-methods">
+                            <!-- <div class="payment-option">
+                                <input type="radio" id="creditCard" name="paymentMethod" value="Credit Card" required>
+                                <label for="creditCard">Credit Card</label>
+                            </div> -->
+
+                            <div class="payment-option">
+                                <input type="radio" id="debitCard" name="paymentMethod" value="Debit Card">
+                                <label for="debitCard">Debit Card</label>
+                            </div>
+
+                            <div class="payment-option">
+                                <input type="radio" id="netBanking" name="paymentMethod" value="Internet Banking">
+                                <label for="netBanking">Internet Banking</label>
+                            </div>
+
+                            <div class="payment-option">
+                                <input type="radio" id="upi" name="paymentMethod" value="UPI">
+                                <label for="upi">UPI</label>
+                            </div>
+
+                            <div class="payment-option">
+                                <input type="radio" id="wallet" name="paymentMethod" value="Wallet">
+                                <label for="wallet">Wallet</label>
+                            </div>
+
+                            <div class="payment-option">
+                                <input type="radio" id="cod" name="paymentMethod" value="COD">
+                                <label for="cod">Cash on Delivery</label>
+                            </div>
+                        </div>
+
+
+                        <button class="btn btn-danger" onclick="placeOrder()" id="placeOrder">Place order</button>
+                    </div>
+
+
+
+                    <div id="wishlist" class="content-section mt-4 ml-4">
+                        <h4>Wishlist</h4>
+                        <p>Items you’ve added to your wishlist.</p>
+                        <!-- Add wishlist items here -->
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- Tabs -->
+
+
+
+
+        <!-- Benefit -->
+
+
+
+        <!-- Newsletter -->
+
+
+
+        <!-- Footer -->
+
+
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+
+
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active-section'));
+            // Show the selected section
+            document.getElementById(section).classList.add('active-section');
+            // Update active link
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active-link'));
+            event.currentTarget.classList.add('active-link')
+        }
+
+
+
+        function toggleEdit(editMode) {
+            const form = document.getElementById('profileForm');
+            const saveButton = document.getElementById('saveButton');
+            const cancelButton = document.getElementById('cancelButton');
+            const editButton = document.getElementById('editButton');
+
+            // Enable or disable form fields based on editMode
+            Array.from(form.elements).forEach(element => {
+                if (element.tagName !== "BUTTON") element.disabled = !editMode;
+            });
+
+            // Toggle visibility of buttons
+            saveButton.style.display = editMode ? 'inline-block' : 'none';
+            cancelButton.style.display = editMode ? 'inline-block' : 'none';
+            editButton.style.display = editMode ? 'none' : 'inline-block';
+        }
+
+
+        function addAddressFrom(btn) {
+            let form = document.getElementById('addressSection');
+
+            if (btn === 'open') {
+                form.style.display = "block"
+            } else {
+                form.style.display = "none"
+            }
+        }
+
+        function showEditForm(index, address) {
+            const parsedAddress = JSON.parse(address);
+
+            // Populate form fields with address data
+            document.getElementById('addressId').value = parsedAddress._id;
+            document.getElementById('editRecipientName').value = parsedAddress.recipientName;
+            document.getElementById('editPhoneNumber').value = parsedAddress.phoneNumber;
+            document.getElementById('editAddressLine').value = parsedAddress.addressLine;
+            document.getElementById('editLandmark').value = parsedAddress.landmark;
+            document.getElementById('editCity').value = parsedAddress.city;
+            document.getElementById('editState').value = parsedAddress.state;
+            document.getElementById('editPinCode').value = parsedAddress.pinCode;
+            document.getElementById('editIsDefault').checked = parsedAddress.isDefault;
+
+            // Show the modal
+            const editAddressModal = new bootstrap.Modal(document.getElementById('editAddressModal'));
+            editAddressModal.show();
+        }
+
+
+
+        async function saveAddress() {
+            const addressId = document.getElementById('addressId').value;
+            const updatedAddress = {
+                recipientName: document.getElementById('editRecipientName').value,
+                phoneNumber: document.getElementById('editPhoneNumber').value,
+                addressLine: document.getElementById('editAddressLine').value,
+                landmark: document.getElementById('editLandmark').value,
+                city: document.getElementById('editCity').value,
+                state: document.getElementById('editState').value,
+                pinCode: document.getElementById('editPinCode').value,
+                isDefault: document.getElementById('editIsDefault').checked
+            };
+
+            try {
+                const response = await axios.post(`/user/address/edit/${addressId}`, updatedAddress);
+                if (response.status === 200) {
+                    Swal.fire({
+                        title: 'Success',
+                        text: 'Your address has been updated successfully.',
+                        icon: 'success',
+                        showCancelButton: false,
+                        showConfirmButton: false, // Hide confirm button
+                        timer: 2000 // Close after 3 seconds
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Failed to update address');
+            }
+        }
+
+        // delete address
+        function showAlert(id) {
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `You want to delete this address?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#d33',
+                confirmButtonText: `Yes, delete it!`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the action URL
+                    window.location.href = `/user/address/checkout/delete/${id}`;
+                }
+            });
+        }
+
+
+
+
+
+
+
+        document.getElementById('profileForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevents default form submission
+
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                userName: document.getElementById('userName').value,
+                email: document.getElementById('email').value,
+                phoneNumber: document.getElementById('phoneNumber').value
+            };
+
+            axios.post('/user/profile', formData)
+                .then(response => {
+                    // Handle success response, e.g., show a success message or redirect
+                    Swal.fire({
+                        title: 'Success',
+                        text: 'Your profile has been updated successfully.',
+                        icon: 'success',
+                        showCancelButton: false,
+                        showConfirmButton: false, // Hide confirm button
+                        timer: 2000 // Close after 3 seconds
+                    }).then(() => {
+                        window.location.href = '/user/checkout'; // Reload profile page after the alert disappears
+                    });
+                    toggleEdit(false); // Optionally reset form to non-editable
+                })
+                .catch(error => {
+                    // Handle error response
+                    console.error('Error updating profile:', error);
+                    alert('Failed to update profile.');
+                });
+        });
+
+        // posting the placeOrder
+
+        // const placeOrder = document.getElementById('placeOrder')
+
+        // function order(){
+        //     alert("hiaiii")
+        // }
+
+        async function placeOrder () {
+            const addressId = document.querySelector('input[name="addressSelected"]:checked').value;
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            try {
+                // Send the POST request with Axios
+                const response = await axios.post('/user/placeOrder', {
+                    addressId: addressId,
+                    paymentMethod: paymentMethod
+                });
+
+                // Handle the response
+                if (response.data.message) {
+                    Swal.fire({
+                        title: 'Success',
+                        text: 'Your Order successfull.',
+                        icon: 'success',
+                        showCancelButton: false,
+                        showConfirmButton: false, // Hide confirm button
+                        timer: 2000 // Close after 3 seconds
+                    }).then(() => {
+                        window.location.href = `/user/orderConfirmation/${response.data.orderId}`;
+                    });
+                }
+            } catch (error) {
+                console.error("Error placing order:", error);
+                alert("Failed to place the order. Please try again.");
+            }
+
+        }
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+    <script src="/user/js/jquery-3.2.1.min.js"></script>
+    <script src="/user/styles/bootstrap4/popper.js"></script>
+    <script src="/user/styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="/user/plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="/user/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="/user/plugins/easing/easing.js"></script>
+    <script src="/user/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script src="/user/js/single_custom.js"></script>
+    <script src='/user/plugins/zoom/jquery.zoom.min.js' type="text/javascript"></script><!-- product zoom -->
+
+
+</body>
+
+</html>

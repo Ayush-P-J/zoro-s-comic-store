@@ -34,6 +34,14 @@
   <link rel="shortcut icon" href="/assets/images/favicon.png" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.css">
 
+<style>
+ .product-name-cell {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>
 </head>
 
 <body>
@@ -83,7 +91,7 @@
                               <td>
                                 <%= sl += 1   %>
                               </td>
-                              <td>
+                              <td class="product-name-cell">
                                 <%= product.productName %>
                               </td>
                               <td>

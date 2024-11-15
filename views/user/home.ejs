@@ -139,7 +139,7 @@
 								<li class="checkout">
 									<a href="cart">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items">2</span>
+										<span id="checkout_items" class="checkout_items"><%= userCart.length %></span>
 									</a>
 								</li>
 							</ul>
@@ -226,28 +226,18 @@
 	<div class="banner">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-4">
-					<div class="banner_item align-items-center" style="background-image:url(/image/mangas.jpg)">
-						<div class="banner_category">
-							<a href="categories.html">Manga and Comics</a>
+				<% categories.forEach((category)=>{ %>
+					<div class="col-md-4">
+						<div class="banner_item align-items-center" style="background-image:url(/image/mangas.jpg)">
+							<div class="banner_category">
+								<a href="categories"><%= category.categoryName %></a>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="banner_item align-items-center" style="background-image:url(/image/figures.webp)">
-						<div class="banner_category">
-							<a href="categories.html">Action Figures</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="banner_item align-items-center" style="background-image:url(/image/poster1.avif)">
-						<img src="" alt="">
-						<div class="banner_category">
-							<a href="categories.html">Wall Posters</a>
-						</div>
-					</div>
-				</div>
+
+				<% })%>
+
+				
 			</div>
 		</div>
 	</div>
@@ -296,7 +286,7 @@
 												<img src="/images/<%= product.images[0] %>" alt="">
 											</div>
 											<div class="favorite favorite_left"></div>
-											<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>
+											<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$<%= product.regularPrice - product.salePrice  %></span></div>
 											<div class="product_info">
 												<h6 class="product_name"><a href="viewProduct/<%= product._id %>"><%= product.productName %></a></h6>
 												<!-- <h6 class="product_name"><a href="viewProduct/<%= product._id %>"><%= category.categoryName %></a></h6>
@@ -369,7 +359,7 @@
 
 	<!-- Best Sellers -->
 
-	<div class="best_sellers">
+	<!-- <div class="best_sellers">
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
@@ -383,7 +373,6 @@
 					<div class="product_slider_container">
 						<div class="owl-carousel owl-theme product_slider">
 
-							<!-- Slide 1 -->
 
 							<div class="owl-item product_slider_item">
 								<div class="product-item">
@@ -401,7 +390,6 @@
 								</div>
 							</div>
 
-							<!-- Slide 2 -->
 
 							<div class="owl-item product_slider_item">
 								<div class="product-item women">
@@ -419,7 +407,6 @@
 								</div>
 							</div>
 
-							<!-- Slide 3 -->
 
 							<div class="owl-item product_slider_item">
 								<div class="product-item women">
@@ -563,7 +550,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<!-- Benefit -->
 

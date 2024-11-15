@@ -11,7 +11,7 @@ const nocache = require('nocache');
 const Sharp = require('sharp')
 
 
-exports.getProductPage = async (req, res)=>{
+exports.getProductPage = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = 5;
     try {
@@ -26,20 +26,21 @@ exports.getProductPage = async (req, res)=>{
         const products = await models.Product.find().populate('category').skip(skip).limit(limit);
         // console.log(categories)
         // return res.json(products)
-        res.render('admin/products', { products: products,
-             categories: categories,
-              error: "" ,
-              currentPage: page,
-              limit:limit,
-              totalPages: Math.ceil(total / limit),
-            })
+        res.render('admin/products', {
+            products: products,
+            categories: categories,
+            error: "",
+            currentPage: page,
+            limit: limit,
+            totalPages: Math.ceil(total / limit),
+        })
     } catch (error) {
-        
+
     }
 
 }
 
-exports.postProduct = async (req ,res)=>{
+exports.postProduct = async (req, res) => {
     const {
         productName,
         description,
@@ -51,135 +52,135 @@ exports.postProduct = async (req ,res)=>{
         status,
         review,
         images
-      }
-       = req.body;
-       
+    }
+        = req.body;
+
     //    const FullProductName = productName + " (" + size + ")" need to add the product name as name + size
-       const products = await models.Product.find().populate('category')
+    const products = await models.Product.find().populate('category')
 
     try {
-        const isExist = await models.Product.findOne({productName:productName})
+        const isExist = await models.Product.findOne({ productName: productName })
 
-    if(isExist){
-        return res.render('admin/products', { 
-            products: products,
-             error: "This product already exist in the database" 
+        if (isExist) {
+            return res.render('admin/products', {
+                products: products,
+                error: "This product already exist in the database"
             });
 
-    }
-console.log(category);
-
-    // Array to store image filenames
-    const uploadImages = [];
-
-    // Handle file uploads using multer
-    if (req.files && req.files.length > 0) {
-        for (let i = 0; i < req.files.length; i++) {
-            const originalImagePath = req.files[i].path;
-            const resizedFilename = Date.now() + req.files[i].filename;
-            const resizedImagesPath = path.join('public', 'images', resizedFilename);
-
-            const supportedFormats = ['image/jpeg', 'image/png', 'image/webp'];
-            if (!supportedFormats.includes(req.files[i].mimetype)) {
-                return res.status(400).json({ error: 'Unsupported image format' });
-            }
-
-            // Resize the image using Sharp
-            try {
-                await Sharp(originalImagePath)
-                    .resize({ width: 440, height: 440 })
-                    .toFile(resizedImagesPath);
-            } catch (sharpError) {
-                console.log('Error processing image with Sharp:', sharpError);
-                return res.status(500).json({ error: 'Error processing image' });
-            }
-
-            // Push the resized filename to the array
-            uploadImages.push(resizedFilename);
         }
-    }
+        console.log(category);
 
-    // Find category by name
-    const categoryData = await models.Category.findOne({ _id: category });
-    if (!categoryData) {
-        return res.status(404).json({ error: 'Category not found' });
-    }
+        // Array to store image filenames
+        const uploadImages = [];
 
-    
+        // Handle file uploads using multer
+        if (req.files && req.files.length > 0) {
+            for (let i = 0; i < req.files.length; i++) {
+                const originalImagePath = req.files[i].path;
+                const resizedFilename = Date.now() + req.files[i].filename;
+                const resizedImagesPath = path.join('public', 'images', resizedFilename);
 
-    const newProduct = new models.Product({
-        productName: productName,
-        description: description,
-        stock: stock,
-        category: category,
-        size: size,
-        regularPrice: regularPrice,
-        salePrice: salePrice,
-        status: status,
-        review: review,
-        images: uploadImages
-    });
-    
+                const supportedFormats = ['image/jpeg', 'image/png', 'image/webp'];
+                if (!supportedFormats.includes(req.files[i].mimetype)) {
+                    return res.status(400).json({ error: 'Unsupported image format' });
+                }
 
-    await newProduct.save();
-    res.redirect('/admin/products')
+                // Resize the image using Sharp
+                try {
+                    await Sharp(originalImagePath)
+                        .resize({ width: 440, height: 440 })
+                        .toFile(resizedImagesPath);
+                } catch (sharpError) {
+                    console.log('Error processing image with Sharp:', sharpError);
+                    return res.status(500).json({ error: 'Error processing image' });
+                }
+
+                // Push the resized filename to the array
+                uploadImages.push(resizedFilename);
+            }
+        }
+
+        // Find category by name
+        const categoryData = await models.Category.findOne({ _id: category });
+        if (!categoryData) {
+            return res.status(404).json({ error: 'Category not found' });
+        }
+
+
+
+        const newProduct = new models.Product({
+            productName: productName,
+            description: description,
+            stock: stock,
+            category: category,
+            size: size,
+            regularPrice: regularPrice,
+            salePrice: salePrice,
+            status: status,
+            review: review,
+            images: uploadImages
+        });
+
+
+        await newProduct.save();
+        res.redirect('/admin/products')
     } catch (error) {
         console.log(error)
     }
-    
-    
+
+
 
 }
 
-exports.getAddProduct = async (req, res)=>{
-console.log("haiiii");
+exports.getAddProduct = async (req, res) => {
+    console.log("haiiii");
 
     const categories = await models.Category.find()
     const products = await models.Product.find().populate('category')
     console.log(products);
-    
-    res.render('admin/addProduct',{products:products,categories:categories, error:""})
+
+    res.render('admin/addProduct', { products: products, categories: categories, error: "" })
 }
 
-exports.deleteProduct = async (req, res) =>{
-    try{
+exports.deleteProduct = async (req, res) => {
+    try {
         const productId = req.params.id;
         console.log(productId);
-        const isListed = await models.Product.findOne({_id:productId})
-        if(isListed.isListed){
-            await models.Product.updateOne({_id:productId},{$set:{isListed:false}});
+        const isListed = await models.Product.findOne({ _id: productId })
+        if (isListed.isListed) {
+            await models.Product.updateOne({ _id: productId }, { $set: { isListed: false } });
             res.redirect('/admin/products');
-            
-        }else{
-            await models.Product.updateOne({_id:productId},{$set:{isListed:true}});
+
+        } else {
+            await models.Product.updateOne({ _id: productId }, { $set: { isListed: true } });
             res.redirect('/admin/products');
 
         }
-        
 
-    }  catch (error){
+
+    } catch (error) {
         console.log(error)
 
     }
-    
+
 }
 
 
 exports.getProductEdit = async (req, res) => {
     const productId = req.params.id;
-    
+
     console.log(productId);
 
-    
-    
-    
+
+
+
     try {
         // Convert productId to ObjectId if valid
         const product = await models.Product.findOne({ _id: new mongoose.Types.ObjectId(productId) });
-          const categories = await models.Category.find()
-        
+        const categories = await models.Category.find()
+
         if (product) {
-            res.render('admin/editProduct',{error:"",product,categories})
+            res.render('admin/editProduct', { error: "", product, categories })
         } else {
             res.status(404).json({ message: 'Product not found' });
         }
@@ -275,3 +276,5 @@ exports.editProduct = async (req, res) => {
         res.status(400).json({ message: 'Error updating product', error: error.message });
     }
 };
+
+

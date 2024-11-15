@@ -1,6 +1,7 @@
 const express = require('express');
 const controller = require('../controller/userController');
 const cartController = require('../controller/cartController');
+const orderController = require('../controller/orderController');
 const passport = require('passport');
 const auth = require('../middlewares/userAuth');
 
@@ -15,6 +16,22 @@ router.route('/user/home')
 router.route('/user/login')
 .get(auth.isLogged,controller.getLoginPage)
 .post(controller.postLogin);
+
+router.route('/user/forgotPassword')
+.get(auth.isLogged,controller.getForgotPage)
+.post(controller.postForgotPass);
+
+router.route('/user/forgotPasswordOtp')
+.get(controller.getForgetPasswordOtp)
+.post(controller.forgetPassOtpVerify)
+
+
+router.route('/user/changePassword')
+.get(controller.getChangePassword)
+.post(controller.postChangePassword)
+
+router.route('/user/forgetPassResendOTP')
+.post(controller.forgetPassResendOTP)
 
 router.route('/user/logout')
 .get(auth.userLogout)
@@ -42,9 +59,14 @@ router.route('/user/profile')
 .get(auth.userAuth,controller.getProfilePage)
 .post(controller.editProfile)
 
-router.route('/user/addAddress')
+router.route('/user/addAddress/:address')
 .post(controller.postAddress)
 
+router.route('/user/address/:address/delete/:id')
+.get(controller.deleteAddress)
+
+router.route('/user/address/edit/:id')
+.post(controller.editAddress)
 
 router.route('/user/cart')
 .get(auth.userAuth,cartController.getCartPage)
@@ -60,7 +82,20 @@ router.route('/user/cart/:id')
 .get(auth.userAuth,cartController.deleteFromCart)
 
 router.route('/user/categories')
-.get(controller.getCategoryUser)
+.get(auth.userAuth,controller.getCategoryUser)
+
+router.route('/user/checkout')
+.get(auth.userAuth,cartController.checkout)
+
+router.route('/user/placeOrder')
+.post(orderController.placeOrder)
+
+router.route('/user/orderConfirmation/:orderId')
+.get(orderController.orderConfirmationPage)
+
+router.route('/user/orderCancel/')
+.post(orderController.orderCancel)
+
 
 
 

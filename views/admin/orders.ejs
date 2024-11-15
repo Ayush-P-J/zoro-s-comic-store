@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Corona Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="/assets/vendors/jvectormap/jquery-jvectormap.css">
+    <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css
+
+
+
+  ">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/assets/images/favicon.png" />
+    <style>
+        .error-popup {
+            background-color: red;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            position: fixed;
+            top: 120px;
+            right: 50%;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .product-name-cell {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+
+    <style>
+        .status-badge {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-order-placed {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .status-processing {
+            background-color: #fff3e0;
+            color: #e65100;
+        }
+
+        .status-shipped {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .status-out-for-delivery {
+            background-color: #e8eaf6;
+            color: #303f9f;
+        }
+
+        .status-delivered {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-cancelled {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .status-returned {
+            background-color: #fbe9e7;
+            color: #d84315;
+        }
+
+        .status-select {
+            padding: 4px 8px;
+            border-radius: 4px;
+            background-color: #1e2024;
+            color: #fff;
+            border: 1px solid #3a3f48;
+            width: 150px;
+            appearance: none;
+            /* Removes default arrow */
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Custom styling for different statuses */
+        .status-select[value="Cancelled"] {
+            background-color: #ff4d4d;
+            color: white;
+        }
+
+        .status-select[value="Order Placed"] {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+        /* Style for the dropdown arrow */
+        .status-cell {
+            position: relative;
+        }
+
+        .status-cell::after {
+            content: '▼';
+            font-size: 12px;
+            color: #6c757d;
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        /* Style for dropdown options */
+        .status-select option {
+            background-color: #1e2024;
+            color: #fff;
+            padding: 8px;
+        }
+    </style>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-dialog {
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .modal-content {
+        background-color: #000000;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .close {
+        cursor: pointer;
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    .product-name-cell {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>
+
+</head>
+
+<body>
+    <div class="container-scroller">
+        <!-- partial:partials/_sidebar.html -->
+        <%- include("../partials/admin/sidebar") %>
+
+            <!-- partial -->
+            <%- include("../partials/admin/navbar") %>
+                <!-- partial -->
+                <div class="main-panel">
+                    
+
+                    <!-- Button trigger modal -->
+
+
+                    <!-- Modal -->
+                    <div class="modal" id="orderModal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Order Products</h5>
+                                    <button type="button" class="close" onclick="closeOrderModal()" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Product Name</th>
+                                                <th>Quantity</th>
+                                                <th>Price at Purchase</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="modalProductList">
+                                            <!-- Products will be dynamically inserted here -->
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" onclick="closeOrderModal()">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                    
+
+
+                    <!-- Delete Confirmation Modal -->
+                    
+
+
+
+
+
+
+
+                    <div class="row ">
+                        <div class="col-12 grid-margin">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Categories</h4>
+                                    <% if (error){ %>
+
+                                        <div id="errorPopup" class="error-popup">
+                                            &nbsp;<%= error %>
+                                        </div>
+                                        <%}%>
+
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                Sl no
+                                                            </th>
+
+                                                            <th> OrderId </th>
+                                                            <th> User </th>
+                                                            <th> Price</th>
+                                                            <th> Status</th>
+                                                            <th> Actions </th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% let sl=limit * (currentPage - 1) %>
+                                                            <% orders.forEach((order)=>{ %>
+                                                                <tr class="p-4" onclick="openOrderModal(<%= JSON.stringify(order.products) %>)">
+
+                                                                    <td>
+                                                                        <%= sl +=1 %>
+                                                                    </td>
+                                                                    <td class="product-name-cell">
+                                                                        <%= order.orderId %>
+                                                                    </td>
+                                                                    <td class="product-name-cell">
+                                                                        <%= order.userId.fullName %>
+                                                                    </td>
+                                                                    <td class="product-name-cell">
+                                                                        &dollar;<%= order.totalAmount %>
+                                                                    </td>
+                                                                    
+                                                                    <% const getStatusClass=(status)=> {
+                                                                        switch(status) {
+                                                                        case 'Order Placed':
+                                                                        return 'status-order-placed';
+                                                                        case 'Processing':
+                                                                        return 'status-processing';
+                                                                        case 'Shipped':
+                                                                        return 'status-shipped';
+                                                                        case 'Out for delivery':
+                                                                        return 'status-out-for-delivery';
+                                                                        case 'Delivered':
+                                                                        return 'status-delivered';
+                                                                        case 'Cancelled':
+                                                                        return 'status-cancelled';
+                                                                        case 'Returned':
+                                                                        return 'status-returned';
+                                                                        default:
+                                                                        return '';
+                                                                        }
+                                                                        }
+                                                                        %>
+                                                                        <td class="product-name-cell <%= getStatusClass(order.status) %>">
+                                                                            <%= order.status %>
+                                                                        </td>
+                                                                        <td class="status-cell">
+                                                                            <select
+                                                                                class="status-select <%= getStatusClass(order.status) %>"
+                                                                                data-order-id="<%= order.orderId %>">
+                                                                                <option value="Order Placed"
+                                                                                    <%=order.status==="Order Placed"
+                                                                                    ? "selected" : "" %>>Order Placed
+                                                                                </option>
+                                                                                
+                                                                                <option value="Processing"
+                                                                                    <%=order.status==="Processing"
+                                                                                    ? "selected" : "" %>>Processing
+                                                                                </option>
+                                                                                <option value="Shipped"
+                                                                                    <%=order.status==="Shipped"
+                                                                                    ? "selected" : "" %>>Shipped
+                                                                                </option>
+                                                                                <option value="Out for delivery"
+                                                                                    <%=order.status==="Out for delivery"
+                                                                                    ? "selected" : "" %>>Out for
+                                                                                    delivery</option>
+                                                                                <option value="Delivered"
+                                                                                    <%=order.status==="Delivered"
+                                                                                    ? "selected" : "" %>>Delivered
+                                                                                </option>
+                                                                                <option value="Returned"
+                                                                                    <%=order.status==="Returned"
+                                                                                    ? "selected" : "" %>>Returned
+                                                                                </option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td>
+                                                                            <% if(order.status=="Order Placed" ){%>
+                                                                                <button type="button" onclick="orderCancel('<%= order.orderId %>')"
+                                                                                    class="btn btn-danger">Cancel</button>
+                                                                                    
+                                                                                    <% }else{ %>
+                                                                                        <button type="button" onclick="orderCancel('<%= order.orderId %>')"
+                                                                                            class="btn btn-dark" disabled >Cancel</button>
+                                                                                    <% } %>
+                                                                        </td>
+
+
+
+
+
+                                                                </tr>
+                                                                <% }); %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                </div>
+                                <div class="d-flex justify-content-center mt-4">
+                                    <ul class="pagination">
+                                        <% for (let i=1; i <=totalPages; i++) { %>
+                                            <li class="page-item <%= (i === currentPage) ? 'active' : '' %>">
+                                                <a class="page-link" href="?page=<%= i %>">
+                                                    <%= i %>
+                                                </a>
+                                            </li>
+                                            <% } %>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <!-- main-panel ends -->
+                </div>
+                <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function openOrderModal(products) {
+            // Find the modal body to insert product details
+            const modalProductList = document.getElementById("modalProductList");
+    
+            // Clear any existing content in the modal
+            modalProductList.innerHTML = "";
+    
+            // Loop through products and add each to the modal table
+            products.forEach((product) => {
+                const row = document.createElement("tr");
+    
+                row.innerHTML = `
+                    <td class="product-name-cell">${product.productName}</td>
+                    <td>${product.quantity}</td>
+                    <td>${product.priceAtPurchase}</td>
+                    
+                    
+                `;
+    
+                modalProductList.appendChild(row);
+            });
+    
+            // Show the modal
+            document.getElementById("orderModal").style.display = "block";
+        }
+    
+        function closeOrderModal() {
+            // Hide the modal
+            document.getElementById("orderModal").style.display = "none";
+        }
+    </script>
+    <script>
+
+        function setDeleteUrl(url) {
+            document.getElementById('confirmDeleteButton').setAttribute('href', url);
+        }
+
+
+        function showAlert(action, categoryId) {
+            const actionText = action === 'list' ? 'listed' : 'unlisted';
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `You want to ${actionText} this category?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: action === 'list' ? '#3085d6' : '#d33',
+                cancelButtonColor: '#d33',
+                confirmButtonText: `Yes, ${actionText} it!`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the action URL
+                    window.location.href = `/admin/categories/${categoryId}`;
+                }
+            });
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const errorPopup = document.getElementById("errorPopup");
+            if (errorPopup) {
+                setTimeout(() => {
+                    errorPopup.style.opacity = '0'; // fade out
+                    setTimeout(() => errorPopup.remove(), 500); // remove from DOM after fade out
+                }, 3000); // disappear after 3 seconds
+            }
+        });
+
+        document.querySelectorAll('.status-select').forEach(select => {
+            select.addEventListener('change', async function () {
+                const orderId = this.dataset.orderId;
+                const newStatus = this.value;
+
+                try {
+                    const response = await axios.post('orders/updateStatus', {
+                        orderId: orderId,
+                        status: newStatus
+                    });
+
+                    if (response.data.success) {
+                        // Optional: Show success message
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Status Updated',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error updating status:', error);
+                    // Show error message
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to update order status',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                }
+            });
+        });
+
+        async function orderCancel(orderId) {
+            // Display confirmation dialog
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you really want to cancel this order?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, cancel it!',
+                cancelButtonText: 'No, keep it'
+            });
+
+            // Proceed if confirmed
+            if (result.isConfirmed) {
+                try {
+                    await axios.post(`/user/orderCancel`, {
+                        orderId: orderId,
+                    });
+
+                    // Show success message
+                    Swal.fire(
+                        'Cancelled!',
+                        'Your order has been successfully cancelled.',
+                        'success'
+                    ).then(() => window.location.reload());
+                } catch (error) {
+                    Swal.fire(
+                        'Error!',
+                        'There was an issue cancelling your order. Please try again.',
+                        'error'
+                    );
+                }
+            } else {
+                // Optional: Show a message if the user decides not to cancel
+                Swal.fire(
+                    'Cancelled',
+                    'Your order remains active.',
+                    'info'
+                );
+            }
+        }
+        
+    </script>
+
+
+
+
+    <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="/assets/vendors/chart.js/Chart.min.js"></script>
+    <script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
+    <script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+    <script src="/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="/assets/js/off-canvas.js"></script>
+    <script src="/assets/js/hoverable-collapse.js"></script>
+    <script src="/assets/js/misc.js"></script>
+    <script src="/assets/js/settings.js"></script>
+    <script src="/assets/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="/assets/js/dashboard.js"></script>
+    <!-- End custom js for this page -->
+</body>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>

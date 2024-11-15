@@ -18,7 +18,7 @@ exports.getCategories = async (req, res) => {
         // const items = await user.User.find().skip(skip).limit(limit);
         const total = await models.Category.countDocuments();
         // console.log(total);
-        let error = req.session.isExist?"This category is already exists":"";
+        let error = req.session.isExist?"This category is already exists":null;
         req.session.isExist = false
 
         const categories = await models.Category.find().skip(skip).limit(limit);
@@ -45,13 +45,16 @@ exports.postCategories = async (req, res) => {
         const category = req.body.category;
         const description = req.body.description;
         const categories = await models.Category.find()
+        console.log("ittt"+category);
+        
 
-
-        const isExist = await models.Category.find({ categoryName: { $regex: /category/i } });
-        console.log(isExist)
+        const isExist = await models.Category.findOne({ categoryName: { $regex: new RegExp(`^${category}$`, 'i')} });
+        console.log("Category exist"+isExist)
 
         if (isExist) {
             req.session.isExist = true;
+            console.log("Exists");
+            
             return res.redirect('/admin/categories' );
 
         }

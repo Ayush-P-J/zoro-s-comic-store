@@ -5,6 +5,22 @@
     <link rel="stylesheet" href="/assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="/assets/images/favicon.png" />
+    <style>
+      .error-popup {
+    background-color: red;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    position: fixed;
+    top: 120px;
+    right: 50%;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+  
+    </style>
 
 <!-- <div class="container d-flex justify-content-center align-items-center vh-100"> -->
     <div class="container-scroller">
@@ -16,6 +32,7 @@
                             <h3 class="card-title text-left mb-3">Login</h3>
                             <form id="loginPage" action="login" method="post" onsubmit="return validateForm()">
                                 <h6 id="msg" class="text-center text-danger">&nbsp;<%= message %></h6>
+                                
                               
                                 <div class="form-group">
                                   <label for="email">Email *</label>
@@ -35,7 +52,7 @@
                                       <input type="checkbox" class="form-check-input" name="rememberMe"> Remember me
                                     </label>
                                   </div>
-                                  <a href="#" class="forgot-pass">Forgot password</a>
+                                  <a href="forgotPassword" class="forgot-pass">Forgot password</a>
                                 </div>
                               
                                 <div class="text-center">
@@ -87,6 +104,15 @@
             return true;
         }
 
+        document.addEventListener("DOMContentLoaded", function() {
+      const errorPopup = document.getElementById("errorPopup");
+      if (errorPopup) {
+        setTimeout(() => {
+          errorPopup.style.opacity = '0'; // fade out
+          setTimeout(() => errorPopup.remove(), 500); // remove from DOM after fade out
+        }, 3000); // disappear after 3 seconds
+      }
+    });
     </script>
     <!-- plugins:js -->
     <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
