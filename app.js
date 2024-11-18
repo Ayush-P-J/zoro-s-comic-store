@@ -39,18 +39,18 @@ app.use(expressLayouts);//Using layouts
 
 app.use(express.static('public')); //Using static files
 app.use(express.json());
-app.use(express.urlencoded({ extended:true }));
+app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 
 
-  
+
 
 app.use(session({
     secret: 'secret-key',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false , maxAge: 1000 * 60 * 60 * 24}
+    cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 }
 }));
 
 models.connection();
@@ -69,16 +69,16 @@ app.use((req, res, next) => {
 
 
 
-  
-
-app.use('/',userRouter);
-app.use('/admin',adminRouter);
 
 
+app.use('/', userRouter);
+app.use('/admin', adminRouter);
 
 
 
-app.listen(PORT,()=> console.log(`Server is running at ${PORT}`));
+
+
+app.listen(PORT, () => console.log(`Server is running at ${PORT}`));
 
 
 

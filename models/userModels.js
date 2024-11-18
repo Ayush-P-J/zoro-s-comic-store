@@ -1,10 +1,10 @@
 const { type } = require("express/lib/response");
 const mongoose = require("mongoose");
 
-async function connection(){
+async function connection() {
     return mongoose.connect('mongodb://127.0.0.1:27017/ecommerce')
-    .then(()=>console.log("Mongoose connected..."))
-    .catch((err)=>console.log("Error",err));
+        .then(() => console.log("Mongoose connected..."))
+        .catch((err) => console.log("Error", err));
 }
 
 // schema of details
@@ -12,31 +12,31 @@ const userSchema = new mongoose.Schema({
     fullName: {
         type: String,
         required: false,
-        
+
 
     },
-    userName:{
-      type: String,
-      required: false,
+    userName: {
+        type: String,
+        required: false,
 
     },
-    phone:{
-      type: Number,
-      required: false,
-      sparse: true,
-      default:null
+    phone: {
+        type: Number,
+        required: false,
+        sparse: true,
+        default: null
 
     },
-    googleId:{
-        type:String,
-        unique:true,
-        sparse:true
+    googleId: {
+        type: String,
+        unique: true,
+        sparse: true
 
     },
-    email:{
-      type: String,
-      required: true,
-      unique:true,
+    email: {
+        type: String,
+        required: true,
+        unique: true,
 
 
     },
@@ -75,23 +75,23 @@ const userSchema = new mongoose.Schema({
         },
         isDefault: {
             type: Boolean,
-            default: false 
+            default: false
         }
     }],
     password: {
         required: false,
         type: String,
-        default:null
+        default: null
     },
     isBlocked: {
-        default:false,
+        default: false,
         type: Boolean
     },
-    createdAt:{
+    createdAt: {
         type: Date,
         default: Date.now()
     }
-},{ timestamps: true });
+}, { timestamps: true });
 
 
 //schema of otp
@@ -113,7 +113,7 @@ const userSchema = new mongoose.Schema({
 
 
 // const OTP = mongoose.model('userOTP',userOTPSchema);
-const User = mongoose.model('user',userSchema);
+const User = mongoose.model('user', userSchema);
 
 
 
@@ -121,5 +121,5 @@ const User = mongoose.model('user',userSchema);
 module.exports = {
     User,
     connection,
-    
+
 }

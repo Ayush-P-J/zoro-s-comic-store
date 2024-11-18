@@ -84,9 +84,9 @@ exports.orderCancel = async (req, res) => {
 
 
 
-        await order.Order.updateOne({ orderId },{status:"Cancelled"})
+        await order.Order.updateOne({ orderId }, { status: "Cancelled" })
 
-        return res.status(200).json({success: true, message:"The order cancelled"})
+        return res.status(200).json({ success: true, message: "The order cancelled" })
     } catch (error) {
 
     }
@@ -107,30 +107,31 @@ exports.getOrders = async (req, res) => {
         const error = ""
         const orders = await order.Order.find().skip(skip).limit(limit).populate('userId');
         // console.log(categories)
-        res.render('admin/orders', { orders, 
+        res.render('admin/orders', {
+            orders,
             error: error,
             currentPage: page,
-            limit:limit,
+            limit: limit,
             totalPages: Math.ceil(total / limit),
-         });
+        });
     } catch (error) {
 
     }
 }
 
 
-exports.changeOrderStatus = async (req, res)=>{
+exports.changeOrderStatus = async (req, res) => {
     try {
-        const {orderId, status}= req.body;
-console.log("reached change OrderStatus");
+        const { orderId, status } = req.body;
+        console.log("reached change OrderStatus");
 
 
-        const updatedOrder = await order.Order.updateOne({ orderId },{status:status})
+        const updatedOrder = await order.Order.updateOne({ orderId }, { status: status })
 
         if (!updatedOrder) {
             return res.status(404).json({
-              success: false,
-              message: 'Order not found'
+                success: false,
+                message: 'Order not found'
             });
         }
 
@@ -138,10 +139,10 @@ console.log("reached change OrderStatus");
             success: true,
             message: 'Order status updated successfully',
             order: updatedOrder
-          });
+        });
 
     } catch (error) {
-        
+
     }
 }
 

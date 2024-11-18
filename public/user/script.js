@@ -12,25 +12,25 @@
   }
 
   // input spinner
-  var initProductQty = function(){
+  var initProductQty = function () {
 
-    $('.product-qty').each(function(){
+    $('.product-qty').each(function () {
 
       var $el_product = $(this);
       var quantity = 0;
 
-      $el_product.find('.quantity-right-plus').click(function(e){
-          e.preventDefault();
-          var quantity = parseInt($el_product.find('.quantity').val());
-          $el_product.find('.quantity').val(quantity + 1);
+      $el_product.find('.quantity-right-plus').click(function (e) {
+        e.preventDefault();
+        var quantity = parseInt($el_product.find('.quantity').val());
+        $el_product.find('.quantity').val(quantity + 1);
       });
 
-      $el_product.find('.quantity-left-minus').click(function(e){
-          e.preventDefault();
-          var quantity = parseInt($el_product.find('.quantity').val());
-          if(quantity>0){
-            $el_product.find('.quantity').val(quantity - 1);
-          }
+      $el_product.find('.quantity-left-minus').click(function (e) {
+        e.preventDefault();
+        var quantity = parseInt($el_product.find('.quantity').val());
+        if (quantity > 0) {
+          $el_product.find('.quantity').val(quantity - 1);
+        }
       });
 
     });
@@ -38,12 +38,12 @@
   }
 
   // init Chocolat light box
-	var initChocolat = function () {
-		Chocolat(document.querySelectorAll('.image-link'), {
-			imageSize: 'contain',
-			loop: true,
-		})
-	}
+  var initChocolat = function () {
+    Chocolat(document.querySelectorAll('.image-link'), {
+      imageSize: 'contain',
+      loop: true,
+    })
+  }
 
   // Animate Texts
   var initTextFx = function () {
@@ -53,16 +53,16 @@
       var delay = 0;
       var stagger = 10;
       var words = this.textContent.split(/\s/);
-      
-      $.each( words, function( key, value ) {
+
+      $.each(words, function (key, value) {
         newstr += '<span class="word">';
 
-        for ( var i = 0, l = value.length; i < l; i++ ) {
-          newstr += "<span class='letter' style='transition-delay:"+ ( delay + stagger * count ) +"ms;'>"+ value[ i ] +"</span>";
+        for (var i = 0, l = value.length; i < l; i++) {
+          newstr += "<span class='letter' style='transition-delay:" + (delay + stagger * count) + "ms;'>" + value[i] + "</span>";
           count++;
         }
         newstr += '</span>';
-        newstr += "<span class='letter' style='transition-delay:"+ delay +"ms;'>&nbsp;</span>";
+        newstr += "<span class='letter' style='transition-delay:" + delay + "ms;'>&nbsp;</span>";
         count++;
       });
 
@@ -88,7 +88,7 @@
     var breakpoint = window.matchMedia('(max-width:61.93rem)');
 
     if (breakpoint.matches === false) {
-      
+
       var swiper = new Swiper(".main-swiper", {
         slidesPerView: 1,
         spaceBetween: 48,
@@ -162,11 +162,11 @@
       },
     });
 
-    
+
 
   }); // End of a document
 
-  $(window).load(function(){
+  $(window).load(function () {
     $('.preloader').fadeOut();
   });
 

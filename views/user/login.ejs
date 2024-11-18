@@ -1,12 +1,12 @@
 <link rel="stylesheet" href="/user/userStyle.css">
 <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
-    <!-- Layout styles -->
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <!-- End layout styles -->
-    <link rel="shortcut icon" href="/assets/images/favicon.png" />
-    <style>
-      .error-popup {
+<link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
+<!-- Layout styles -->
+<link rel="stylesheet" href="/assets/css/style.css">
+<!-- End layout styles -->
+<link rel="shortcut icon" href="/assets/images/favicon.png" />
+<style>
+  .error-popup {
     background-color: red;
     color: white;
     padding: 15px;
@@ -19,113 +19,113 @@
     opacity: 1;
     transition: opacity 0.5s ease;
   }
-  
-    </style>
+</style>
 
 <!-- <div class="container d-flex justify-content-center align-items-center vh-100"> -->
-    <div class="container-scroller">
-        <div class="container-fluid page-body-wrapper full-page-wrapper">
-            <div class="row w-100 m-0">
-                <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
-                    <div class="card col-lg-4 mx-auto">
-                        <div class="card-body px-5 py-5">
-                            <h3 class="card-title text-left mb-3">Login</h3>
-                            <form id="loginPage" action="login" method="post" onsubmit="return validateForm()">
-                                <h6 id="msg" class="text-center text-danger">&nbsp;<%= message %></h6>
-                                
-                              
-                                <div class="form-group">
-                                  <label for="email">Email *</label>
-                                  <input type="email" class="form-control p_input" id="email" name="email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid email address."
-                                  >
-                                </div>
-                              
-                                <div class="form-group">
-                                  <label for="password">Password *</label>
-                                <input type="password" class="form-control p_input" id="password" name="password" required minlength="8" maxlength="20"
-                                    title="Password must be 8-20 characters long.">
-                                </div>
-                              
-                                <div class="form-group d-flex align-items-center justify-content-between">
-                                  <div class="form-check">
-                                    <label class="form-check-label">
-                                      <input type="checkbox" class="form-check-input" name="rememberMe"> Remember me
-                                    </label>
-                                  </div>
-                                  <a href="forgotPassword" class="forgot-pass">Forgot password</a>
-                                </div>
-                              
-                                <div class="text-center">
-                                  <button type="submit" class="btn btn-primary btn-block enter-btn">Login</button>
-                                </div>
-                              
-                                <div class="d-flex">
-                                  <div class="g-signin2">
-                                    <a class="btn btn-google col" href="auth/google">
-                                      <i class="mdi mdi-google-plus"></i> Google plus
-                                    </a>
-                                  </div>
-                                </div>
-                              
-                                <p class="sign-up">Don't have an Account? <a href="/user/signup">Sign Up</a></p>
-                              </form>
-                              
-                        </div>
-                    </div>
+<div class="container-scroller">
+  <div class="container-fluid page-body-wrapper full-page-wrapper">
+    <div class="row w-100 m-0">
+      <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+        <div class="card col-lg-4 mx-auto">
+          <div class="card-body px-5 py-5">
+            <h3 class="card-title text-left mb-3">Login</h3>
+            <form id="loginPage" action="login" method="post" onsubmit="return validateForm()">
+              <h6 id="msg" class="text-center text-danger">&nbsp;<%= message %>
+              </h6>
+
+
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" class="form-control p_input" id="email" name="email"
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid email address.">
+              </div>
+
+              <div class="form-group">
+                <label for="password">Password *</label>
+                <input type="password" class="form-control p_input" id="password" name="password" required minlength="8"
+                  maxlength="20" title="Password must be 8-20 characters long.">
+              </div>
+
+              <div class="form-group d-flex align-items-center justify-content-between">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="rememberMe"> Remember me
+                  </label>
                 </div>
-                <!-- content-wrapper ends -->
-            </div>
-            <!-- row ends -->
+                <a href="forgotPassword" class="forgot-pass">Forgot password</a>
+              </div>
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-block enter-btn">Login</button>
+              </div>
+
+              <div class="d-flex">
+                <div class="g-signin2">
+                  <a class="btn btn-google col" href="auth/google">
+                    <i class="mdi mdi-google-plus"></i> Google plus
+                  </a>
+                </div>
+              </div>
+
+              <p class="sign-up">Don't have an Account? <a href="/user/signup">Sign Up</a></p>
+            </form>
+
+          </div>
         </div>
-        <!-- page-body-wrapper ends -->
+      </div>
+      <!-- content-wrapper ends -->
     </div>
-    <script>
-        function validateForm() {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            const msg = document.getElementById("msg");
-            const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+    <!-- row ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+<script>
+  function validateForm() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const msg = document.getElementById("msg");
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
-            // Clear any previous messages
-            msg.textContent = "";
+    // Clear any previous messages
+    msg.textContent = "";
 
-            // Email validation
-            if (!emailRegex.test(email)) {
-                msg.textContent = "Please enter a valid email address.";
-                return false;
-            }
+    // Email validation
+    if (!emailRegex.test(email)) {
+      msg.textContent = "Please enter a valid email address.";
+      return false;
+    }
 
-            // Password validation (min 8 characters)
-            if (password.length < 8 || password.length > 20) {
-                msg.textContent = "Password must be between 8 and 20 characters.";
-                return false;
-            }
+    // Password validation (min 8 characters)
+    if (password.length < 8 || password.length > 20) {
+      msg.textContent = "Password must be between 8 and 20 characters.";
+      return false;
+    }
 
-            return true;
-        }
+    return true;
+  }
 
-        document.addEventListener("DOMContentLoaded", function() {
-      const errorPopup = document.getElementById("errorPopup");
-      if (errorPopup) {
-        setTimeout(() => {
-          errorPopup.style.opacity = '0'; // fade out
-          setTimeout(() => errorPopup.remove(), 500); // remove from DOM after fade out
-        }, 3000); // disappear after 3 seconds
-      }
-    });
-    </script>
-    <!-- plugins:js -->
-    <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="/assets/js/off-canvas.js"></script>
-    <script src="/assets/js/hoverable-collapse.js"></script>
-    <script src="/assets/js/misc.js"></script>
-    <script src="/assets/js/settings.js"></script>
-    <script src="/assets/js/todolist.js"></script>
-    
+  document.addEventListener("DOMContentLoaded", function () {
+    const errorPopup = document.getElementById("errorPopup");
+    if (errorPopup) {
+      setTimeout(() => {
+        errorPopup.style.opacity = '0'; // fade out
+        setTimeout(() => errorPopup.remove(), 500); // remove from DOM after fade out
+      }, 3000); // disappear after 3 seconds
+    }
+  });
+</script>
+<!-- plugins:js -->
+<script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="/assets/js/off-canvas.js"></script>
+<script src="/assets/js/hoverable-collapse.js"></script>
+<script src="/assets/js/misc.js"></script>
+<script src="/assets/js/settings.js"></script>
+<script src="/assets/js/todolist.js"></script>
+
 </div>
 
 

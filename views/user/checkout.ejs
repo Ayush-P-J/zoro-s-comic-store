@@ -166,9 +166,8 @@
             </div>
             <div class="breadcrumbs d-flex flex-row align-items-center " style="padding: 0px; margin: 0px;">
                 <ul>
-                    <li><a href="/user/home">Home</a></li>
-                    <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Single
-                            Product</a></li>
+                    <li><a href="/user/cart">cart</a></li>
+                    <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Checkout</a></li>
                 </ul>
             </div>
 
@@ -705,7 +704,7 @@
         //     alert("hiaiii")
         // }
 
-        async function placeOrder () {
+        async function placeOrder() {
             const addressId = document.querySelector('input[name="addressSelected"]:checked').value;
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
             try {

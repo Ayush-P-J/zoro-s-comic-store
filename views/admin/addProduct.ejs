@@ -26,7 +26,7 @@
       flex-wrap: wrap;
       gap: 20px;
     }
-  
+
     .upload-card {
       width: 300px;
       height: 250px;
@@ -36,9 +36,9 @@
       transition: transform 0.3s;
       text-align: center;
     }
-  
-   
-  
+
+
+
     .upload-card img {
       max-width: 100%;
       max-height: 150px;
@@ -46,19 +46,19 @@
       border-radius: 5px;
       border: 2px solid #ddd;
     }
-  
+
     .preview-image img {
       display: block;
       width: 100%;
       height: auto;
       border-radius: 5px;
     }
-  
+
     .image-cropper .btn-sm {
       margin: 5px;
     }
   </style>
-  
+
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
 
@@ -74,98 +74,110 @@
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_sidebar.html -->
-    
-        <!-- partial -->
-        <div class="main-panel">
-        
-          
 
-          <div class="row add-category" id="addCategory">
-            <div class="col-12 grid-margin stretch-card ">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">
-                    <%= error %>
-                  </h4>
-                  <p class="card-description"> Basic form elements </p>
-                  <form class="forms-sample" enctype="multipart/form-data" method="POST" action="/admin/products/addProduct">
-  
-                    <!-- Product Name with required and max length validation -->
-                    <div class="form-group">
-                      <label for="productName">Product Name</label>
-                      <input type="text" class="form-control" name="productName" id="productName" placeholder="Enter product name" required maxlength="100">
-                    </div>
-                  
-                    <!-- Description with required validation and max length -->
-                    <div class="form-group">
-                      <label for="description">Description</label>
-                      <textarea class="form-control" name="description" id="description" rows="3" placeholder="Enter product description" required maxlength="500"></textarea>
-                    </div>
-                  
-                    <!-- Language Field -->
-                    <!-- <div class="form-group">
+    <!-- partial -->
+    <div class="main-panel">
+
+      <a class="btn btn-dark" style="width: 100px; margin-left: 20px;" type="button" href="/admin/products">Back</a>
+
+      <center>
+        <h1>Edit Product</h1>
+      </center>
+
+      <div class="row add-category" id="addCategory">
+        <div class="col-12 grid-margin stretch-card ">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">
+                <%= error %>
+              </h4>
+              <form class="forms-sample" enctype="multipart/form-data" method="POST"
+                action="/admin/products/addProduct">
+
+                <!-- Product Name with required and max length validation -->
+                <div class="form-group">
+                  <label for="productName">Product Name</label>
+                  <input type="text" class="form-control" name="productName" id="productName"
+                    placeholder="Enter product name" required maxlength="100">
+                </div>
+
+                <!-- Description with required validation and max length -->
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea class="form-control" name="description" id="description" rows="3"
+                    placeholder="Enter product description" required maxlength="500"></textarea>
+                </div>
+
+                <!-- Language Field -->
+                <!-- <div class="form-group">
                       <label for="language">Language</label>
                       <input type="text" class="form-control" name="language" id="language" placeholder="Enter language" required maxlength="50">
                     </div>
                    -->
-                    <!-- Stock with number, required, and min validation -->
-                    <div class="form-group">
-                      <label for="stock">Stock</label>
-                      <input type="number" class="form-control" name="stock" id="stock" placeholder="Enter stock quantity" required min="0">
-                    </div>
-                  
-                    <!-- Category with required validation -->
-                    <div class="form-group">
-                      <label for="category">Category</label>
-                      <select class="form-control" name="category" id="category" required>
-                        <option value="" disabled selected>Select a category</option>
-                        <% categories.forEach((category) => { %>
-                          <% if (category.status === true) { %>
-                            <option value="<%= category._id %>"><%= category.categoryName %></option>
-                          <% } %>
-                        <% }); %>
-                      </select>
-                    </div>
-                  
-                    <!-- Size with required validation -->
-                    <div class="form-group">
-                      <label for="size">Size</label>
-                      <select class="form-control" name="size" id="size" multiple required>
-                        <option value="Small">Small</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Large">Large</option>
-                      </select>
-                    </div>
-                  
-                    <!-- Regular Price with number, required, and min validation -->
-                    <div class="form-group">
-                      <label for="regularPrice">Regular Price</label>
-                      <input type="number" class="form-control" name="regularPrice" id="regularPrice" placeholder="Enter regular price" required min="0">
-                    </div>
-                  
-                    <!-- Sale Price with number and min validation -->
-                    <div class="form-group">
-                      <label for="salePrice">Sale Price</label>
-                      <input type="number" class="form-control" name="salePrice" id="salePrice" placeholder="Enter sale price" min="0">
-                    </div>
-                  
-                    <!-- Status with required validation -->
-                    <div class="form-group">
-                      <label for="status">Status</label>
-                      <select class="form-control" name="status" id="status" required>
-                        <option value="Available">Available</option>
-                        <option value="Out of Stock">Out of Stock</option>
-                      </select>
-                    </div>
-                  
-                    <!-- Review with optional max length validation -->
-                    <div class="form-group">
-                      <label for="review">Review</label>
-                      <textarea class="form-control" name="review" id="review" rows="2" placeholder="Enter review" maxlength="200"></textarea>
-                    </div>
-                  
-                    <!-- Images Upload -->
-                    <!-- <div class="image-upload-container">
+                <!-- Stock with number, required, and min validation -->
+                <div class="form-group">
+                  <label for="stock">Stock</label>
+                  <input type="number" class="form-control" name="stock" id="stock" placeholder="Enter stock quantity"
+                    required min="0">
+                </div>
+
+                <!-- Category with required validation -->
+                <div class="form-group">
+                  <label for="category">Category</label>
+                  <select class="form-control" name="category" id="category" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <% categories.forEach((category)=> { %>
+                      <% if (category.status===true) { %>
+                        <option value="<%= category._id %>">
+                          <%= category.categoryName %>
+                        </option>
+                        <% } %>
+                          <% }); %>
+                  </select>
+                </div>
+
+                <!-- Size with required validation -->
+                <div class="form-group">
+                  <label for="size">Size</label>
+                  <select class="form-control" name="size" id="size" required>
+                    <option value="Small">Small</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Large">Large</option>
+                  </select>
+                </div>
+
+                <!-- Regular Price with number, required, and min validation -->
+                <div class="form-group">
+                  <label for="regularPrice">Regular Price</label>
+                  <input type="number" class="form-control" name="regularPrice" id="regularPrice"
+                    placeholder="Enter regular price" required min="0">
+                </div>
+
+                <!-- Sale Price with number and min validation -->
+                <div class="form-group">
+                  <label for="salePrice">Sale Price</label>
+                  <input type="number" class="form-control" name="salePrice" id="salePrice"
+                    placeholder="Enter sale price" min="0">
+                </div>
+
+                <!-- Status with required validation -->
+                <div class="form-group">
+                  <label for="status">Status</label>
+                  <select class="form-control" name="status" id="status" required>
+                    <option value="Available">Available</option>
+                    <option value="Out of Stock">Out of Stock</option>
+                  </select>
+                </div>
+
+                <!-- Review with optional max length validation -->
+                <div class="form-group">
+                  <label for="review">Review</label>
+                  <textarea class="form-control" name="review" id="review" rows="2" placeholder="Enter review"
+                    maxlength="200"></textarea>
+                </div>
+
+                <!-- Images Upload -->
+                <!-- <div class="image-upload-container">
                       <div class="upload-card">
                         <label for="input1">Upload Image 1:</label>
                         <input class="form-control mt-2" type="file" name="images" id="input1" accept="image/png, image/jpeg, image/jpg" required>
@@ -185,75 +197,75 @@
                       </div>
                     </div> -->
 
-                    <!-- Images Upload -->
-                    <div class="image-upload-container">
-                      <!-- Image Upload Card 1 -->
-                      <div class="upload-card">
-                        <div class="preview-image" id="preview-image1">
-                          <img id="imgView1" src="" alt="Preview 1">
-                        </div>
-                        <input class="form-control mt-2" type="file" name="images" id="input1"
-                               accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 1)">
-                        <div id="images-error1" class="error-message text-danger mt-1"></div>
-                    
-                        <!-- Hidden Cropper Section -->
-                        <div id="preview1" class="image-cropper mt-3 d-none">
-                          <img id="croppedImg1" alt="Cropped Preview 1">
-                          <button type="button" id="saveButton1" class="btn btn-primary btn-sm">Save</button>
-                          <button type="button" id="cancelButton1" class="btn btn-secondary btn-sm">Cancel</button>
-                        </div>
-                      </div>
-                    
-                      <!-- Image Upload Card 2 -->
-                      <div class="upload-card">
-                        <div class="preview-image" id="preview-image2">
-                          <img id="imgView2" src="" alt="Preview 2">
-                        </div>
-                        <input class="form-control mt-2" type="file" name="images" id="input2"
-                               accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 2)">
-                        <div id="images-error2" class="error-message text-danger mt-1"></div>
-                    
-                        <div id="preview2" class="image-cropper mt-3 d-none">
-                          <img id="croppedImg2" alt="Cropped Preview 2">
-                          <button type="button" id="saveButton2" class="btn btn-primary btn-sm">Save</button>
-                          <button type="button" id="cancelButton2" class="btn btn-secondary btn-sm">Cancel</button>
-                        </div>
-                      </div>
-                    
-                      <!-- Image Upload Card 3 -->
-                      <div class="upload-card">
-                        <div class="preview-image" id="preview-image3">
-                          <img id="imgView3" src="" alt="Preview 3">
-                        </div>
-                        <input class="form-control mt-2" type="file" name="images" id="input3"
-                               accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 3)">
-                        <div id="images-error3" class="error-message text-danger mt-1"></div>
-                    
-                        <div id="preview3" class="image-cropper mt-3 d-none">
-                          <img id="croppedImg3" alt="Cropped Preview 3">
-                          <button type="button" id="saveButton3" class="btn btn-primary btn-sm">Save</button>
-                          <button type="button" id="cancelButton3" class="btn btn-secondary btn-sm">Cancel</button>
-                        </div>
-                      </div>
+                <!-- Images Upload -->
+                <div class="image-upload-container">
+                  <!-- Image Upload Card 1 -->
+                  <div class="upload-card">
+                    <div class="preview-image" id="preview-image1">
+                      <img id="imgView1" src="" alt="Preview 1">
                     </div>
-                  
-                    <!-- Submit and Cancel Buttons -->
-                    <div class="">
-                      <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                      <button type="reset" class="btn btn-dark">Cancel</button>
+                    <input class="form-control mt-2" type="file" name="images" id="input1"
+                      accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 1)">
+                    <div id="images-error1" class="error-message text-danger mt-1"></div>
+
+                    <!-- Hidden Cropper Section -->
+                    <div id="preview1" class="image-cropper mt-3 d-none">
+                      <img id="croppedImg1" alt="Cropped Preview 1">
+                      <button type="button" id="saveButton1" class="btn btn-primary btn-sm">Save</button>
+                      <button type="button" id="cancelButton1" class="btn btn-secondary btn-sm">Cancel</button>
                     </div>
-                  </form>
-                  
+                  </div>
+
+                  <!-- Image Upload Card 2 -->
+                  <div class="upload-card">
+                    <div class="preview-image" id="preview-image2">
+                      <img id="imgView2" src="" alt="Preview 2">
+                    </div>
+                    <input class="form-control mt-2" type="file" name="images" id="input2"
+                      accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 2)">
+                    <div id="images-error2" class="error-message text-danger mt-1"></div>
+
+                    <div id="preview2" class="image-cropper mt-3 d-none">
+                      <img id="croppedImg2" alt="Cropped Preview 2">
+                      <button type="button" id="saveButton2" class="btn btn-primary btn-sm">Save</button>
+                      <button type="button" id="cancelButton2" class="btn btn-secondary btn-sm">Cancel</button>
+                    </div>
+                  </div>
+
+                  <!-- Image Upload Card 3 -->
+                  <div class="upload-card">
+                    <div class="preview-image" id="preview-image3">
+                      <img id="imgView3" src="" alt="Preview 3">
+                    </div>
+                    <input class="form-control mt-2" type="file" name="images" id="input3"
+                      accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 3)">
+                    <div id="images-error3" class="error-message text-danger mt-1"></div>
+
+                    <div id="preview3" class="image-cropper mt-3 d-none">
+                      <img id="croppedImg3" alt="Cropped Preview 3">
+                      <button type="button" id="saveButton3" class="btn btn-primary btn-sm">Save</button>
+                      <button type="button" id="cancelButton3" class="btn btn-secondary btn-sm">Cancel</button>
+                    </div>
+                  </div>
                 </div>
-              </div>
+
+                <!-- Submit and Cancel Buttons -->
+                <div class="">
+                  <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                  <button type="reset" class="btn btn-dark">Cancel</button>
+                </div>
+              </form>
+
             </div>
           </div>
-
-
-
-          <!-- main-panel ends -->
         </div>
-        <!-- page-body-wrapper ends -->
+      </div>
+
+
+
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
   <!-- plugins:js -->
@@ -266,87 +278,87 @@
 
     let cropper;
 
-function viewImage(event, index) {
-  let input = event.target;
-  let reader = new FileReader();
+    function viewImage(event, index) {
+      let input = event.target;
+      let reader = new FileReader();
 
-  reader.onload = function () {
-    let dataURL = reader.result;
-    let image = document.getElementById('imgView' + index);
-    let previewImage = document.getElementById('preview-image' + index);
-    let preview = document.getElementById('preview' + index);
+      reader.onload = function () {
+        let dataURL = reader.result;
+        let image = document.getElementById('imgView' + index);
+        let previewImage = document.getElementById('preview-image' + index);
+        let preview = document.getElementById('preview' + index);
 
-    image.src = dataURL;
-    preview.classList.remove('d-none'); // Show cropping section
+        image.src = dataURL;
+        preview.classList.remove('d-none'); // Show cropping section
 
-    // Initialize or reinitialize cropper
-    if (cropper) {
-      cropper.destroy();
+        // Initialize or reinitialize cropper
+        if (cropper) {
+          cropper.destroy();
+        }
+        cropper = new Cropper(image, {
+          aspectRatio: 4 / 5,
+          viewMode: 4 / 5,
+          background: false,
+          autoCropArea: 4 / 5,
+          zoomable: true,
+        });
+
+        let saveButton = document.getElementById('saveButton' + index);
+        saveButton.addEventListener('click', async function () {
+          let croppedCanvas = cropper.getCroppedCanvas();
+          let croppedImage = document.getElementById('croppedImg' + index);
+
+          croppedImage.src = croppedCanvas.toDataURL('image/jpeg', 1.0);
+          previewImage.style.display = 'none';
+
+          await croppedCanvas.toBlob(blob => {
+            let imgFile = new File([blob], `cropped-img-${index}.jpg`, { type: blob.type });
+            let fileList = new DataTransfer();
+            fileList.items.add(imgFile);
+            input.files = fileList.files;
+          });
+
+          cropper.destroy();
+          // Hide cropping section after saving
+        });
+
+        let cancelButton = document.getElementById('cancelButton' + index);
+        cancelButton.addEventListener('click', () => {
+          previewImage.style.display = 'block';
+
+          preview.classList.add('d-none'); // Hide cropping section
+          image.src = "" // Clear the preview image
+          croppedImage.src = ""
+        });
+      };
+
+      reader.readAsDataURL(input.files[0]);
     }
-    cropper = new Cropper(image, {
-      aspectRatio: 4/5,
-      viewMode: 4/5,
-      background: false,
-      autoCropArea: 4/5,
-      zoomable: true,
-    });
 
-    let saveButton = document.getElementById('saveButton' + index);
-    saveButton.addEventListener('click', async function () {
-      let croppedCanvas = cropper.getCroppedCanvas();
-      let croppedImage = document.getElementById('croppedImg' + index);
-      
-      croppedImage.src = croppedCanvas.toDataURL('image/jpeg', 1.0);
-      previewImage.style.display = 'none';
 
-      await croppedCanvas.toBlob(blob => {
-        let imgFile = new File([blob], `cropped-img-${index}.jpg`, { type: blob.type });
-        let fileList = new DataTransfer();
-        fileList.items.add(imgFile);
-        input.files = fileList.files;
+    document.addEventListener("DOMContentLoaded", function () {
+      const numberInputs = document.querySelectorAll("input[type='number']");
+      const imageInputs = document.querySelectorAll("input[type='file']");
+
+      numberInputs.forEach(input => {
+        input.addEventListener("input", function () {
+          if (input.value < 0) {
+            input.value = "";
+            alert("Please enter a positive number");
+          }
+        });
       });
 
-      cropper.destroy();
-      // Hide cropping section after saving
+      imageInputs.forEach(input => {
+        input.addEventListener("change", function () {
+          const file = input.files[0];
+          if (file && !["image/png", "image/jpeg", "image/jpg"].includes(file.type)) {
+            alert("The image file will change into these format (PNG, JPEG, JPG)");
+            input.value = "";
+          }
+        });
+      });
     });
-
-    let cancelButton = document.getElementById('cancelButton' + index);
-    cancelButton.addEventListener('click', () => {
-      previewImage.style.display = 'block';
-
-      preview.classList.add('d-none'); // Hide cropping section
-      image.src = "" // Clear the preview image
-      croppedImage.src =""
-    });
-  };
-
-  reader.readAsDataURL(input.files[0]);
-}
-
-    
-document.addEventListener("DOMContentLoaded", function() {
-  const numberInputs = document.querySelectorAll("input[type='number']");
-  const imageInputs = document.querySelectorAll("input[type='file']");
-
-  numberInputs.forEach(input => {
-    input.addEventListener("input", function() {
-      if (input.value < 0) {
-        input.value = "";
-        alert("Please enter a positive number");
-      }
-    });
-  });
-
-  imageInputs.forEach(input => {
-    input.addEventListener("change", function() {
-      const file = input.files[0];
-      if (file && !["image/png", "image/jpeg", "image/jpg"].includes(file.type)) {
-        alert("The image file will change into these format (PNG, JPEG, JPG)");
-        input.value = "";
-      }
-    });
-  });
-});
 
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>

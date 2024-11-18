@@ -20,26 +20,25 @@ exports.getLogin = (req, res) => {
 
     }
     // console.log("aadmin ethi");
-    
-    
+
+
     res.render('admin/login', { message: '', title: "Login page" });
 }
 
 exports.postLogin = async (req, res) => {
     try {
-        const EMAIL = req.body.email;
-        const PASSWORD = req.body.password;
-        // const EMAIL = "admin@gmail.com"
-        // console.log("post ethi");
+        const email = req.body.email;
+        const password = req.body.password;
+       
 
-        const adminExist = await models.Admin.findOne({ email: EMAIL });
+        const adminExist = await models.Admin.findOne({ email: email });
         if (!adminExist) {
-            
+
             return res.render('admin/login', { message: 'Invalid Email', title: "Login page" });
-            
+
         }
         // const adminVerify = await bcrypt.compare(password,adminExist.password)
-        const adminVerify = await bcrypt.compare(PASSWORD, adminExist.password)
+        const adminVerify = await bcrypt.compare(password, adminExist.password)
         // console.log("post kazhinj");
 
 
@@ -82,7 +81,7 @@ exports.getUserList = async (req, res) => {
         res.render('admin/userList', {
             userData: userData,
             currentPage: page,
-            limit:limit,
+            limit: limit,
             totalPages: Math.ceil(total / limit),
         });
     } catch (err) {

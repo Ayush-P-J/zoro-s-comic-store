@@ -4,32 +4,32 @@ const mongoose = require("mongoose");
 
 
 const adminSchema = new mongoose.Schema({
-    email:{
-        type:String,
+    email: {
+        type: String,
         unique: true,
-        sparse:true
+        sparse: true
     },
-    password:{
-        type:String,
-        required:true,
+    password: {
+        type: String,
+        required: true,
     }
 });
 
 const categorySchema = new mongoose.Schema({
-    categoryName:{
+    categoryName: {
         type: String,
-        required:true
+        required: true
     },
-    status:{
-        type:Boolean,
-        default:true
+    status: {
+        type: Boolean,
+        default: true
     },
-    description:{
-        type:String
+    description: {
+        type: String
     },
-    isDeleted:{
-        type:Boolean,
-        default:false
+    isDeleted: {
+        type: Boolean,
+        default: false
     },
 
 
@@ -48,13 +48,13 @@ const ProductSchema = new mongoose.Schema({
         trim: true
     },
     images: {
-        type: [String],  
+        type: [String],
         required: true,
     },
     stock: {
         type: Number,
         required: true,
-        default: 0  
+        default: 0
     },
     category: {
         type: mongoose.Schema.ObjectId,
@@ -64,7 +64,7 @@ const ProductSchema = new mongoose.Schema({
     size: {
         type: [String],
         required: false,
-        enum: ['Small', 'Medium',"Large"]
+        enum: ['Small', 'Medium', "Large"]
 
     },
     status: {
@@ -96,9 +96,9 @@ const ProductSchema = new mongoose.Schema({
 
 
 
-const Admin = mongoose.model('admin',adminSchema);
-const Category = mongoose.model('category',categorySchema);
-const Product = mongoose.model('product',ProductSchema);
+const Admin = mongoose.model('admin', adminSchema);
+const Category = mongoose.model('category', categorySchema);
+const Product = mongoose.model('product', ProductSchema);
 
 // module.exports = Admin;
 

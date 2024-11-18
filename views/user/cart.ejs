@@ -53,7 +53,7 @@
 
         .cart {
             background-color: #fff;
-            
+
             padding: 4vh 5vh;
             border-bottom-left-radius: 1rem;
             border-top-left-radius: 1rem;
@@ -213,88 +213,86 @@
 
         <!-- Header -->
 
-        
 
-        
 
-                    <!-- Breadcrumbs -->
 
-                    
 
-            <div class="container card " style="margin-top: 10vh;">
-                <div class="row">
-                    
-                    <div class="col-md-8 cart">
-                        
-                        <div class="title">
-                            
-                            <div class="row">
-                                <div class="breadcrumbs d-flex flex-row align-items-center">
-                                    <ul>
-                                        <li><a href="/user/home">Home</a></li>
-                                        <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>cart</a></li>
-                                    </ul>
-                                </div>
-                                
-                                <div class="col">
-                                    <h4><b>Shopping Cart</b></h4>
-                                </div>
-                                <div class="col align-self-center text-right text-muted">
-                                    <%= userCart.length %> items
-                                </div>
+        <!-- Breadcrumbs -->
+
+
+
+        <div class="container car " style="margin-top: 10vh;">
+            <div class="row">
+
+                <div class="breadcrumbs d-flex flex-row align-items-center">
+                    <ul>
+                        <li><a href="/user/home">Home</a></li>
+                        <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>cart</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-8 cart">
+
+                    <div class="title">
+
+                        <div class="row">
+
+                            <div class="col">
+                                <h4><b>Shopping Cart</b></h4>
+                            </div>
+                            <div class="col align-self-center text-right text-muted">
+                                <%= userCart.length %> items
                             </div>
                         </div>
-                        <% if (userCart.length> 0){ %>
-                            <% userCart.forEach((cart,i)=>{ %>
+                    </div>
+                    <% if (userCart.length> 0){ %>
+                        <% userCart.forEach((cart,i)=>{ %>
 
-                                <div class="row border-top border-bottom">
-                                    <div class="row main align-items-center">
-                                        <div class="col-2"><img class="img-fluid"
-                                                src="/images/<%= cart.productId.images[0] %>"></div>
-                                        <div class="col">
-                                            <div class="row text-muted">
-                                                <%= cart.productId.productName %>
-                                            </div>
-                                            <!-- <div class="row">
+                            <div class="row border-top border-bottom">
+                                <div class="row main align-items-center">
+                                    <div class="col-2"><img class="img-fluid"
+                                            src="/images/<%= cart.productId.images[0] %>"></div>
+                                    <div class="col">
+                                        <div class="row text-muted">
+                                            <%= cart.productId.productName %>
+                                        </div>
+                                        <!-- <div class="row">
                                                 <%= cart.productId._id %>
                                             </div> -->
-                                        </div>
-                                        <div class="col">
-                                            <!-- onclck="updateQuantity(event, 'decrement',<%=i%>,<%= cart.productId._id %>)" -->
-                                            <a
-                                                onclick="decrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')">-</a>
-                                            <a id="quantity<%=i%>" class="border ">
-                                                <%= cart.quantity %>
-                                            </a>
-                                            <a
-                                                onclick="incrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')">+</a>
-                                        </div>
-                                        <div class="col">&dollar;<a id="totalPrice<=%i%>">
-                                                <%= cart.totalPrice.toFixed(2) %>
-                                            </a>
-                                            <!-- <a id="salePrice<=%i%>">d<%= cart.productId.salePrice %></a> -->
-                                            <span class="close" id="close">
-                                                <a href="javascript:void(0);"
-                                                    onclick="confirmDelete('/user/cart/<%= cart.productId._id %>')">&#10005;</a>
-                                            </span>
-                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <!-- onclck="updateQuantity(event, 'decrement',<%=i%>,<%= cart.productId._id %>)" -->
+                                        <a onclick="decrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')">-</a>
+                                        <a id="quantity<%=i%>" class="border ">
+                                            <%= cart.quantity %>
+                                        </a>
+                                        <a onclick="incrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')">+</a>
+                                    </div>
+                                    <div class="col">&dollar;<a id="totalPrice<=%i%>">
+                                            <%= cart.totalPrice.toFixed(2) %>
+                                        </a>
+                                        <!-- <a id="salePrice<=%i%>">d<%= cart.productId.salePrice %></a> -->
+                                        <span class="close" id="close">
+                                            <a href="javascript:void(0);"
+                                                onclick="confirmDelete('/user/cart/<%= cart.productId._id %>')">&#10005;</a>
+                                        </span>
                                     </div>
                                 </div>
+                            </div>
 
-                                <% }) %>
+                            <% }) %>
 
-                                    <%} else{%>
+                                <%} else{%>
 
-                                        <div class="empty-cart-notice"
-                                            style="text-align: center; padding: 20px; font-size: 1.5em; color: #555;">
-                                            The cart is empty
-                                        </div>
-
-
-                                        <% }%>
+                                    <div class="empty-cart-notice"
+                                        style="text-align: center; padding: 20px; font-size: 1.5em; color: #555;">
+                                        The cart is empty
+                                    </div>
 
 
-                                            <!-- <div class="row">
+                                    <% }%>
+
+
+                                        <!-- <div class="row">
                         <div class="row main align-items-center">
                             <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/ba3tvGm.jpg"></div>
                             <div class="col">
@@ -320,11 +318,40 @@
                             <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
                         </div>
                     </div> -->
-                                            <div class="back-to-shop"><a href="home">&leftarrow;</a><span
-                                                    class="text-muted">Back to shop</span></div>
-                    </div>
-                    <% if (userCart.length> 0){ %>
+                                        <div class="back-to-shop"><a href="home">&leftarrow;</a><span
+                                                class="text-muted">Back to shop</span></div>
+                </div>
+                <% if (userCart.length> 0){ %>
 
+                    <div class="col-md-4 summary">
+                        <div>
+                            <h5><b>Summary</b></h5>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col" style="padding-left:0;">ITEMS = <%= userCart.length %>
+                            </div>
+                            <div class="col text-right">&dollar; <%= checkout %>
+                            </div>
+                        </div>
+                        <!-- <% userCart %> -->
+                        <!-- <form>
+                                    <p>SHIPPING</p>
+                                    <select>
+                                        <option class="text-muted">Standard-Delivery- &euro;5.00</option>
+                                    </select>
+                                    <p>GIVE CODE</p>
+                                    <input id="code" placeholder="Enter your code">
+                                </form> -->
+                        <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                            <div class="col">TOTAL PRICE</div>
+                            <div class="col text-right" id="checkoutTotal">&dollar; <%= checkout %>
+                            </div>
+                        </div>
+                        <a href="checkout" class="btn">CHECKOUT</a>
+                    </div>
+
+                    <%}else{ %>
                         <div class="col-md-4 summary">
                             <div>
                                 <h5><b>Summary</b></h5>
@@ -333,51 +360,24 @@
                             <div class="row">
                                 <div class="col" style="padding-left:0;">ITEMS = <%= userCart.length %>
                                 </div>
-                                <div class="col text-right">&dollar; <%= checkout %></div>
+                                <div class="col text-right">&dollar; <%= checkout %>
+                                </div>
                             </div>
-                            <!-- <% userCart %> -->
-                                <!-- <form>
-                                    <p>SHIPPING</p>
-                                    <select>
-                                        <option class="text-muted">Standard-Delivery- &euro;5.00</option>
-                                    </select>
-                                    <p>GIVE CODE</p>
-                                    <input id="code" placeholder="Enter your code">
-                                </form> -->
+                            <% userCart %>
+
                                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                                     <div class="col">TOTAL PRICE</div>
                                     <div class="col text-right" id="checkoutTotal">&dollar; <%= checkout %>
                                     </div>
                                 </div>
-                                <a href="checkout"  class="btn">CHECKOUT</a>
+                                <a aria-disabled="true" class="btn">CHECKOUT</a>
                         </div>
+                        <% } %>
 
-                        <%}else{ %>
-                            <div class="col-md-4 summary">
-                                <div>
-                                    <h5><b>Summary</b></h5>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col" style="padding-left:0;">ITEMS = <%= userCart.length %>
-                                    </div>
-                                    <div  class="col text-right">&dollar; <%= checkout %></div>
-                                </div>
-                                <% userCart %>
-                                    
-                                    <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                                        <div class="col">TOTAL PRICE</div>
-                                        <div class="col text-right" id="checkoutTotal">&dollar; <%= checkout %>
-                                        </div>
-                                    </div>
-                                    <a  aria-disabled="true" class="btn">CHECKOUT</a>
-                            </div>
-                       <% } %>
 
-                            
-                </div>
+            </div>
 
-            
+
 
 
 
@@ -430,14 +430,14 @@
                                 console.error("Error updating quantity:", error);
                             });
 
-                    }else{
+                    } else {
                         await Swal.fire({
-                                
-                                title: "Can't add a product more than 5 quantity",
-                                text: "",
-                                showConfirmButton: true,
-                                timer: 3000 // Auto-close after 2 seconds
-                            });
+
+                            title: "Can't add a product more than 5 quantity",
+                            text: "",
+                            showConfirmButton: true,
+                            timer: 3000 // Auto-close after 2 seconds
+                        });
                     }
 
 
@@ -451,35 +451,35 @@
                     if (quantity > 1) {
                         quantity -= 1;
                         await axios.post('/user/updateQuantity', {
-                        productId: product,
-                        quantity: quantity
-                    })
-                        .then(async response => {
-                            const { quantity, totalPrice } = response.data;
-
-                            // Update quantity and total price in the DOM
-                            quantityElement.innerText = quantity;
-
-                            // Display success message
-                            // await Swal.fire({
-                            //     icon: 'success',
-                            //     title: 'Success',
-                            //     text: 'The quantity was updated successfully.',
-                            //     showConfirmButton: false,
-                            //     timer: 2000 // Auto-close after 2 seconds
-                            // });
-
-                            // Reload the cart page
-                            window.location.href = "/user/cart";
-
-                            console.log("Quantity updated:", response.data);
+                            productId: product,
+                            quantity: quantity
                         })
-                        .catch(error => {
-                            console.error("Error updating quantity:", error);
-                        });
+                            .then(async response => {
+                                const { quantity, totalPrice } = response.data;
+
+                                // Update quantity and total price in the DOM
+                                quantityElement.innerText = quantity;
+
+                                // Display success message
+                                // await Swal.fire({
+                                //     icon: 'success',
+                                //     title: 'Success',
+                                //     text: 'The quantity was updated successfully.',
+                                //     showConfirmButton: false,
+                                //     timer: 2000 // Auto-close after 2 seconds
+                                // });
+
+                                // Reload the cart page
+                                window.location.href = "/user/cart";
+
+                                console.log("Quantity updated:", response.data);
+                            })
+                            .catch(error => {
+                                console.error("Error updating quantity:", error);
+                            });
                     }
 
-                    
+
                 }
 
 

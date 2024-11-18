@@ -206,14 +206,17 @@
 					</div>
 					<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
 						
-						<% if(product.status == "Available" && product.stock  > 1 ){ %>
+						<% if(product.status == "Available" && product.stock  > 0 ){ %>
 						<span>Quantity:</span>
 						<div class="quantity_selector">
 							<span class="minus" ><i class="fa fa-minus" aria-hidden="true"></i></span>
+							<span id="stockLeft" class="d-none"><%= product.stock %></span>
 							<span id="quantity_value">1</span>
-							<span class="plus" ><i class="fa fa-plus" aria-hidden="true"></i></span>
+							<span style="padding: 0px 20px; " class="d-none" id="plus1"><i class="fa fa-plus" aria-hidden="true" ></i></span>
+							<span class="plus"  id="plus" ><i class="fa fa-plus" aria-hidden="true" ></i></span>
 						</div>
 						<div class=" add_to_cart_butto btn btn-warning" id="add" ><a  >add to cart</a></div>
+						
 							
 						<% } else {%>
 								
@@ -564,62 +567,55 @@
 // alert(price)
 
 	document.getElementById('add').addEventListener('click', () => {
-		const cartNumber = document.getElementById('checkout_items')
-    const price = parseInt(document.getElementById('price').textContent);  // Use textContent instead of value
-    const quantity = parseInt(document.getElementById('quantity_value').textContent);  // Use textContent instead of value
+			const cartNumber = document.getElementById('checkout_items')
+			const price = parseInt(document.getElementById('price').textContent);  // Use textContent instead of value
+			const quantity = parseInt(document.getElementById('quantity_value').textContent);  // Use textContent instead of value
 
-    const productData = {
-        productId: "<%= product._id %>",  // Ensure this value is rendered correctly
-        quantity: quantity,
-        productName: "<%= product.productName %>",
-        totalPrice: price * quantity,
-    };
+			const productData = {
+				productId: "<%= product._id %>",  // Ensure this value is rendered correctly
+				quantity: quantity,
+				productName: "<%= product.productName %>",
+				totalPrice: price * quantity,
+			};
 
-    // axios.post('/user/addToCart', productData)
-    //     .then(response => {
 			
-    //         console.log("Quantity updated:", response.data);
-    //     })
-    //     .catch(error => {
-    //         console.error("Error updating quantity:", error);
-    //     });
-	axios.post('/user/addToCart', productData)
-    .then(response => {
-        // Success SweetAlert notification
-        if(response.data.success === true){
-			Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Added to cart successfully!',
-            confirmButtonText: 'OK'
-        })
-		.then(() => {
-        	window.location.reload();
-        });
-		// cartNumber.innerText = ""
-		}else{
-			Swal.fire({
-            icon: 'error',
-            title: 'error',
-            text: response.data.message,
-            confirmButtonText: 'OK'
-        });
+			axios.post('/user/addToCart', productData)
+				.then(response => {
+					// Success SweetAlert notification
+					if (response.data.success === true) {
+						Swal.fire({
+							icon: 'success',
+							title: 'Success',
+							text: 'Added to cart successfully!',
+							confirmButtonText: 'OK'
+						})
+							.then(() => {
+								window.location.reload();
+							});
+						// cartNumber.innerText = ""
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: 'error',
+							text: response.data.message,
+							confirmButtonText: 'OK'
+						});
 
-		}
-        console.log("Quantity updated:", response.data);
-    })
-    .catch(error => {
-        // Error SweetAlert notification
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'There was an error updating the quantity. Please try again.',
-            confirmButtonText: 'OK'
-        });
-        console.error("Error updating quantity:", error);
-    });
+					}
+					console.log("Quantity updated:", response.data);
+				})
+				.catch(error => {
+					// Error SweetAlert notification
+					Swal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: 'There was an error updating the quantity. Please try again.',
+						confirmButtonText: 'OK'
+					});
+					console.error("Error updating quantity:", error);
+				});
 
-});
+		});
 
 
 // const add = document.getElementById('click',()=>{

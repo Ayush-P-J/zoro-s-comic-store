@@ -332,10 +332,16 @@
                                         Orders
                                     </a>
                                 </li>
+                                <li>
+                                    <a class="nav-link " onclick="logout()" style="cursor: pointer;">
+                                        <i  class="fa fa-sign-out btn-danger" aria-hidden="true"></i>
+                                        <span style="color: red;" >Logout</span>
+                                    </a>
+                                </li>
 
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link active" href="" onclick="showSection('overview')">Overview</a>
                         </li>
                         <li class="nav-item">
@@ -343,7 +349,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="" onclick="showSection('wishlist')">Wishlist</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
 
@@ -600,7 +606,7 @@
                                         <p class="product-price">&dollar;<%= order.totalAmount %>
                                         </p>
                                         <% const formattedDate=new Intl.DateTimeFormat('en-US', { year: 'numeric' ,
-                                            month: 'long' , day: "numeric" , }).format(orderDetails.createdAt); %>
+                                            month: 'long' , day: "numeric" , }).format(order.createdAt); %>
                                             <% if (order.status=="Delivered" ){ %>
                                                 <p class="delivery-date">Delivered on <%= formattedDate %>
                                                 </p>
@@ -643,14 +649,12 @@
                                         </div>
                                         <div>
                                             <% if(order.status=="Order Placed" ){%>
-                                                <button type="button"
-                                                    onclick="orderCancel('<%= order.orderId %>')"
+                                                <button type="button" onclick="orderCancel('<%= order.orderId %>')"
                                                     class="btn btn-danger">Cancel</button>
-                                                    
-                                                    <% }else{ %>
-                                                        <button type="button"
-                                                            onclick="orderCancel('<%= order.orderId %>')"
-                                                            class="btn btn-dark" disabled>Cancel</button>
+
+                                                <% }else{ %>
+                                                    <button type="button" onclick="orderCancel('<%= order.orderId %>')"
+                                                        class="btn btn-dark" disabled>Cancel</button>
                                                     <% } %>
                                         </div>
                                 </div>
@@ -985,99 +989,28 @@
             }
         }
 
+        function logout(){
+           const result = Swal.fire({
+                        title: 'Warning',
+                        text: 'Do you want to logout',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        showConfirmButton: true, // Hide confirm button
+                    })
+
+                    if (result.isConfirmed) {
+                        window.location.href = "/user/logout"
+                    }
+                }
+
     </script>
 
-    <!-- <script>
-        const fullName = document.getElementById('fullName');
-        const userName = document.getElementById('userName');
-        const phoneNumber = document.getElementById('phoneNumber');
-        const email = document.getElementById('email');
-        const profileForm = document.getElementById('profileForm');
-
-        const errorFullName = document.getElementById('error-fullName');
-        const errorUserName = document.getElementById('error-userName');
-        const errorPhone = document.getElementById('error-phone');
-        const errorEmail = document.getElementById('error-email');
-
-        // Define a regex for 10-digit phone numbers
-        const phoneRegex = /^\d{10}$/;
-
    
 
 
-   
-    
-        document.getElementById('profileForm').addEventListener('submit', async function (e) {
-            let valid = true;
-            
-                // Clear previous messages
-                errorFullName.innerText = "";
-                errorUserName.innerText = "";
-                errorPhone.innerText = "";
-                errorEmail.innerText = "";
-
-                // Full Name Validation
-                if (fullName.value.trim() === '') {
-                    errorFullName.innerText = "Please enter your full name.";
-                    valid = false;
-                } else if (!/^[a-zA-Z\s]+$/.test(fullName.value.trim())) {
-                    errorFullName.innerText = "Full name should not contain special characters.";
-                    valid = false;
-                }
-
-                // Username Validation
-                if (userName.value.trim() === '') {
-                    errorUserName.innerText = "Please enter a username.";
-                    valid = false;
-                }
-
-                // Phone Number Validation
-                if (phoneNumber.value.trim() === '') {
-                    errorPhone.innerText = "Please enter your phone number.";
-                    valid = false;
-                } else if (!phoneRegex.test(phoneNumber.value.trim())) {
-                    errorPhone.innerText = "Please enter a valid 10-digit phone number.";
-                    valid = false;
-                }
-
-                
-
-                // Prevent form submission if validation fails
-                if (!valid) {
-                    alert("not valid")
-                    e.preventDefault();
-                }
-
-
-                await axios.post('/user/profile',
-                 { 
-                    fullName, userName, phoneNumber 
-
-                 })
-                 .then(response =>{
-                    if (response.status === 200) {
-                    alert("Success")
-                    window.location.href = '/user/profile'; // Reload profile page
-                }
-                })
-
-                // Handle successful response
-                
-            .catch (error => {
-                // Handle error response
-                alert("failed")
-                const errorMessage = error.response ? error.response.data.message : 'Failed to update profile';
-                document.getElementById('error-fullName').textContent = errorMessage;
-            })
-
-
-        });
 
 
 
-
-
-    </script> -->
 
 
 

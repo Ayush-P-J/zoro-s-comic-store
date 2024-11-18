@@ -2,16 +2,16 @@ const { type } = require('express/lib/response');
 const mongoose = require('mongoose')
 
 const orderSchema = new mongoose.Schema({
-    userId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'user',
-        required:true
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
     },
-    addressId:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true
-    },orderId:{
-        type:String
+    addressId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    }, orderId: {
+        type: String
     },
     products: [
         {
@@ -20,7 +20,7 @@ const orderSchema = new mongoose.Schema({
                 ref: 'product',
                 required: true
             },
-            productName:{
+            productName: {
                 type: String
             },
             quantity: {
@@ -33,29 +33,29 @@ const orderSchema = new mongoose.Schema({
             }
         }
     ],
-    status:{
+    status: {
         type: String,
-        enum: ["Order Placed","Cancelled","Processing","Shipped","Out for delivery","Delivered","Returned"],
+        enum: ["Order Placed", "Cancelled", "Processing", "Shipped", "Out for delivery", "Delivered", "Returned"],
         required: true,
         default: "Order Placed"
     },
-    paymentMethod:{
-        type:String,
-        enum:["COD","Debit Card","Internet Banking","UPI","Wallet"],
+    paymentMethod: {
+        type: String,
+        enum: ["COD", "Debit Card", "Internet Banking", "UPI", "Wallet"],
         required: true,
-        default:"COD"
+        default: "COD"
     },
-    totalAmount:{
-        type:Number,
-        default:0
+    totalAmount: {
+        type: Number,
+        default: 0
     },
-    taxAmount:{
-        type:Number,
-        default:0
+    taxAmount: {
+        type: Number,
+        default: 0
     },
-    shippingAmount:{
-        type:Number,
-        default:0
+    shippingAmount: {
+        type: Number,
+        default: 0
     },
     // createdAt:{
     //     type:String,
@@ -87,7 +87,7 @@ const orderSchema = new mongoose.Schema({
     ]
 }, { timestamps: true })
 
-const Order = mongoose.model('order',orderSchema)
+const Order = mongoose.model('order', orderSchema)
 
 module.exports = {
     Order

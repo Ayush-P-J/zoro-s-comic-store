@@ -11,7 +11,7 @@ const multer = require('multer')
 
 const storage = require('../multer/multer');
 
-const upload = multer({storage:storage});
+const upload = multer({ storage: storage });
 
 
 router.use((req, res, next) => {
@@ -21,62 +21,62 @@ router.use((req, res, next) => {
     res.set('Surrogate-Control', 'no-store');
     next();
 });
-  
+
 
 router.route('/login')
-.get(auth.isLogged,adminController.getLogin)
-.post(adminController.postLogin)
+    .get(auth.isLogged, adminController.getLogin)
+    .post(adminController.postLogin)
 
 router.route('/logout')
-.get(auth.adminLogout)
+    .get(auth.adminLogout)
 
 router.route('/index')
-.get(auth.adminAuth,adminController.getIndex)
+    .get(auth.adminAuth, adminController.getIndex)
 
 router.route('/userList')
-.get(auth.adminAuth,adminController.getUserList);
+    .get(auth.adminAuth, adminController.getUserList);
 
-router.get('/userList/:id',auth.adminAuth,adminController.blockUser);
+router.get('/userList/:id', auth.adminAuth, adminController.blockUser);
 
 router.route('/categories')
-.get(auth.adminAuth,categoryController.getCategories)
-.post(categoryController.postCategories)
+    .get(auth.adminAuth, categoryController.getCategories)
+    .post(categoryController.postCategories)
 
-router.get('/categories/:id',auth.adminAuth,categoryController.listOrUnlist);
+router.get('/categories/:id', auth.adminAuth, categoryController.listOrUnlist);
 
 router.route('/categories/edit/:id')
-.get(auth.adminAuth,categoryController.getCategoryEdit)
-.post(categoryController.editCategory)
+    .get(auth.adminAuth, categoryController.getCategoryEdit)
+    .post(categoryController.editCategory)
 
 router.route('/categories/delete/:id')
-.get(auth.adminAuth,categoryController.deleteCategory)
+    .get(auth.adminAuth, categoryController.deleteCategory)
 
 router.route('/products')
-.get(auth.adminAuth,productController.getProductPage)
+    .get(auth.adminAuth, productController.getProductPage)
 
 
 router.route('/products/addProduct')
-.get(auth.adminAuth,productController.getAddProduct)
-.post(upload.array('images',3),productController.postProduct)
+    .get(auth.adminAuth, productController.getAddProduct)
+    .post(upload.array('images', 3), productController.postProduct)
 
 router.route('/products/delete/:id')
-.get((req,res,next)=>{
-    console.log("hhhh");
-    next();
-},auth.adminAuth,productController.deleteProduct)
+    .get((req, res, next) => {
+        console.log("hhhh");
+        next();
+    }, auth.adminAuth, productController.deleteProduct)
 
 router.route('/products/edit/:id')
-.get(auth.adminAuth,productController.getProductEdit)
-.post(upload.array('images',3),productController.editProduct)
+    .get(auth.adminAuth, productController.getProductEdit)
+    .post(upload.array('images', 3), productController.editProduct)
 
 router.route('/orders')
-.get(auth.adminAuth,orderController.getOrders)
+    .get(auth.adminAuth, orderController.getOrders)
 
 router.route('/orders/updateStatus')
-.post(orderController.changeOrderStatus)
+    .post(orderController.changeOrderStatus)
 
 router.route('/orders/cancel')
-.post(orderController.orderCancel)
+    .post(orderController.orderCancel)
 
 
 

@@ -10,7 +10,7 @@ const res = require('express/lib/response');
 
 exports.getCategories = async (req, res) => {
 
-    
+
     try {
         const page = parseInt(req.query.page) || 1;
         const limit = 5;
@@ -18,44 +18,45 @@ exports.getCategories = async (req, res) => {
         // const items = await user.User.find().skip(skip).limit(limit);
         const total = await models.Category.countDocuments();
         // console.log(total);
-        let error = req.session.isExist?"This category is already exists":null;
+        let error = req.session.isExist ? "This category is already exists" : null;
         req.session.isExist = false
 
         const categories = await models.Category.find().skip(skip).limit(limit);
         // console.log(categories)
-        res.render('admin/category', { categories: categories, 
+        res.render('admin/category', {
+            categories: categories,
             error: error,
             currentPage: page,
-            limit:limit,
+            limit: limit,
             totalPages: Math.ceil(total / limit),
-         });
-        
+        });
+
     } catch (error) {
         console.log(error);
-        
+
     }
 
-    
+
 }
 
 exports.postCategories = async (req, res) => {
     try {
         console.log("haiiiiiiiiii");
-        
+
         const category = req.body.category;
         const description = req.body.description;
         const categories = await models.Category.find()
-        console.log("ittt"+category);
-        
+        console.log("ittt" + category);
 
-        const isExist = await models.Category.findOne({ categoryName: { $regex: new RegExp(`^${category}$`, 'i')} });
-        console.log("Category exist"+isExist)
+
+        const isExist = await models.Category.findOne({ categoryName: { $regex: new RegExp(`^${category}$`, 'i') } });
+        console.log("Category exist" + isExist)
 
         if (isExist) {
             req.session.isExist = true;
             console.log("Exists");
-            
-            return res.redirect('/admin/categories' );
+
+            return res.redirect('/admin/categories');
 
         }
 
@@ -107,15 +108,15 @@ exports.getCategoryEdit = async (req, res) => {
 
     const category = await models.Category.findOne({ _id: categoryId });
 
-    res.render('admin/editCategory',{error:"",category})
+    res.render('admin/editCategory', { error: "", category })
 }
 
 exports.editCategory = async (req, res) => {
 
-    const {category, description} = req.body
+    const { category, description } = req.body
     // const description = req.body.description;
     try {
-        await models.Category.updateOne({ _id: req.params.id }, 
+        await models.Category.updateOne({ _id: req.params.id },
             { categoryName: category, description });
         res.redirect('/admin/categories');
     }
@@ -128,15 +129,15 @@ exports.editCategory = async (req, res) => {
 }
 
 
-exports.deleteCategory = async (req, res) =>{
+exports.deleteCategory = async (req, res) => {
     const categoryId = req.params.id;
-    try{
-        await models.Category.deleteOne({_id:categoryId});
+    try {
+        await models.Category.deleteOne({ _id: categoryId });
         res.redirect('/admin/categories');
 
 
-    }  catch (error){
+    } catch (error) {
 
-    }  
-    
+    }
+
 }

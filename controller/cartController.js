@@ -22,11 +22,11 @@ exports.addToCart = async (req, res) => {
         console.log("hsadssd");
         const userId = req.session.userId;
 
-        const isCarted = await cart.Cart.findOne({ userId, productId }).populate("productId")
-        console.log("isthis " + isCarted);
+        const isInCart = await cart.Cart.findOne({ userId, productId }).populate("productId")
+        console.log("isthis " + isInCart);
 
 
-        if (isCarted) {
+        if (isInCart) {
             return res.status(200).json({ success: false, message: "it is already exist" });
 
         }
@@ -48,12 +48,11 @@ exports.addToCart = async (req, res) => {
 
         await userCart.save();
 
+        console.log("Added to cart")
         return res.status(200).json({ success: true, message: "success..." });
 
-        console.log(product);
 
 
-        console.log("Added to cart")
     } catch (error) {
         return res.status(500).json({ error: "something error" })
 
@@ -61,7 +60,7 @@ exports.addToCart = async (req, res) => {
 }
 
 exports.updateQuantity = async (req, res) => {
-    console.log("update ethi...");
+    console.log("update e");
 
     const userId = req.session.userId;
 
@@ -107,5 +106,5 @@ exports.checkout = async (req, res) => {
     // console.log(query1);
     // console.log(query2);
 
-    res.render('user/checkout', { userData,userCart ,checkout })
+    res.render('user/checkout', { userData, userCart, checkout })
 }

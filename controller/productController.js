@@ -40,6 +40,130 @@ exports.getProductPage = async (req, res) => {
 
 }
 
+// exports.postProduct = async (req, res) => {
+//     const {
+//         productName,
+//         description,
+//         stock,
+//         category,
+//         size,
+//         regularPrice,
+//         salePrice,
+//         status,
+//         review,
+//         images
+//     }
+//         = req.body;
+
+//     //    const FullProductName = productName + " (" + size + ")" need to add the product name as name + size
+//     const products = await models.Product.find().populate('category')
+
+//     try {
+//         const isExist = await models.Product.findOne({ productName: productName })
+
+//         if (isExist) {
+//             return res.render('admin/products', {
+//                 products: products,
+//                 error: "This product already exist in the database"
+//             });
+
+//         }
+//         console.log(category);
+
+//         // Array to store image filenames
+//         const uploadImages = [];
+
+//         // Handle file uploads using multer
+//         if (req.files && req.files.length > 0) {
+//             for (let i = 0; i < req.files.length; i++) {
+//                 const originalImagePath = req.files[i].path;
+//                 const resizedFilename = Date.now() + req.files[i].filename;
+//                 const resizedImagesPath = path.join('public', 'images', resizedFilename);
+
+//                 const supportedFormats = ['image/jpeg', 'image/png', 'image/webp'];
+//                 if (!supportedFormats.includes(req.files[i].mimetype)) {
+//                     return res.status(400).json({ error: 'Unsupported image format' });
+//                 }
+
+//                 // Resize the image using Sharp
+//                 try {
+//                     await Sharp(originalImagePath)
+//                         .resize({ width: 440, height: 440 })
+//                         .toFile(resizedImagesPath);
+//                 } catch (sharpError) {
+//                     console.log('Error processing image with Sharp:', sharpError);
+//                     return res.status(500).json({ error: 'Error processing image' });
+//                 }
+
+//                 // Push the resized filename to the array
+//                 uploadImages.push(resizedFilename);
+//             }
+//         }
+
+//         // Find category by name
+//         const categoryData = await models.Category.findOne({ _id: category });
+//         if (!categoryData) {
+//             return res.status(404).json({ error: 'Category not found' });
+//         }
+
+
+
+//         const newProduct = new models.Product({
+//             productName: productName,
+//             description: description,
+//             stock: stock,
+//             category: category,
+//             size: size,
+//             regularPrice: regularPrice,
+//             salePrice: salePrice,
+//             status: status,
+//             review: review,
+//             images: uploadImages
+//         });
+
+
+//         await newProduct.save();
+//         res.redirect('/admin/products')
+//     } catch (error) {
+//         console.log(error)
+//     }
+
+
+
+// }
+
+
+
+async function processImages(files) {
+    const uploadImages = [];
+    const supportedFormats = ['image/jpeg', 'image/png', 'image/webp'];
+
+    for (const file of files) {
+        const originalImagePath = file.path;
+        const resizedFilename = Date.now() + file.filename;
+        const resizedImagesPath = path.join('public', 'images', resizedFilename);
+
+        // Check if the file format is supported
+        if (!supportedFormats.includes(file.mimetype)) {
+            throw new Error('Unsupported image format');
+        }
+
+        // Resize the image using Sharp
+        try {
+            await Sharp(originalImagePath)
+                .resize({ width: 440, height: 440 })
+                .toFile(resizedImagesPath);
+
+            // Push the resized filename to the array
+            uploadImages.push(resizedFilename);
+        } catch (error) {
+            throw new Error('Error processing image with Sharp');
+        }
+    }
+
+    return uploadImages;
+}
+
 exports.postProduct = async (req, res) => {
     const {
         productName,
@@ -50,66 +174,41 @@ exports.postProduct = async (req, res) => {
         regularPrice,
         salePrice,
         status,
-        review,
-        images
-    }
-        = req.body;
+        review
+    } = req.body;
 
-    //    const FullProductName = productName + " (" + size + ")" need to add the product name as name + size
-    const products = await models.Product.find().populate('category')
+    const products = await models.Product.find().populate('category');
 
     try {
-        const isExist = await models.Product.findOne({ productName: productName })
+        const isExist = await models.Product.findOne({ productName: productName });
 
         if (isExist) {
             return res.render('admin/products', {
                 products: products,
-                error: "This product already exist in the database"
+                error: "This product already exists in the database"
             });
-
         }
-        console.log(category);
 
-        // Array to store image filenames
-        const uploadImages = [];
-
-        // Handle file uploads using multer
+        // Process images using the utility function
+        let uploadImages = [];
         if (req.files && req.files.length > 0) {
-            for (let i = 0; i < req.files.length; i++) {
-                const originalImagePath = req.files[i].path;
-                const resizedFilename = Date.now() + req.files[i].filename;
-                const resizedImagesPath = path.join('public', 'images', resizedFilename);
-
-                const supportedFormats = ['image/jpeg', 'image/png', 'image/webp'];
-                if (!supportedFormats.includes(req.files[i].mimetype)) {
-                    return res.status(400).json({ error: 'Unsupported image format' });
-                }
-
-                // Resize the image using Sharp
-                try {
-                    await Sharp(originalImagePath)
-                        .resize({ width: 440, height: 440 })
-                        .toFile(resizedImagesPath);
-                } catch (sharpError) {
-                    console.log('Error processing image with Sharp:', sharpError);
-                    return res.status(500).json({ error: 'Error processing image' });
-                }
-
-                // Push the resized filename to the array
-                uploadImages.push(resizedFilename);
+            try {
+                uploadImages = await processImages(req.files);
+            } catch (error) {
+                console.log(error.message);
+                return res.status(400).json({ error: error.message });
             }
         }
 
-        // Find category by name
+        // Find category by ID
         const categoryData = await models.Category.findOne({ _id: category });
         if (!categoryData) {
             return res.status(404).json({ error: 'Category not found' });
         }
 
-
-
+        // Create a new product
         const newProduct = new models.Product({
-            productName: productName,
+            productName: `${productName} (${size})`, // Include size in product name
             description: description,
             stock: stock,
             category: category,
@@ -121,16 +220,14 @@ exports.postProduct = async (req, res) => {
             images: uploadImages
         });
 
-
         await newProduct.save();
-        res.redirect('/admin/products')
+        res.redirect('/admin/products');
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        res.status(500).json({ error: 'Something went wrong' });
     }
+};
 
-
-
-}
 
 exports.getAddProduct = async (req, res) => {
     console.log("haiiii");
@@ -139,7 +236,7 @@ exports.getAddProduct = async (req, res) => {
     const products = await models.Product.find().populate('category')
     console.log(products);
 
-    res.render('admin/addProduct', { products: products, categories: categories, error: "" })
+    return res.render('admin/addProduct', { products: products, categories: categories, error: "" })
 }
 
 exports.deleteProduct = async (req, res) => {
@@ -154,7 +251,6 @@ exports.deleteProduct = async (req, res) => {
         } else {
             await models.Product.updateOne({ _id: productId }, { $set: { isListed: true } });
             res.redirect('/admin/products');
-
         }
 
 
@@ -192,7 +288,7 @@ exports.getProductEdit = async (req, res) => {
 
 exports.editProduct = async (req, res) => {
 
-    console.log("haiiillkkkk");
+    console.log("edit Product");
 
 
 
@@ -278,3 +374,78 @@ exports.editProduct = async (req, res) => {
 };
 
 
+// exports.editProduct = async (req, res) => {
+//     try {
+//         const {
+//             productName,
+//             description,
+//             stock,
+//             category,
+//             size,
+//             regularPrice,
+//             salePrice,
+//             status,
+//             review
+//         } = req.body;
+
+//         // console.log(req.body);
+
+//         // Handle file uploads using multer
+//         const updatedImages = req.body.existingImages ? JSON.parse(req.body.existingImages) : [];
+
+//         if (req.files && req.files.length > 0) {
+//             const supportedFormats = ['image/jpeg', 'image/png', 'image/webp'];
+//             for (let i = 0; i < req.files.length; i++) {
+//                 const originalImagePath = req.files[i].path;
+//                 const resizedFilename = Date.now() + req.files[i].filename;
+//                 const resizedImagesPath = path.join('public', 'images', resizedFilename);
+
+//                 if (!supportedFormats.includes(req.files[i].mimetype)) {
+//                     return res.status(400).json({ error: 'Unsupported image format' });
+//                 }
+
+//                 // Resize the image using Sharp
+//                 try {
+//                     await Sharp(originalImagePath)
+//                         .resize({ width: 440, height: 440 })
+//                         .toFile(resizedImagesPath);
+
+//                     // Add resized image to updatedImages
+//                     updatedImages.push(resizedFilename);
+//                 } catch (sharpError) {
+//                     console.log('Error processing image with Sharp:', sharpError);
+//                     return res.status(500).json({ error: 'Error processing image' });
+//                 }
+//             }
+//         }
+
+//         const updateFields = {
+//             ...(productName && { productName }),
+//             ...(description && { description }),
+//             ...(stock && { stock }),
+//             ...(category && { category }),
+//             ...(size && { size }),
+//             ...(regularPrice && { regularPrice }),
+//             ...(salePrice && { salePrice }),
+//             ...(status && { status }),
+//             ...(review && { review }),
+//             images: updatedImages, // Update the images array
+//         };
+
+//         const updatedProduct = await models.Product.findByIdAndUpdate(
+//             req.params.id,
+//             { $set: updateFields },
+//             { new: true }
+//         );
+
+//         console.log("images [ "+updatedImages+" ]");
+
+//         if (!updatedProduct) {
+//             return res.status(404).json({ message: 'Product not found' });
+//         }
+
+//         res.status(200).redirect('/admin/products');
+//     } catch (error) {
+//         res.status(400).json({ message: 'Error updating product', error: error.message });
+//     }
+// };

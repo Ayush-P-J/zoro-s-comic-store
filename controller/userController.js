@@ -26,7 +26,7 @@ exports.getHomePage = async (req, res) => {
   const products = await admin.Product.find({ isListed: true }).populate('category')
   const userCart = await cart.Cart.find({ userId }).populate('productId')
 
-  console.log("efsdf" + this.userEmail);
+  console.log("User" + this.userEmail);
 
 
   if (!req.session.email) {
@@ -220,14 +220,14 @@ exports.postLogin = async (req, res) => {
 };
 
 exports.googleLogin = async (req, res) => {
-  const EMAIL = req.user.email
-  this.userEmail = EMAIL
+  const email = req.user.email
+  this.userEmail = email
 
   const isExist = req.isExist
-  console.log(EMAIL);
+  console.log(email);
   console.log(isExist);
 
-  const userDetails = await user.User.findOne({ email: EMAIL });
+  const userDetails = await user.User.findOne({ email: email });
   req.session.userId = userDetails._id
 
 
@@ -263,16 +263,16 @@ exports.getSignupPage = (req, res) => {
 
 exports.postSignup = async (req, res) => {
 
-  const FULLNAME = req.body.fullName;
-  const USERNAME = req.body.userName;
-  const PHONE = req.body.phone;
-  const EMAIL = req.body.email;
-  const PASSWORD = req.body.password;
+  const fullName = req.body.fullName;
+  const userName = req.body.userName;
+  const phone = req.body.phone;
+  const email = req.body.email;
+  const password = req.body.password;
   // const CONFIRMPASS = req.body.confirmPass;
 
 
   try {
-    const existingUser = await user.User.findOne({ email: EMAIL });
+    const existingUser = await user.User.findOne({ email: email });
 
 
     if (existingUser) {
@@ -282,7 +282,7 @@ exports.postSignup = async (req, res) => {
 
     const otp = generateOtp()
 
-    const emailSent = await sendVerificationEmail(EMAIL, otp);
+    const emailSent = await sendVerificationEmail(email, otp);
 
     if (!emailSent) {
       return res.json("email-error")
@@ -291,7 +291,7 @@ exports.postSignup = async (req, res) => {
     req.session.userOtp = otp;
     req.session.otpExpires = Date.now() + 30 * 1000;
 
-    req.session.userData = { FULLNAME, USERNAME, PHONE, EMAIL, PASSWORD };
+    req.session.userData = { fullName, userName, phone, email, password };
 
     res.redirect("/user/verifyOTP")
     console.log("OTP send", otp)
@@ -374,13 +374,13 @@ exports.verifyOtp = async (req, res) => {
     const users = req.session.userData;
 
     if (OTP === req.session.userOtp) {
-      const passwordHash = await securePassword(users.PASSWORD);
+      const passwordHash = await securePassword(users.password);
 
       const newUser = new user.User({
-        fullName: users.FULLNAME,
-        userName: users.USERNAME,
-        phone: users.PHONE,
-        email: users.EMAIL,
+        fullName: users.fullName,
+        userName: users.userName,
+        phone: users.phone,
+        email: users.email,
         addresses: [],
         password: passwordHash,
       });
@@ -417,13 +417,12 @@ exports.resendOTP = async (req, res) => {
 
     console.log('email');
 
-    const { EMAIL } = req.session.userData
-    const email = EMAIL
+    const { email } = req.session.userData
     if (!email) {
       return res.status(400).json({ success: false, message: "Email not found in session" })
 
     }
-    console.log(EMAIL);
+    console.log(email);
 
 
 
@@ -465,26 +464,50 @@ exports.viewProduct = async (req, res) => {
 }
 
 exports.getCategoryUser = async (req, res) => {
+  const sortOption = req.query.sortBy;
+  let sortCriteria;
+  switch (sortOption) {
+    case 'popularity':
+      sortCriteria = { popularity: -1 }; // Assuming a `popularity` field in the database
+      break;
+    case 'price-low-high':
+      sortCriteria = { salePrice: 1 };
+      break;
+    case 'price-high-low':
+      sortCriteria = { salePrice: -1 };
+      break;
+    case 'newest-first':
+      sortCriteria = { createdAt: -1 };
+      break;
+    case 'aA-zZ':
+      sortCriteria = { productName: 1 };
+      break;
+    case 'zZ-aA':
+      sortCriteria = { productName: -1 };
+      break;
+    default:
+      sortCriteria = {};
+  }
 
-  const categories = await admin.Category.find({ status: true })
 
 
-  const products = await admin.Product.find({ isListed: true }).populate('category');
+  const products = await admin.Product.find({ isListed: true }).sort(sortCriteria).populate('category');
 
 
 
 
-  res.render('user/categories', { products ,categories})
+  res.render('user/categories', { products, sortOption })
 }
 
 
 exports.getProfilePage = async (req, res) => {
   // const userId = this.userEmail
   const userId = req.session.userId;
-  
+
   const userData = await user.User.findOne({ _id: userId })
-  const orderDetails = await order.Order.find({userId}).populate('userId').populate('addressId')
+  const orderDetails = await order.Order.find({ userId }).populate('userId').populate('addressId')
   // console.log("aa ithaa" + userData);
+  // console.log("szdfd"+orderDetails.); 
 
   res.render('user/profile', { userData, orderDetails });
 }
@@ -604,7 +627,7 @@ exports.postAddress = async (req, res) => {
 
 //   const userId = req.session.userId;
 
-  
+
 //   await user.User.updateOne(
 //     { _id: userId, "addresses._id": addressId },
 //     { $set: updates }
