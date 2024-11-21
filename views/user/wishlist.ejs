@@ -1,1 +1,433 @@
-<h1>Wishlist</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Colo Shop Template" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="styles/bootstrap4/bootstrap.min.css"
+    />
+    <link
+      href="plugins/font-awesome-4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="plugins/OwlCarousel2-2.2.1/owl.carousel.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="plugins/OwlCarousel2-2.2.1/animate.css"
+    />
+    <link rel="stylesheet" type="text/css" href="styles/main_styles.css" />
+    <link rel="stylesheet" type="text/css" href="styles/responsive.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.css"
+    />
+
+
+    <link rel="stylesheet" type="text/css" href="/user/styles/single_styles.css">
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+
+      .wishlist-container {
+        max-width: 800px;
+        margin: 20px auto;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+
+      .wishlist-header {
+        padding: 16px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .wishlist-header h1 {
+        font-size: 20px;
+        color: #212121;
+      }
+
+      .wishlist-item {
+        display: flex;
+        padding: 16px;
+        border-bottom: 1px solid #e0e0e0;
+        gap: 16px;
+      }
+
+      .product-image {
+        width: 120px;
+        height: 160px;
+        position: relative;
+      }
+
+      .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .unavailable-badge {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #fff1f1;
+        color: #ff4d4d;
+        padding: 4px;
+        text-align: center;
+        font-size: 12px;
+      }
+
+      .product-details {
+        flex: 1;
+      }
+
+      .product-name {
+        font-size: 16px;
+        color: #212121;
+        margin-bottom: 8px;
+      }
+
+      .rating-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .rating {
+        background: #388e3c;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 14px;
+      }
+
+      .review-count {
+        color: #878787;
+        font-size: 14px;
+      }
+
+      .assured-badge {
+        background: #f0f8ff;
+        color: #2874f0;
+        padding: 2px 8px;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+
+      .price-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .current-price {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .original-price {
+        color: #878787;
+        text-decoration: line-through;
+        font-size: 14px;
+      }
+
+      .discount {
+        color: #388e3c;
+        font-size: 14px;
+      }
+    </style>
+    <style>
+        .main_slider {
+          position: relative;
+          background-image: url("/image/background.png");
+          background-size: cover;
+          background-position: center;
+        }
+  
+        .main_slider::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.3);
+          /* Adjust opacity as needed */
+          z-index: 1;
+        }
+  
+        .main_slider_content {
+          position: relative;
+          z-index: 2;
+          text-align: center;
+          /* Center-aligns the text */
+          color: #fff;
+          /* Makes text readable over dark overlay */
+        }
+  
+        .logo {
+          border-radius: 50px;
+          background-color: rgba(0, 0, 0, 0.7);
+          /* Adjust opacity as needed */
+        }
+  
+        .logo h1,
+        h2 {
+          color: azure;
+        }
+      </style>
+      
+  </head>
+  <body>
+    <div class="main_nav_container">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12 text-right">
+              <div class="logo_container">
+                <a href="#">ZORO<span>'S</span></a>
+              </div>
+              <nav class="navbar">
+                <ul class="navbar_menu">
+                  <li><a href="#">home</a></li>
+                  <li><a href="categories">shop</a></li>
+                  <li><a href="#">promotion</a></li>
+                  <li><a href="#">pages</a></li>
+                  <li><a href="#">blog</a></li>
+                  <li><a href="contact.html">contact</a></li>
+                </ul>
+                <ul class="navbar_user">
+                  <li>
+                    <a href="#"
+                      ><i class="fa fa-search" aria-hidden="true"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="profile"
+                      ><i class="fa fa-user" aria-hidden="true"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="wishlist"
+                      ><i class="fa fa-heart" aria-hidden="true"></i
+                    ></a>
+                  </li>
+                  <li class="checkout">
+                    <a href="cart">
+                      <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                      <span id="checkout_items" class="checkout_items">
+                        <%= userCart.length %>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+                <div class="hamburger_container">
+                  <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="fs_menu_overlay"></div>
+    <div class="hamburger_menu">
+      <div class="hamburger_close">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </div>
+      <div class="hamburger_menu_content text-right">
+        <ul class="menu_top_nav">
+          <li class="menu_item has-children">
+            <a href="#">
+              usd
+              <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="menu_selection">
+              <li><a href="#">cad</a></li>
+              <li><a href="#">aud</a></li>
+              <li><a href="#">eur</a></li>
+              <li><a href="#">gbp</a></li>
+            </ul>
+          </li>
+          <li class="menu_item has-children">
+            <a href="#">
+              English
+              <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="menu_selection">
+              <li><a href="#">French</a></li>
+              <li><a href="#">Italian</a></li>
+              <li><a href="#">German</a></li>
+              <li><a href="#">Spanish</a></li>
+            </ul>
+          </li>
+          <li class="menu_item has-children">
+            <a href="#">
+              My Accounts
+              <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="menu_selection">
+              <li>
+                <a href="#"
+                  ><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a
+                >
+              </li>
+              <li>
+                <a href="#"
+                  ><i class="fa fa-user-plus" aria-hidden="true"></i
+                  >Register</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li class="menu_item"><a href="#">home</a></li>
+          <li class="menu_item"><a href="#">shop</a></li>
+          <li class="menu_item"><a href="#">promotion</a></li>
+          <li class="menu_item"><a href="#">pages</a></li>
+          <li class="menu_item"><a href="#">blog</a></li>
+          <li class="menu_item"><a href="#">contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="breadcrumbs d-flex flex-row align-items-center">
+        <ul>
+            <li><a href="/user/home">Home</a></li>
+            <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>cart</a></li>
+        </ul>
+    </div>
+    <div class="wishlist-container">
+      <div class="wishlist-header">
+        <h1>My Wishlist (<%= wish.length %>)</h1>
+      </div>
+      <% if (wish.length> 0){ %> 
+        <% wish.forEach((cart,i)=>{ %>
+      <div class="wishlist-item">
+        <div class="product-image">
+          <img
+            src="/images/<%= cart.productId.images[0] %>"
+            alt="Samsung Galaxy S23 FE"
+          />
+        </div>
+        <div class="product-details">
+          
+          <a href="/user/viewProduct/<%= cart.productId._id %>" target="_blank">
+            <h2 class="product-name">
+              <%= cart.productId.productName %> (<%= cart.productId.size %>)
+            </h2>
+          </a>
+          <div class="rating-container">
+            <span class="rating">4.3 ★</span>
+            <span class="review-count">(54,546)</span>
+            <span class="assured-badge">Assured</span>
+          </div>
+          <div class="price-container">
+            <span class="current-price"
+              >&dollar;<%= cart.productId.salePrice %></span
+            >
+            <span class="original-price"
+              >&dollar;<%= cart.productId.regularPrice %></span
+            >
+            <span class="discount">58% off</span>
+          </div>
+        </div>
+        <div>
+            <span class="close" id="close">
+                <a href="javascript:void(0);"
+                    onclick="confirmDelete('<%= cart.productId._id %>')">&#10005;</a>
+            </span>
+        </div>
+      </div>
+
+      <% }) %> <%} else{%> <% }%>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="styles/bootstrap4/popper.js"></script>
+    <script src="styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="plugins/easing/easing.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/wishlist.js"></script>
+
+    <script>
+        function confirmDelete(productId) {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "This will make the users cannot view this product!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            axios.post('/user/addToWishlist', {productId,active:false})
+							.then(response => {
+								// Success SweetAlert notification
+								if (response.data.success === true) {
+									
+									Swal.fire({
+										icon: 'success',
+										title: 'removed successfully!',
+										toast: true,
+										color:'black',
+										position: 'top-end',
+										showConfirmButton: false,
+										timer: 2000
+									})
+									.then(() => {
+										window.location.reload();
+									});
+										
+									// cartNumber.innerText = ""
+								} else {
+									Swal.fire({
+										icon: 'error',
+										title: 'error',
+										text: response.data.message,
+										confirmButtonText: 'OK'
+									});
+
+								}
+							})
+							.catch(error => {
+								// Error SweetAlert notification
+								Swal.fire({
+									icon: 'error',
+									title: 'Error',
+									text: 'There was an error updating the quantity. Please try again.',
+									confirmButtonText: 'OK'
+								});
+								console.error("Error updating quantity:", error);
+							}); // Redirect to delete URL
+                        }
+                    });
+                }
+    </script>
+</html>

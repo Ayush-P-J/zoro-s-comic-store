@@ -75,10 +75,10 @@
                           <th>Product Name</th>
                           <th>Stock</th>
                           <th>Category</th>
+                          <th>Offer</th>
                           <th>Regular Price</th>
                           <th>Sale Price</th>
                           <th>Status</th>
-                          <th>Colors</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -101,6 +101,9 @@
                                 <%= product.category.categoryName %>
                               </td> <!-- Assuming category has been populated -->
                               <td>
+                                <%= product.offer ? product.offer : 'N/A' %>
+                              </td>
+                              <td>
                                 <%= product.regularPrice %>
                               </td>
                               <td>
@@ -112,9 +115,6 @@
                                   <% } else { %>
                                     <span class="badge badge-danger">Out of Stock</span>
                                     <% } %>
-                              </td>
-                              <td>
-                                <%= product.colors %>
                               </td>
                               <td>
                                 <a href="/admin/products/edit/<%= product._id %>" class="btn btn-warning btn-sm">

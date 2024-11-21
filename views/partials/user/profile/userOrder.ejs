@@ -1,0 +1,67 @@
+<div id="orders" class="content-section mt-4">
+  <div class="order-details-container">
+    <% orderDetails.forEach((order)=>{ %>
+    <div class="order-item d-flex justify-content-evenly">
+      <!-- <div class="product-image">
+                          <img src="" alt="Product Image">
+                        </div> -->
+      <div class="product-info">
+        <p class="product-name"><%= order.orderId %></p>
+        <p class="product-price">
+          &dollar;<%= order.totalAmount %>
+        </p>
+        <% const formattedDate=new Intl.DateTimeFormat('en-US', {
+        year: 'numeric' , month: 'long' , day: "numeric" ,
+        }).format(order.createdAt); %> <% if
+        (order.status=="Delivered" ){ %>
+        <p class="delivery-date">
+          Delivered on <%= formattedDate %>
+        </p>
+        <% } else{ %>
+
+        <p class="delivery-date">Ordered on <%= formattedDate %></p>
+
+        <% } %>
+        <!-- <div class="review-link">
+                            <a href="#">Rate & Review Product</a>
+                          </div> -->
+      </div>
+      <% const getStatusClass=(status)=> { switch(status) { case
+      'Order Placed': return 'status-order-placed'; case
+      'Processing': return 'status-processing'; case 'Shipped':
+      return 'status-shipped'; case 'Out for delivery': return
+      'status-out-for-delivery'; case 'Delivered': return
+      'status-delivered'; case 'Cancelled': return
+      'status-cancelled'; case 'Returned': return 'status-returned';
+      default: return ''; } } %>
+      <div>
+        <p class="status-badge <%= getStatusClass(order.status) %>">
+          <%= order.status %>
+        </p>
+      </div>
+      <div>
+        <% if(order.status=="Order Placed" ){%>
+        <button
+          type="button"
+          onclick="orderCancel('<%= order.orderId %>')"
+          class="btn btn-danger"
+        >
+          Cancel
+        </button>
+
+        <% }else{ %>
+        <button
+          type="button"
+          onclick="orderCancel('<%= order.orderId %>')"
+          class="btn btn-dark"
+          disabled
+        >
+          Cancel
+        </button>
+        <% } %>
+      </div>
+    </div>
+
+    <% }) %>
+  </div>
+</div>

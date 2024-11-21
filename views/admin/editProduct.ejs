@@ -100,14 +100,15 @@
                 <div class="form-group">
                   <label for="category">Category</label>
                   <select class="form-control" name="category" id="category" required>
-                    <% categories.forEach((category)=> { %>
-                      <% if (category.status===true) { %>
-                        <option value="<%= category._id %>" <%=category._id===product.category ? "selected" : "" %>>
+                    <% categories.forEach((category) => { %>
+                      <% if (category.status === true) { %>
+                        <option value="<%= category._id %>" <%= category._id.toString() === product.category.toString() ? "selected" : "" %>>
                           <%= category.categoryName %>
                         </option>
-                        <% } %>
-                          <% }); %>
+                      <% } %>
+                    <% }); %>
                   </select>
+                  
                 </div>
 
                 <!-- Size -->
@@ -129,9 +130,9 @@
 
                 <!-- Sale Price -->
                 <div class="form-group">
-                  <label for="salePrice">Sale Price</label>
-                  <input type="number" class="form-control" value="<%= product.salePrice %>" name="salePrice"
-                    id="salePrice" placeholder="Enter sale price">
+                  <label for="offer">Offer</label>
+                  <input type="number" class="form-control" value="<%= product.offer %>" name="offer"
+                    id="offer" placeholder="Enter Offer">
                 </div>
 
                 <!-- Status -->
@@ -486,11 +487,11 @@
       }
 
       // Sale Price validation (optional, must be lower than regular price)
-      const salePrice = document.getElementById("salePrice").value;
-      if (salePrice !== "" && (isNaN(salePrice) || salePrice <= 0)) {
+      const offer = document.getElementById("offer").value;
+      if (offer !== "" && (isNaN(offer) || offer <= 0)) {
         alert("Sale Price must be a positive number.");
         isValid = false;
-      } else if (salePrice !== "" && parseFloat(salePrice) >= parseFloat(regularPrice)) {
+      } else if (offer !== "" && parseFloat(offer) >= parseFloat(regularPrice)) {
         alert("Sale Price must be less than Regular Price.");
         isValid = false;
       } else {

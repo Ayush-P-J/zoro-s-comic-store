@@ -86,12 +86,17 @@
                       <label for="category">Category</label>
                       <input type="text" class="form-control" id="category" name="category" placeholder="Category">
                     </div>
+                    
                     <div class="form-group">
                       <label for="description">Description</label>
 
                       <textarea class="form-control" id="description" name="description" placeholder="Description"
                         rows="4"></textarea>
 
+                    </div>
+                    <div class="form-group">
+                      <label for="offer">Offer (%)</label>
+                      <input type="text" class="form-control" id="offer" name="offer" placeholder="Offer">
                     </div>
                     <h4 class="card-title">
                       &nbsp;<%= error %>
@@ -160,6 +165,7 @@
 
                               <th> Category </th>
                               <th> Description </th>
+                              <th> Offer </th>
                               <th> Status </th>
                               <th> </th>
 
@@ -178,6 +184,9 @@
                                   </td>
                                   <td class="product-name-cell">
                                     <%= category.description %>
+                                  </td>
+                                  <td class="product-name-cell">
+                                    <%= category.offer %>
                                   </td>
 
 

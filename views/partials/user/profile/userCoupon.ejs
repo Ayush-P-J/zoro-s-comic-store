@@ -1,0 +1,94 @@
+ <div id="coupon" class="content-section mt-4">
+              <div class="container my-5">
+                <h2 class="mb-4">Available Coupons</h2>
+
+                <div class="row">
+                  <% coupons.forEach((coupon) => { %>
+                  <div class="col-md-4 mb-4">
+                    <div class="card coupon-card">
+                      <div class="card-body">
+                        <h5 class="card-title"><%= coupon.couponName %></h5>
+                        <p class="card-text"><%= coupon.couponCode %></p>
+
+                        <div class="coupon-details">
+                          <div class="badge badge-primary mb-2">
+                            <% if (coupon.discountType === 'PERCENTAGE') { %>
+                            <%= coupon.discountValue %>% Off <% } else { %> $<%=
+                            coupon.discountValue %> Off <% } %>
+                          </div>
+
+                          <div class="text-muted small">
+                            <p>Minimum Order: $<%= coupon.minCartValue %></p>
+                            <p>
+                              Expires: <%=
+                              coupon.expiryDate.toLocaleDateString() %>
+                            </p>
+                          </div>
+                        </div>
+
+                        <div
+                          class="d-flex justify-content-between align-items-center"
+                        >
+                          <span class="badge badge-info"
+                            >Code: <%= coupon.couponCode %></span
+                          >
+                          <button
+                            class="btn btn-sm btn-outline-primary"
+                            onclick="applyCoupon('<%= coupon.couponCode %>')"
+                          >
+                            Copy code
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <% }); %>
+                </div>
+
+                <% if (coupons.length === 0) { %>
+                <div class="alert alert-info text-center" role="alert">
+                  No coupons are currently available.
+                </div>
+                <% } %>
+              </div>
+
+              <script>
+                function applyCoupon(couponCode) {
+                  // Copy coupon code to clipboard
+                  navigator.clipboard
+                    .writeText(couponCode)
+                    .then(() => {
+                      Swal.fire({
+                        icon: "success",
+                        title: "Coupon Code Copied!",
+                        text: `Coupon code ${couponCode} has been copied to clipboard`,
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                      });
+                    })
+                    .catch((err) => {
+                      console.error("Failed to copy coupon code:", err);
+                      Swal.fire({
+                        icon: "error",
+                        title: "Copy Failed",
+                        text: "Unable to copy coupon code",
+                      });
+                    });
+                }
+              </script>
+
+              <style>
+                .coupon-card {
+                  transition: transform 0.3s ease;
+                  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                }
+                .coupon-card:hover {
+                  transform: scale(1.05);
+                }
+                .coupon-details {
+                  margin-bottom: 15px;
+                }
+              </style>
+            </div>

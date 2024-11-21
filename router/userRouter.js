@@ -100,5 +100,8 @@ router.route('/user/orderCancel/')
 router.route('/user/wishlist')
     .get(auth.userAuth, wishlistController.getWishlistPage)
 
+router.route('/user/addToWishlist')
+    .post(wishlistController.addToWishlist)
+
 
 module.exports = router;

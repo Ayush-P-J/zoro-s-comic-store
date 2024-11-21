@@ -3,14 +3,17 @@ const bcrypt = require("bcrypt")
 const user = require('../models/userModels');
 const admin = require('../models/adminModels');
 const cart = require('../models/cartModels');
+const wishlist = require('../models/wishlistModels');
 const order = require('../models/orderModels');
+const coupon = require("../models/couponModels");
+
 const { error } = require("console");
 
 const env = require("dotenv").config()
 
 // let userEmail = "";
 
-exports.getIndexPage = async (req, res) => {
+const getIndexPage = async (req, res) => {
   if (req.session.email) {
     return res.redirect('/user/home');
 
@@ -20,11 +23,12 @@ exports.getIndexPage = async (req, res) => {
   res.render('user/index', { products });
 
 }
-exports.getHomePage = async (req, res) => {
+const getHomePage = async (req, res) => {
   const userId = req.session.userId
   const categories = await admin.Category.find({ status: true })
   const products = await admin.Product.find({ isListed: true }).populate('category')
   const userCart = await cart.Cart.find({ userId }).populate('productId')
+  const userWishlist = await wishlist.Wishlist.find({ userId }).populate('productId')
 
   console.log("User" + this.userEmail);
 
@@ -33,7 +37,7 @@ exports.getHomePage = async (req, res) => {
     return res.redirect('/user/login');
 
   }
-  res.render('user/home', { products, categories, userCart });
+  res.status(200).render('user/home', { products, categories, userCart, userWishlist });
 
 }
 
@@ -41,7 +45,7 @@ exports.getHomePage = async (req, res) => {
 
 //Get user login page 
 
-exports.getLoginPage = async (req, res) => {
+const getLoginPage = async (req, res) => {
 
   if (req.session.email) {
     return res.redirect('/user/home');
@@ -58,12 +62,12 @@ exports.getLoginPage = async (req, res) => {
 
 };
 
-exports.getForgotPage = (req, res) => {
+const getForgotPage = (req, res) => {
 
   return res.render('user/forgotPassword', { success: true, message: "" });
 }
 
-exports.postForgotPass = async (req, res) => {
+const postForgotPass = async (req, res) => {
   const email = req.body.email;
   const userEmail = await user.User.findOne({ email: email })
   if (userEmail && !userEmail.googleId) {
@@ -88,11 +92,11 @@ exports.postForgotPass = async (req, res) => {
 
 }
 
-exports.getForgetPasswordOtp = async (req, res) => {
+const getForgetPasswordOtp = async (req, res) => {
   return res.render('user/forgotPasswordOtp', { success: false, message: "" })
 }
 
-exports.forgetPassOtpVerify = async (req, res) => {
+const forgetPassOtpVerify = async (req, res) => {
   try {
     const OTP = req.body.otp;
     req.session.userOtp = Date.now() > req.session.otpExpires ? null : req.session.userOtp;
@@ -116,12 +120,12 @@ exports.forgetPassOtpVerify = async (req, res) => {
 }
 
 
-exports.getChangePassword = async (req, res) => {
+const getChangePassword = async (req, res) => {
 
   res.render('user/changePassword')
 }
 
-exports.postChangePassword = async (req, res) => {
+const postChangePassword = async (req, res) => {
   try {
     const password = req.body.password;
     console.log(password);
@@ -136,7 +140,7 @@ exports.postChangePassword = async (req, res) => {
   }
 }
 
-exports.forgetPassResendOTP = async (req, res) => {
+const forgetPassResendOTP = async (req, res) => {
   try {
 
     console.log('reached forgetPassResendOTP');
@@ -169,7 +173,7 @@ exports.forgetPassResendOTP = async (req, res) => {
   }
 }
 
-exports.postLogin = async (req, res) => {
+const postLogin = async (req, res) => {
   try {
     // const { USERNAME, FULLNAME, PASSWORD } = req.body;
     const email = req.body.email;
@@ -191,7 +195,7 @@ exports.postLogin = async (req, res) => {
       return res.redirect('/user/login')
     }
 
-
+  
 
 
 
@@ -219,7 +223,7 @@ exports.postLogin = async (req, res) => {
 
 };
 
-exports.googleLogin = async (req, res) => {
+const googleLogin = async (req, res) => {
   const email = req.user.email
   this.userEmail = email
 
@@ -252,7 +256,7 @@ exports.googleLogin = async (req, res) => {
 
 
 
-exports.getSignupPage = (req, res) => {
+const getSignupPage = (req, res) => {
   res.render('user/signup', { message: "" });
 
 };
@@ -261,7 +265,7 @@ exports.getSignupPage = (req, res) => {
 
 
 
-exports.postSignup = async (req, res) => {
+const postSignup = async (req, res) => {
 
   const fullName = req.body.fullName;
   const userName = req.body.userName;
@@ -306,7 +310,7 @@ exports.postSignup = async (req, res) => {
 };
 
 
-exports.getOTP = (req, res) => {
+const getOTP = (req, res) => {
   res.render('user/otpPage', { errorMessage: "" });
 }
 
@@ -362,7 +366,7 @@ const sendVerificationEmail = async (email, otp) => {
 
 
 
-exports.verifyOtp = async (req, res) => {
+const verifyOtp = async (req, res) => {
   try {
     const OTP = req.body.otp; // Ensure lowercase to match frontend
     console.log('AAAA');
@@ -412,7 +416,7 @@ exports.verifyOtp = async (req, res) => {
 
 
 
-exports.resendOTP = async (req, res) => {
+const resendOTP = async (req, res) => {
   try {
 
     console.log('email');
@@ -445,7 +449,7 @@ exports.resendOTP = async (req, res) => {
   }
 }
 
-exports.viewProduct = async (req, res) => {
+const viewProduct = async (req, res) => {
   const productId = req.params.id;
   const userId = req.session.userId;
 
@@ -463,7 +467,7 @@ exports.viewProduct = async (req, res) => {
   res.render('user/viewProduct', { product, products, userCart })
 }
 
-exports.getCategoryUser = async (req, res) => {
+const getCategoryUser = async (req, res) => {
   const sortOption = req.query.sortBy;
   let sortCriteria;
   switch (sortOption) {
@@ -500,19 +504,19 @@ exports.getCategoryUser = async (req, res) => {
 }
 
 
-exports.getProfilePage = async (req, res) => {
+const getProfilePage = async (req, res) => {
   // const userId = this.userEmail
   const userId = req.session.userId;
-
+  const coupons = await coupon.Coupon.find()
   const userData = await user.User.findOne({ _id: userId })
-  const orderDetails = await order.Order.find({ userId }).populate('userId').populate('addressId')
+  const orderDetails = await order.Order.find({ userId }).populate('userId').populate('addressId').sort({createdAt:-1})
   // console.log("aa ithaa" + userData);
   // console.log("szdfd"+orderDetails.); 
 
-  res.render('user/profile', { userData, orderDetails });
+  res.render('user/profile', { userData, orderDetails,coupons });
 }
 
-// exports.editProfile = async (req, res) => {
+// const editProfile = async (req, res) => {
 //   try {
 //     const { fullName, userName, phoneNumber } = req.body;
 
@@ -528,7 +532,7 @@ exports.getProfilePage = async (req, res) => {
 
 // }
 
-exports.editProfile = async (req, res) => {
+const editProfile = async (req, res) => {
   try {
     console.log("edit Profile");
 
@@ -546,7 +550,7 @@ exports.editProfile = async (req, res) => {
 };
 
 
-exports.postAddress = async (req, res) => {
+const postAddress = async (req, res) => {
   try {
     const {
       recipientName,
@@ -599,7 +603,7 @@ exports.postAddress = async (req, res) => {
   }
 }
 
-// exports.editAddress = async (req, res) => {
+// const editAddress = async (req, res) => {
 //   const { recipientName,
 //     phoneNumber,
 //     addressLine,
@@ -642,7 +646,7 @@ exports.postAddress = async (req, res) => {
 
 // }
 
-exports.editAddress = async (req, res) => {
+const editAddress = async (req, res) => {
   try {
     const {
       recipientName,
@@ -686,7 +690,7 @@ exports.editAddress = async (req, res) => {
 
 
 
-exports.deleteAddress = async (req, res) => {
+const deleteAddress = async (req, res) => {
   try {
     const addressId = req.params.id;
     console.log(addressId);
@@ -715,3 +719,30 @@ exports.deleteAddress = async (req, res) => {
   }
 
 }
+
+module.exports = {
+  getIndexPage,
+  getHomePage,
+  getLoginPage,
+  getForgotPage,
+  postForgotPass,
+  getForgetPasswordOtp,
+  forgetPassOtpVerify,
+  getChangePassword,
+  postChangePassword,
+  forgetPassResendOTP,
+  postLogin,
+  googleLogin,
+  getSignupPage,
+  postSignup,
+  getOTP,
+  verifyOtp,
+  resendOTP,
+  viewProduct,
+  getCategoryUser,
+  getProfilePage,
+  editProfile,
+  postAddress,
+  editAddress,
+  deleteAddress,
+};

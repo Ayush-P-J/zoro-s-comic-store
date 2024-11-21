@@ -27,6 +27,9 @@ const categorySchema = new mongoose.Schema({
     description: {
         type: String
     },
+    offer: {
+        type: String
+    },
     isDeleted: {
         type: Boolean,
         default: false
@@ -74,6 +77,10 @@ const ProductSchema = new mongoose.Schema({
         enum: ['Available', 'Out of Stock']
     },
     regularPrice: {
+        type: Number,
+        required: true
+    },
+    offer: {
         type: Number,
         required: true
     },

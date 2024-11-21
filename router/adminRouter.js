@@ -3,6 +3,7 @@ const adminController = require('../controller/adminController');
 const categoryController = require('../controller/categoryController');
 const productController = require('../controller/productController');
 const orderController = require('../controller/orderController');
+const couponController = require('../controller/couponController');
 
 const auth = require('../middlewares/adminAuth');
 const router = express.Router();
@@ -77,6 +78,10 @@ router.route('/orders/updateStatus')
 
 router.route('/orders/cancel')
     .post(orderController.orderCancel)
+
+router.route('/coupon')
+    .get(auth.adminAuth,couponController.getCouponAdmin)
+    .post(couponController.addCoupon)
 
 
 
