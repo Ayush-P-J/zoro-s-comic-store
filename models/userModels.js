@@ -78,6 +78,13 @@ const userSchema = new mongoose.Schema({
             default: false
         }
     }],
+    appliedCoupons: [{
+        couponId: {
+            type: String,
+            required: true
+        },
+        
+    }],
     password: {
         required: false,
         type: String,

@@ -1,69 +1,89 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Example</title>
-
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(function() {
-                var fullWidth = 864; // Width in pixels of full-sized image
-                var fullHeight = 648; // Height in pixels of full-sized image
-                var thumbnailWidth = 389;  // Width in pixels of thumbnail image
-                var thumbnailHeight = 292;  // Height in pixels of thumbnail image
-
-                // Set size of div
-                $('#picture').css({
-                        'width': thumbnailWidth+'px',
-                        'height': thumbnailHeight+'px'
-                });
-
-                // Hide the full-sized picture
-                $('#full').hide();
-
-                // Toggle pictures on click
-                $('#picture').click(function() {
-                        $('#thumbnail').toggle();
-                        $('#full').toggle();
-                });
-
-                // Do some calculations
-                $('#picture').mousemove(function(e) {
-                        var mouseX = e.pageX - $(this).attr('offsetLeft'); 
-                        var mouseY = e.pageY - $(this).attr('offsetTop'); 
-
-                        var posX = (Math.round((mouseX/thumbnailWidth)*100)/100) * (fullWidth-thumbnailWidth);
-                        var posY = (Math.round((mouseY/thumbnailHeight)*100)/100) * (fullHeight-thumbnailHeight);
-
-                        $('#full').css({
-                                'left': '-' + posX + 'px',
-                                'top': '-' + posY + 'px'
-                        });
-                });
-        });
-    </script>
-
-    <style type="text/css">
-        #picture {
-                overflow: hidden;
-                position: relative;
-                border: 1px solid #000000;
-        }
-
-        #thumbnail {
-                cursor: pointer;
-        }
-
-        #full {
-                position: relative;
-                cursor: crosshair;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>My Wallet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
+<body class="bg-gray-100 font-inter">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="bg-blue-600 text-white p-6 flex justify-between items-center">
+                <h1 class="text-2xl font-bold">My Wallet</h1>
+                <div class="space-x-2">
+                    <button class="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100">
+                        Add Funds
+                    </button>
+                    <button class="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100">
+                        Withdraw
+                    </button>
+                </div>
+            </div>
 
-<body>
-    <div id="picture">
-        <img alt="" id="thumbnail" src="/public/image/background.png" /><br>erwrrrrrrrrrrrrrrrrrr
-        <div alt="" id="full" style="background-image: url('/public/image/background.png');"></div> 
+            <div class="p-6">
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <div class="bg-blue-50 p-4 rounded-lg text-center">
+                        <h3 class="text-sm text-gray-600">Total Balance</h3>
+                        <p class="text-3xl font-bold text-blue-700">$1,500.50</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg text-center">
+                        <h3 class="text-sm text-gray-600">Total Credits</h3>
+                        <p class="text-2xl font-semibold text-green-700">+$2,300.00</p>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg text-center">
+                        <h3 class="text-sm text-gray-600">Total Debits</h3>
+                        <p class="text-2xl font-semibold text-red-700">-$800.50</p>
+                    </div>
+                </div>
+
+                <div class="border-t pt-6">
+                    <h2 class="text-xl font-semibold mb-4">Recent Transactions</h2>
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="p-3">Type</th>
+                                <th class="p-3">Description</th>
+                                <th class="p-3">Amount</th>
+                                <th class="p-3">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="p-3">
+                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
+                                        Credit
+                                    </span>
+                                </td>
+                                <td class="p-3">Salary Deposit</td>
+                                <td class="p-3 text-green-600">+$500.00</td>
+                                <td class="p-3 text-gray-600">Jan 15, 2024</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-3">
+                                    <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">
+                                        Debit
+                                    </span>
+                                </td>
+                                <td class="p-3">Online Shopping</td>
+                                <td class="p-3 text-red-600">-$250.00</td>
+                                <td class="p-3 text-gray-600">Jan 20, 2024</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3">
+                                    <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">
+                                        Debit
+                                    </span>
+                                </td>
+                                <td class="p-3">Utility Bill</td>
+                                <td class="p-3 text-red-600">-$100.00</td>
+                                <td class="p-3 text-gray-600">Jan 25, 2024</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

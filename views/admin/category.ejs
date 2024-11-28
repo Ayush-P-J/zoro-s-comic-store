@@ -1,246 +1,389 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Corona Admin</title>
+    <!-- plugins:css -->
+    <link
+      rel="stylesheet"
+      href="/assets/vendors/mdi/css/materialdesignicons.min.css"
+    />
+    <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css" />
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link
+      rel="stylesheet"
+      href="/assets/vendors/jvectormap/jquery-jvectormap.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/vendors/flag-icon-css/css/flag-icon.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/vendors/owl-carousel-2/owl.carousel.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Corona Admin</title>
-  <!-- plugins:css -->
-  <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="/assets/vendors/jvectormap/jquery-jvectormap.css">
-  <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
-  <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.carousel.min.css">
-  <link rel="stylesheet" href="/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css
 
 
+  "
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.css"
+    />
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/assets/images/favicon.png" />
+    <style>
+      .error-popup {
+        background-color: red;
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        position: fixed;
+        top: 120px;
+        right: 50%;
+        z-index: 1000;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        opacity: 1;
+        transition: opacity 0.5s ease;
+      }
 
-  ">
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <!-- endinject -->
-  <!-- Layout styles -->
-  <link rel="stylesheet" href="/assets/css/style.css">
-  <!-- End layout styles -->
-  <link rel="shortcut icon" href="/assets/images/favicon.png" />
-  <style>
-    .error-popup {
-      background-color: red;
-      color: white;
-      padding: 15px;
-      border-radius: 5px;
-      position: fixed;
-      top: 120px;
-      right: 50%;
-      z-index: 1000;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      opacity: 1;
-      transition: opacity 0.5s ease;
-    }
+      .product-name-cell {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    </style>
+  </head>
 
-    .product-name-cell {
-      max-width: 200px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container-scroller">
-    <!-- partial:partials/_sidebar.html -->
-    <%- include("../partials/admin/sidebar") %>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:partials/_sidebar.html -->
+      <%- include("../partials/admin/sidebar") %>
 
       <!-- partial -->
       <%- include("../partials/admin/navbar") %>
-        <!-- partial -->
-        <div class="main-panel">
-          <div style="display: flex; " class="m-1">
-            <a type="button" class="btn btn-info m-3 " data-toggle="modal" data-target="#addCategory">Add Categories</a>
-          </div>
+      <!-- partial -->
+      <div class="main-panel">
+        <div style="display: flex" class="m-1">
+          <a
+            type="button"
+            class="btn btn-info m-3"
+            data-toggle="modal"
+            data-target="#addCategory"
+            >Add Categories</a
+          >
+        </div>
 
-          <!-- Button trigger modal -->
+        <!-- Button trigger modal -->
 
+        <!-- Modal -->
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="addCategory"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!-- Form inside modal -->
+                <form
+                  class="forms-sample"
+                  action="/admin/categories"
+                  method="post"
+                >
+                  <div class="form-group">
+                    <label for="category">Category</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="category"
+                      name="category"
+                      placeholder="Category"
+                    />
+                  </div>
 
-          <!-- Modal -->
-          <!-- Modal -->
-          <div class="modal fade" id="addCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <!-- Form inside modal -->
-                  <form class="forms-sample" action="/admin/categories" method="post">
-                    <div class="form-group">
-                      <label for="category">Category</label>
-                      <input type="text" class="form-control" id="category" name="category" placeholder="Category">
-                    </div>
-                    
-                    <div class="form-group">
-                      <label for="description">Description</label>
+                  <div class="form-group">
+                    <label for="description">Description</label>
 
-                      <textarea class="form-control" id="description" name="description" placeholder="Description"
-                        rows="4"></textarea>
+                    <textarea
+                      class="form-control"
+                      id="description"
+                      name="description"
+                      placeholder="Description"
+                      rows="4"
+                    ></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="offer">Offer (%)</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="offer"
+                      name="offer"
+                      placeholder="Offer"
+                    />
+                  </div>
+                  <h4 class="card-title">&nbsp;<%= error %></h4>
 
-                    </div>
-                    <div class="form-group">
-                      <label for="offer">Offer (%)</label>
-                      <input type="text" class="form-control" id="offer" name="offer" placeholder="Offer">
-                    </div>
-                    <h4 class="card-title">
-                      &nbsp;<%= error %>
-                    </h4>
-
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <!-- Use a button to submit the form -->
-                      <button type="submit" class="btn btn-primary">Add category</button>
-                    </div>
-                  </form>
-                </div>
-
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <!-- Use a button to submit the form -->
+                    <button type="submit" class="btn btn-primary">
+                      Add category
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
+        </div>
 
-
-          <!-- Delete Confirmation Modal -->
-          <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
-            aria-labelledby="deleteConfirmLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="deleteConfirmLabel">Confirm Delete</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  Are you sure you want to delete this item?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <a href="" id="confirmDeleteButton" class="btn btn-danger">Delete</a>
-                </div>
+        <!-- Delete Confirmation Modal -->
+        <div
+          class="modal fade"
+          id="deleteConfirmModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="deleteConfirmLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmLabel">
+                  Confirm Delete
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to delete this item?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <a href="" id="confirmDeleteButton" class="btn btn-danger"
+                  >Delete</a
+                >
               </div>
             </div>
           </div>
+        </div>
 
+        <div class="row">
+          <div class="col-12 grid-margin">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Categories</h4>
+                <% if (error){ %>
 
+                <div id="errorPopup" class="error-popup">
+                  &nbsp;<%= error %>
+                </div>
+                <%}%>
 
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Sl no</th>
 
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Offer</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% let sl=limit * (currentPage - 1) %> <%
+                      categories.forEach((category)=>{ %>
+                      <tr>
+                        <td><%= sl +=1 %></td>
+                        <td class="product-name-cell">
+                          <%= category.categoryName %>
+                        </td>
+                        <td class="product-name-cell">
+                          <%= category.description %>
+                        </td>
+                        <td class="product-name-cell">
+                          <a
+                          href="#"
+                          data-toggle="modal"
+                          data-target="#editOfferModal"
+                          onclick="populateEditOfferModal('<%= category._id %>', '<%= category.offer %>')"
+                        >
+                        <%= category.offer %> <i class="fa-solid fa-pen-to-square"></i> 
+                        </a></td>
 
-
-
-          <div class="row ">
-            <div class="col-12 grid-margin">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Categories</h4>
-                  <% if (error){ %>
-
-                    <div id="errorPopup" class="error-popup">
-                      &nbsp;<%= error %>
-                    </div>
-                    <%}%>
-
-                      <div class="table-responsive">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th>
-                                Sl no
-                              </th>
-
-                              <th> Category </th>
-                              <th> Description </th>
-                              <th> Offer </th>
-                              <th> Status </th>
-                              <th> </th>
-
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <% let sl=limit * (currentPage - 1) %>
-                              <% categories.forEach((category)=>{ %>
-                                <tr>
-
-                                  <td>
-                                    <%= sl +=1 %>
-                                  </td>
-                                  <td class="product-name-cell">
-                                    <%= category.categoryName %>
-                                  </td>
-                                  <td class="product-name-cell">
-                                    <%= category.description %>
-                                  </td>
-                                  <td class="product-name-cell">
-                                    <%= category.offer %>
-                                  </td>
-
-
-                                  <td>
-                                    <% if (category.status==false) { %>
-                                      <a type="button" href="#" class="btn btn-success"
-                                        onclick="showAlert('list', '<%= category._id %>')">List</a>
-                                      <% } else { %>
-                                        <a type="button" href="#" class="btn btn-danger"
-                                          onclick="showAlert('unlist', '<%= category._id %>')">Unlist</a>
-                                        <% } %>
-                                  </td>
-                                  <td>
-                                    <a href="/admin/categories/edit/<%=category._id%>">
-                                      <i class="fa-solid fa-pen-to-square"></i>
-                                    </a>
-                                  </td>
-                                  <td>
-                                    <!-- <a href="/admin/categories/delete/<%=category._id%>" data-toggle="modal"
+                        <td>
+                          <% if (category.status==false) { %>
+                          <a
+                            type="button"
+                            href="#"
+                            class="btn btn-success"
+                            onclick="showAlert('list', '<%= category._id %>')"
+                            >List</a
+                          >
+                          <% } else { %>
+                          <a
+                            type="button"
+                            href="#"
+                            class="btn btn-danger"
+                            onclick="showAlert('unlist', '<%= category._id %>')"
+                            >Unlist</a
+                          >
+                          <% } %>
+                        </td>
+                        <td>
+                          <a type="button" class="btn btn-primary" href="/admin/categories/edit/<%=category._id%>">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                          </a>
+                       
+                          <!-- <a href="/admin/categories/delete/<%=category._id%>" data-toggle="modal"
                                   data-target="#deleteConfirm">
                                   <i class="fa-solid fa-trash"></i>
                                 </a> -->
-                                    <a href="#" class="btn btn-danger" data-toggle="modal"
-                                      data-target="#deleteConfirmModal"
-                                      onclick="setDeleteUrl('/admin/categories/delete/<%= category._id %>')">
-                                      <i class="fa-solid fa-trash"></i>
-                                    </a>
-
-                                  </td>
-
-
-                                </tr>
-                                <% }); %>
-                          </tbody>
-                        </table>
-                      </div>
+                          <a
+                            href="#"
+                            class="btn btn-danger"
+                            data-toggle="modal"
+                            data-target="#deleteConfirmModal"
+                            onclick="setDeleteUrl('/admin/categories/delete/<%= category._id %>')"
+                          >
+                            <i class="fa-solid fa-trash"></i>
+                          </a>
+                          
+                        </td>
+                      </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
                 </div>
-                <div class="d-flex justify-content-center mt-4">
-                  <ul class="pagination">
-                    <% for (let i=1; i <=totalPages; i++) { %>
-                      <li class="page-item <%= (i === currentPage) ? 'active' : '' %>">
-                        <a class="page-link" href="?page=<%= i %>">
-                          <%= i %>
-                        </a>
-                      </li>
-                      <% } %>
-                  </ul>
-                </div>
-
+              </div>
+              <div class="d-flex justify-content-center mt-4">
+                <ul class="pagination">
+                  <% for (let i=1; i <=totalPages; i++) { %>
+                  <li
+                    class="page-item <%= (i === currentPage) ? 'active' : '' %>"
+                  >
+                    <a class="page-link" href="?page=<%= i %>"> <%= i %> </a>
+                  </li>
+                  <% } %>
+                </ul>
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="modal fade"
+          id="editOfferModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="editOfferModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editOfferModalLabel">Edit Offer</h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="editOfferForm">
+                  <div class="form-group">
+                    <label for="offerValue">Offer Value</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="offerValue"
+                      name="offerValue"
+                      placeholder="Enter Offer Value"
+                    />
+                  </div>
+                  <input type="hidden" id="categoryId" name="categoryId" />
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onclick="submitEditOffer()"
+                >
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-          <!-- <div class="row add-category" id="addCategory">
+        <!-- <div class="row add-category" id="addCategory">
             <div class="col-12 grid-margin stretch-card ">
               <div class="card">
                 <div class="card-body">
@@ -267,77 +410,131 @@
             </div>
           </div> -->
 
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-          <!-- main-panel ends -->
-        </div>
-        <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- plugins:js -->
+    <script>
+      // Populate the modal with the category details
+      function populateEditOfferModal(categoryId, currentOffer) {
+        document.getElementById("categoryId").value = categoryId; // Set hidden input for category ID
+        document.getElementById("offerValue").value = currentOffer; // Pre-fill the current offer
+      }
 
-  <script>
-    function setDeleteUrl(url) {
-      document.getElementById('confirmDeleteButton').setAttribute('href', url);
-    }
+      // Submit the form data using Axios
+      async function submitEditOffer() {
+        const categoryId = document.getElementById("categoryId").value;
+        const offerValue = document.getElementById("offerValue").value;
 
+        // alert(categoryId + " " + offerValue);
+        // Check if the form fields are valid
+        if (!offerValue) {
+          Swal.fire({
+  icon: 'warning', // Show 'warning' icon
+  title: 'Offer Value Required',
+  text: 'Offer value cannot be empty!',
+  toast: true, // Makes it a toast notification
+  position: 'top', // Position it at the middle of the top
+  timer: 3000, // Duration in milliseconds (3 seconds)
+  showConfirmButton: false, // Hide confirm button
+});
+          return;
+        }
 
-    function showAlert(action, categoryId) {
-      const actionText = action === 'list' ? 'listed' : 'unlisted';
-      Swal.fire({
-        title: 'Are you sure?',
-        text: `You want to ${actionText} this category?`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: action === 'list' ? '#3085d6' : '#d33',
-        cancelButtonColor: '#d33',
-        confirmButtonText: `Yes, ${actionText} it!`
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Redirect to the action URL
-          window.location.href = `/admin/categories/${categoryId}`;
+        // Send Axios POST request
+        await axios
+          .post("/admin/categories/editOffer", {
+            categoryId: categoryId,
+            offerValue: offerValue,
+          })
+          .then((response) => {
+            Swal.fire({
+  icon: 'success', // Show 'success' icon
+  title: 'Offer Updated',
+  text: 'Offer updated successfully!',
+  toast: true, // Makes it a toast notification
+  position: 'top', // Position it at the middle of the top
+  timer: 3000, // Duration in milliseconds (3 seconds)
+  showConfirmButton: false, // Hide confirm button
+});
+            location.reload(); // Reload the page to reflect changes
+          })
+          .catch((error) => {
+            console.error(error);
+            Swal.fire({
+  icon: 'error', // Show 'error' icon
+  title: 'Update Failed',
+  text: 'Failed to update offer. Please try again.',
+});
+          });
+      }
+    </script>
+
+    <script>
+      function setDeleteUrl(url) {
+        document
+          .getElementById("confirmDeleteButton")
+          .setAttribute("href", url);
+      }
+
+      function showAlert(action, categoryId) {
+        const actionText = action === "list" ? "listed" : "unlisted";
+        Swal.fire({
+          title: "Are you sure?",
+          text: `You want to ${actionText} this category?`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: action === "list" ? "#3085d6" : "#d33",
+          cancelButtonColor: "#d33",
+          confirmButtonText: `Yes, ${actionText} it!`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Redirect to the action URL
+            window.location.href = `/admin/categories/${categoryId}`;
+          }
+        });
+      }
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const errorPopup = document.getElementById("errorPopup");
+        if (errorPopup) {
+          setTimeout(() => {
+            errorPopup.style.opacity = "0"; // fade out
+            setTimeout(() => errorPopup.remove(), 500); // remove from DOM after fade out
+          }, 3000); // disappear after 3 seconds
         }
       });
-    }
-  </script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const errorPopup = document.getElementById("errorPopup");
-      if (errorPopup) {
-        setTimeout(() => {
-          errorPopup.style.opacity = '0'; // fade out
-          setTimeout(() => errorPopup.remove(), 500); // remove from DOM after fade out
-        }, 3000); // disappear after 3 seconds
-      }
-    });
-  </script>
+    </script>
 
-
-
-
-  <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page -->
-  <script src="/assets/vendors/chart.js/Chart.min.js"></script>
-  <script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
-  <script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
-  <script src="/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-  <script src="/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
-  <!-- End plugin js for this page -->
-  <!-- inject:js -->
-  <script src="/assets/js/off-canvas.js"></script>
-  <script src="/assets/js/hoverable-collapse.js"></script>
-  <script src="/assets/js/misc.js"></script>
-  <script src="/assets/js/settings.js"></script>
-  <script src="/assets/js/todolist.js"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page -->
-  <script src="/assets/js/dashboard.js"></script>
-  <!-- End custom js for this page -->
-</body>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="/assets/vendors/chart.js/Chart.min.js"></script>
+    <script src="/assets/vendors/progressbar.js/progressbar.min.js"></script>
+    <script src="/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+    <script src="/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="/assets/js/off-canvas.js"></script>
+    <script src="/assets/js/hoverable-collapse.js"></script>
+    <script src="/assets/js/misc.js"></script>
+    <script src="/assets/js/settings.js"></script>
+    <script src="/assets/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="/assets/js/dashboard.js"></script>
+    <!-- End custom js for this page -->
+  </body>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </html>

@@ -3,8 +3,10 @@ const controller = require('../controller/userController');
 const cartController = require('../controller/cartController');
 const orderController = require('../controller/orderController');
 const wishlistController = require('../controller/wishlistController');
+const couponController = require('../controller/couponController');
 const passport = require('passport');
 const auth = require('../middlewares/userAuth');
+const Razorpay = require('razorpay');
 
 
 const router = express.Router();
@@ -88,6 +90,37 @@ router.route('/user/categories')
 router.route('/user/checkout')
     .get(auth.userAuth, cartController.checkout)
 
+router.route('/user/razorPay')
+.post(async (req, res)=>{
+    try {
+        const { amount, currency, receipt } = req.body;
+        console.log("reached on razorPay: "+req.body);
+        console.log(amount);
+        
+        
+        const rzp = new Razorpay({
+            key_id: 'rzp_test_KMHnYj4Ync3OkC', // Replace with your Razorpay key ID
+            key_secret: '332yAZBUPllWJ0RkdhL6B4Rp', // Replace with your Razorpay secret
+          });
+
+          const order = rzp.orders.create({
+              amount: amount * 100, // Convert to paise
+              currency: currency,
+              receipt: receipt,
+              payment_capture: 1,
+          });
+      
+          res.status(201).json({ success: true, order: order });
+        } catch (error) {
+          console.error('Error creating order:', error);
+          res.status(500).json({ success: false, error: error.message });
+        }
+       
+})
+
+router.route('/user/walletTransaction')
+.post(orderController.walletTransaction)
+
 router.route('/user/placeOrder')
     .post(orderController.placeOrder)
 
@@ -97,11 +130,22 @@ router.route('/user/orderConfirmation/:orderId')
 router.route('/user/orderCancel/')
     .post(orderController.orderCancel)
 
+router.route('/user/orderReturn/')
+    .post(orderController.orderReturn);
+    
+
+
 router.route('/user/wishlist')
     .get(auth.userAuth, wishlistController.getWishlistPage)
 
 router.route('/user/addToWishlist')
     .post(wishlistController.addToWishlist)
+
+router.route('/user/applyCoupon')
+.post(couponController.applyCoupon)
+
+router.route('/user/removeCoupon')
+.post(couponController.removeCoupon)
 
 
 module.exports = router;

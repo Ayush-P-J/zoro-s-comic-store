@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Wallet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-inter">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="bg-blue-600 text-white p-6 flex justify-between items-center">
+                <h1 class="text-2xl font-bold">My Wallet</h1>
+                <div class="space-x-2">
+                    <button class="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100">
+                        Add Funds
+                    </button>
+                    <button class="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100">
+                        Withdraw
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <div class="bg-blue-50 p-4 rounded-lg text-center">
+                        <h3 class="text-sm text-gray-600">Total Balance</h3>
+                        <p class="text-3xl font-bold text-blue-700"><i class="fa fa-rupee"></i><%= wallets.balance %></p>
+                    </div>
+                    <% const totalCredit = wallets.transactions.reduce((acc, curr) => {
+                        return curr.type === 'credit' ? acc + curr.amount : acc;
+                      }, 0); %>                    
+                      <div class="bg-green-50 p-4 rounded-lg text-center">
+                        <h3 class="text-sm text-gray-600">Total Credits</h3>
+                        <p class="text-2xl font-semibold text-green-700">
+
+                            +<i class="fa fa-rupee"></i><%= totalCredit %></p>
+                    </div>
+                    <% const totalDebit = wallets.transactions.reduce((acc, curr) => {
+                        return curr.type === 'debit' ? acc + curr.amount : acc;
+                      }, 0); %>
+                   
+                    <div class="bg-red-50 p-4 rounded-lg text-center">
+                        <h3 class="text-sm text-gray-600">Total Debits</h3>
+                        <p class="text-2xl font-semibold text-red-700">-<i class="fa fa-rupee"></i><%= totalDebit %></p>
+                    </div>
+                </div>
+
+                <div class="border-t pt-6">
+                    <h2 class="text-xl font-semibold mb-4">Recent Transactions</h2>
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-100">
+                          <tr>
+                            <th class="p-3">Type</th>
+                            <th class="p-3">Description</th>
+                            <th class="p-3">Amount</th>
+                            <th class="p-3">Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% if (wallets.transactions.length > 0) { %>
+                            <% wallets.transactions.forEach(transaction => { %>
+                              <tr class="border-b">
+                                <td class="p-3">
+                                  <span class="<%= transaction.type === 'credit' 
+                                    ? 'bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs' 
+                                    : 'bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs' %>">
+                                    <%= transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1) %>
+                                  </span>
+                                </td>
+                                <td class="p-3"><%= transaction.description || 'N/A' %></td>
+                                <td class="p-3 <%= transaction.type === 'credit' 
+                                  ? 'text-green-600' 
+                                  : 'text-red-600' %>">
+                                  <%= transaction.type === 'credit' ? '+<i class="fa fa-rupee"></i>' : '-<i class="fa fa-rupee"></i>' %><%= transaction.amount.toFixed(2) %>
+                                </td>
+                                <td class="p-3 text-gray-600"><%= new Date(transaction.date).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'short',
+                                  day: 'numeric'
+                                }) %></td>
+                              </tr>
+                            <% }) %>
+                          <% } else { %>
+                            <tr>
+                              <td colspan="4" class="p-3 text-center text-gray-600">No transactions available.</td>
+                            </tr>
+                          <% } %>
+                        </tbody>
+                      </table>
+                      
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

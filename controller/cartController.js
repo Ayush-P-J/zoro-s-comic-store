@@ -1,15 +1,17 @@
 const cart = require("../models/cartModels");
 const admin = require("../models/adminModels");
 const user = require("../models/userModels");
-
+const coupon = require("../models/couponModels");
 
 const getCartPage = async (req, res) => {
   const userId = req.session.userId;
+  
   const userCart = await cart.Cart.find({ userId }).populate("productId");
-  console.log(userCart);
   const checkout = userCart.reduce((acc, cart) => acc + cart.totalPrice, 0);
+  const coupons = await coupon.Coupon.find({expiryDate:{$gt:Date.now()},minCartValue:{$lt:checkout}})
+  console.log(coupons);
 
-  res.render("user/cart", { userCart, checkout });
+  res.render("user/cart", { userCart, checkout, coupons });
 };
 
 const addToCart = async (req, res) => {
@@ -68,10 +70,12 @@ const updateQuantity = async (req, res) => {
   console.log("total" + totalPrice);
 
   await cart.Cart.updateOne({ userId, productId }, { quantity, totalPrice });
+  const userCart = await cart.Cart.find({ userId }).populate("productId");
+  const checkout = userCart.reduce((acc, cart) => acc + cart.totalPrice, 0);
   // const userPro = await cart.Cart.findOne({userId,productId}).populate('productId')
   // console.log(userPro);
   // const checkout = userPro.reduce((acc,cart)=>acc + cart.totalPrice, 0);
-  return res.status(200).json({ quantity, totalPrice });
+  return res.status(200).json({ quantity, totalPrice, checkout });
 };
 
 const deleteFromCart = async (req, res) => {
@@ -91,17 +95,19 @@ const checkout = async (req, res) => {
   const userCart = await cart.Cart.find({ userId }).populate("productId");
   const userData = await user.User.findOne({ _id: userId });
   const checkout = userCart.reduce((acc, cart) => acc + cart.totalPrice, 0);
+  const coupons = await coupon.Coupon.find({expiryDate:{$gt:Date.now()},minCartValue:{$lt:checkout}})
+
 
   // console.log(query1);
   // console.log(query2);
 
-  res.render("user/checkout", { userData, userCart, checkout });
+  res.render("user/checkout", { userData, userCart, checkout, coupons});
 };
 
 module.exports = {
   getCartPage,
-addToCart,
-updateQuantity,
-deleteFromCart,
-checkout,
-}
+  addToCart,
+  updateQuantity,
+  deleteFromCart,
+  checkout,
+};

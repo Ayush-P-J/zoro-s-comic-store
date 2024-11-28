@@ -8,7 +8,7 @@
       <div class="product-info">
         <p class="product-name"><%= order.orderId %></p>
         <p class="product-price">
-          &dollar;<%= order.totalAmount %>
+          <i class="fa fa-rupee"></i><%= order.totalAmount %>
         </p>
         <% const formattedDate=new Intl.DateTimeFormat('en-US', {
         year: 'numeric' , month: 'long' , day: "numeric" ,
@@ -47,6 +47,15 @@
           class="btn btn-danger"
         >
           Cancel
+        </button>
+        <% }else if (order.status == "Delivered"){%>
+          <button
+          type="button"
+          onclick="orderReturn('<%= order.orderId %>')"
+          class="btn btn-primary"
+          
+        >
+          Return
         </button>
 
         <% }else{ %>

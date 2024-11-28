@@ -1,15 +1,95 @@
 const { type } = require('express/lib/response');
 const mongoose = require('mongoose')
 
+const addressSchema = new mongoose.Schema({
+    recipientName: {
+      type: String,
+      required: true,
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    addressLine: {
+      type: String,
+      required: true,
+    },
+    landmark: {
+      type: String, // Optional
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    pinCode: {
+      type: String,
+      required: true,
+    },
+    country: {
+      type: String,
+      required: true,
+      default: "India",
+    },
+    isDefault: {
+      type: Boolean,
+      default: false,
+    },
+  });
+  
+
 const orderSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true
     },
-    addressId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+    address: {
+            
+            recipientName: {
+                type: String,
+                required: true
+            },
+            addressId: {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true
+            },
+            phoneNumber: {
+                type: String,
+                required: true
+            },
+            addressLine: {
+                type: String,
+                required: true
+            },
+            landmark: {
+                type: String // Optional second line for apartment or suite number
+            },
+            city: {
+                type: String,
+                required: true
+            },
+            state: {
+                type: String,
+                required: true
+            },
+            pinCode: {
+                type: String,
+                required: true
+            },
+            country: {
+                type: String,
+                required: true,
+                default: "India"
+            },
+            isDefault: {
+                type: Boolean,
+                default: false
+            }
+        
     }, orderId: {
         type: String
     },
@@ -41,10 +121,19 @@ const orderSchema = new mongoose.Schema({
     },
     paymentMethod: {
         type: String,
-        enum: ["COD", "Debit Card", "Internet Banking", "UPI", "Wallet"],
+        enum: ["COD", "Debit Card", "Internet Banking", "razorPay", "wallet"],
         required: true,
         default: "COD"
     },
+    paymentStatus: {
+        type: String,
+        enum: ["COD", "Not Done", "Success", "Failed"],
+        required: true,
+        default: function () {
+          // Dynamically set the default value for paymentStatus
+          return this.paymentMethod === "COD" ? "COD" : "Failed";
+        },
+      },
     totalAmount: {
         type: Number,
         default: 0

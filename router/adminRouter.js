@@ -4,6 +4,7 @@ const categoryController = require('../controller/categoryController');
 const productController = require('../controller/productController');
 const orderController = require('../controller/orderController');
 const couponController = require('../controller/couponController');
+const salesController = require('../controller/salesController');
 
 const auth = require('../middlewares/adminAuth');
 const router = express.Router();
@@ -45,6 +46,9 @@ router.route('/categories')
 
 router.get('/categories/:id', auth.adminAuth, categoryController.listOrUnlist);
 
+router.route('/categories/editOffer')
+.post(categoryController.editOffer)
+
 router.route('/categories/edit/:id')
     .get(auth.adminAuth, categoryController.getCategoryEdit)
     .post(categoryController.editCategory)
@@ -82,6 +86,15 @@ router.route('/orders/cancel')
 router.route('/coupon')
     .get(auth.adminAuth,couponController.getCouponAdmin)
     .post(couponController.addCoupon)
+
+router.route('/coupon/updateStatus')
+.post(couponController.updateStatus)
+
+router.route('/salesReport')
+    .get(auth.adminAuth,salesController.getSalesReport)
+
+router.route("/salesReport/download")
+    .get(auth.adminAuth, salesController.downloadSalesReport);
 
 
 

@@ -195,7 +195,7 @@
                             <p style="color: #666;">Quantity: <%= product.quantity %>
                             </p>
                         </div>
-                        <p style="font-weight: 500;">&dollar;<%= product.priceAtPurchase.toFixed(2) %>
+                        <p style="font-weight: 500;"><i class="fa fa-rupee"></i><%= product.priceAtPurchase.toFixed(2) %>
                         </p>
                     </div>
                     <% }) %>
@@ -204,47 +204,47 @@
             <div>
                 <div class="summary-row">
                     <span>Subtotal</span>
-                    <span>&dollar;<%= orderDetails.totalAmount.toFixed(2) %></span>
+                    <span><i class="fa fa-rupee"></i><%= orderDetails.totalAmount.toFixed(2) %></span>
                 </div>
                 <div class="summary-row">
                     <span>Shipping</span>
-                    <span>&dollar;<%= orderDetails.shippingAmount.toFixed(2) %></span>
+                    <span><i class="fa fa-rupee"></i><%= orderDetails.shippingAmount.toFixed(2) %></span>
                 </div>
                 <div class="summary-row">
                     <span>Tax</span>
-                    <span>&dollar;<%= orderDetails.taxAmount %></span>
+                    <span><i class="fa fa-rupee"></i><%= orderDetails.taxAmount %></span>
+                </div>
+                <div class="summary-row">
+                    <span>Payment Method</span>
+                    <span><%= orderDetails.paymentMethod %></span>
+                    <span><%= orderDetails.paymentStatus %></span>
                 </div>
                 <% const total=orderDetails.totalAmount + orderDetails.shippingAmount + orderDetails.taxAmount %>
                     <div class="total-row">
                         <span>Total</span>
-                        <span>&dollar;<%= total.toFixed(2) %></span>
+                        <span><i class="fa fa-rupee"></i><%= total.toFixed(2) %></span>
                     </div>
             </div>
         </div>
 
         <div class="card">
             <h2 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 16px;">Shipping Address</h2>
-            <% orderDetails.userId.addresses.forEach((address)=>{ %>
 
-
-                <% if (address._id.toString()==orderDetails.addressId.toString()){ %>
                     <div class="shipping-info">
 
                         <p>
-                            <%= address.recipientName %>
+                            <%= orderDetails.address.recipientName %>
                         </p>
                         <p>
-                            <%= address.addressLine %>,
-                                <%= address.city %>,
-                                    <%= address.state %>
+                            <%= orderDetails.address.addressLine %>,
+                                <%= orderDetails.address.city %>,
+                                    <%= orderDetails.address.state %>
                         </p>
 
                         <p>
-                            <%= address.country %>
+                            <%= orderDetails.address.country %>
                         </p>
                     </div>
-                    <% } %>
-                        <% }) %>
 
 
         </div>

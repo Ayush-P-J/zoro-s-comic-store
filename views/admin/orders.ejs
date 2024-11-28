@@ -279,7 +279,7 @@
                                                         <% let sl=limit * (currentPage - 1) %>
                                                             <% orders.forEach((order)=>{ %>
                                                                 <tr class="p-4"
-                                                                    onclick="openOrderModal(<%= JSON.stringify(order.products) %>)">
+                                                                    onclick="openOrderModal('<%= JSON.stringify(order.products) %>')">
 
                                                                     <td>
                                                                         <%= sl +=1 %>
@@ -291,7 +291,7 @@
                                                                         <%= order.userId.fullName %>
                                                                     </td>
                                                                     <td class="product-name-cell">
-                                                                        &dollar;<%= order.totalAmount %>
+                                                                        <i class="fa fa-rupee"></i><%= order.totalAmount %>
                                                                     </td>
                                                                     <td class="product-name-cell">
                                                                         <%= order.createdAt %>
@@ -320,7 +320,7 @@
                                                                         %>
                                                                         <td
                                                                             class="product-name-cell <%= getStatusClass(order.status) %>">
-                                                                            <%= order.status %>
+                                                                            <%= getStatusClass(order.status)  %>
                                                                         </td>
                                                                         <td class="status-cell">
                                                                             <select
@@ -492,7 +492,7 @@
                             position: 'top-end',
                             showConfirmButton: false,
                             timer: 3000
-                        });
+                        }).then(() => window.location.reload());
                     }
                 } catch (error) {
                     console.error('Error updating status:', error);

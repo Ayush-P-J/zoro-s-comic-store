@@ -20,6 +20,8 @@
     <link rel="stylesheet" type="text/css" href="/user/styles/single_responsive.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.css">
 
+    
+
     <style>
         body {
             background: #ffffff;
@@ -265,10 +267,9 @@
                                         <a id="quantity<%=i%>" class="border ">
                                             <%= cart.quantity %>
                                         </a>
-                                        <a onclick="incrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')">+</a>
+                                        <a onclick="incrementQuantity(event,'<%=i%>','<%= cart.productId._id %>','<%= cart.productId.stock %>')">+</a>
                                     </div>
-                                    <div class="col">&dollar;<a id="totalPrice<=%i%>">
-                                            <%= cart.totalPrice.toFixed(2) %>
+                                    <div class="col"><i class="fa fa-rupee"></i><a id="totalPrice<%=i%>"><%= cart.totalPrice.toFixed(2) %>
                                         </a>
                                         <!-- <a id="salePrice<=%i%>">d<%= cart.productId.salePrice %></a> -->
                                         <span class="close" id="close">
@@ -328,29 +329,40 @@
                             <h5><b>Summary</b></h5>
                         </div>
                         <hr>
-                        <div class="row">
-                            <div class="col" style="padding-left:0;">ITEMS = <%= userCart.length %>
-                            </div>
-                            <div class="col text-right">&dollar; <%= checkout %>
-                            </div>
+                        <div class="col" style="padding-left:0;">ITEMS = <%= userCart.length %>
                         </div>
+                        <!-- <div class="row">
+                            <div class="col" style="padding-left:0;">Check Out total:
+                            </div>
+                            <div class="col text-right"><i class="fa fa-rupee"></i><a id="checkoutTotal"><%=checkout %></a>
+                            </div>
+                        </div> -->
                         <!-- <% userCart %> -->
-                        <!-- <form>
-                                    <p>SHIPPING</p>
-                                    <select>
-                                        <option class="text-muted">Standard-Delivery- &euro;5.00</option>
-                                    </select>
-                                    <p>GIVE CODE</p>
-                                    <input id="code" placeholder="Enter your code">
-                                </form> -->
+                        <div class="d-flex flex-column align-items-start">
+                           
+                          
+                            <!-- Dropdown-like Select Box -->
+                            <div id="couponSelectBox" style="display: none; margin-top: 10px; width: 100%; max-width: 300px; border: 1px solid #ccc; padding: 10px; border-radius: 5px; background: #f9f9f9;">
+                              <label for="couponSelect" class="form-label">Select a Coupon:</label>
+                              <select id="couponSelect" class="form-select">
+                                <% coupons.forEach((coupon)=>{ %>
+                                    <option value="<%= coupon.couponCode %>"><%= coupon.couponName %>
+                                    </option>
+                                    
+                                <%}) %>
+                              </select>
+                              <button class="btn btn-success mt-3 w-100" onclick="applyCoupon()">Select this Coupon</button>
+                            </div>
+                          </div>                        
+                        
                         <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                             <div class="col">TOTAL PRICE</div>
-                            <div class="col text-right" id="checkoutTotal">&dollar; <%= checkout %>
+                            <div class="col text-right" ><i class="fa fa-rupee"></i><span id="checkoutTotal"><%= checkout.toFixed(2) %></span>
                             </div>
                         </div>
                         <a href="checkout" class="btn">CHECKOUT</a>
                     </div>
-
+                    
                     <%}else{ %>
                         <div class="col-md-4 summary">
                             <div>
@@ -360,14 +372,14 @@
                             <div class="row">
                                 <div class="col" style="padding-left:0;">ITEMS = <%= userCart.length %>
                                 </div>
-                                <div class="col text-right">&dollar; <%= checkout %>
+                                <div class="col text-right"><i class="fa fa-rupee"></i>
                                 </div>
                             </div>
                             <% userCart %>
 
                                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                                     <div class="col">TOTAL PRICE</div>
-                                    <div class="col text-right" id="checkoutTotal">&dollar; <%= checkout %>
+                                    <div class="col text-right" id="total"><i class="fa fa-rupee"></i> <%= checkout %>
                                     </div>
                                 </div>
                                 <a aria-disabled="true" class="btn">CHECKOUT</a>
@@ -386,15 +398,16 @@
 
 
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            
 
             <script>
-                async function incrementQuantity(event, i, product) {
+                const checkoutTotal = document.getElementById("checkoutTotal");
+                const grandTotal = document.getElementById("grandTotal");
+
+                async function incrementQuantity(event, i, product,stock) {
                     // event.preventDefault();
-                    // alert("skdjhfkdsjh")
                     const quantityElement = document.getElementById("quantity" + i);
                     const totalElement = document.getElementById("totalPrice" + i);
-                    const checkout = document.getElementById("checkoutTotal" + i);
-
 
 
 
@@ -402,7 +415,7 @@
                     let quantity = parseInt(quantityElement.innerText);
 
 
-                    if (quantity < 5) {
+                    if (quantity < 5 && quantity < stock) {
                         quantity += 1
                         await axios.post('/user/updateQuantity', {
                             productId: product,  // Example product ID
@@ -410,8 +423,10 @@
 
                         })
                             .then(async response => {
-                                const { quantity, totalPrice } = response.data
-                                quantityElement.innerText = quantity;
+                                const { quantity, totalPrice, checkout } = response.data
+                                quantityElement.innerText = quantity
+                                checkoutTotal.innerText = checkout.toFixed(2);
+                                totalElement.innerText = totalPrice.toFixed(2)
                                 // await Swal.fire({
                                 //     icon: 'success',
                                 //     title: 'Success',
@@ -422,7 +437,7 @@
 
 
                                 // total.innerText = totalPrice;
-                                window.location.href = "/user/cart"
+                                // window.location.href = "/user/cart"
                                 console.log("Quantity updated:", response.data);
 
                             })
@@ -430,7 +445,7 @@
                                 console.error("Error updating quantity:", error);
                             });
 
-                    } else {
+                    }else if(quantity == 5 && quantity == stock) {
                         await Swal.fire({
 
                             title: "Can't add a product more than 5 quantity",
@@ -438,14 +453,23 @@
                             showConfirmButton: true,
                             timer: 3000 // Auto-close after 2 seconds
                         });
-                    }
+                    
+                    } else if(quantity == stock) {
+                        await Swal.fire({
+
+                            title: `There is only ${stock} left`,
+                            text: "",
+                            showConfirmButton: true,
+                            timer: 3000 // Auto-close after 2 seconds
+                        });
+                    } 
 
 
                 }
 
                 async function decrementQuantity(event, i, product) {
                     const quantityElement = document.getElementById("quantity" + i);
-
+                    const totalElement = document.getElementById("totalPrice" + i);
                     let quantity = parseInt(quantityElement.innerText);
 
                     if (quantity > 1) {
@@ -455,10 +479,13 @@
                             quantity: quantity
                         })
                             .then(async response => {
-                                const { quantity, totalPrice } = response.data;
+                                const { quantity, totalPrice, checkout } = response.data;
 
                                 // Update quantity and total price in the DOM
                                 quantityElement.innerText = quantity;
+                                totalElement.innerText = totalPrice.toFixed(2);
+                                checkoutTotal.innerText = checkout.toFixed(2);
+
 
                                 // Display success message
                                 // await Swal.fire({
@@ -470,7 +497,7 @@
                                 // });
 
                                 // Reload the cart page
-                                window.location.href = "/user/cart";
+                                // window.location.href = "/user/cart";
 
                                 console.log("Quantity updated:", response.data);
                             })
@@ -486,9 +513,10 @@
 
                 function updateQuantity(event, action, i, product) {
                     // event.preventDefault();  // Prevent default link behavior
-                    alert("kdhjfkjs")
 
                     const quantityElement = document.getElementById("quantity" + i);
+                    const totalElement = document.getElementById("totalPrice" + i);
+                    const checkout = document.getElementById("checkoutTotal" + i);
                     let quantity = parseInt(quantityElement.innerText);
 
                     // Increment or decrement quantity locally
@@ -530,7 +558,36 @@
                         }
                     });
                 }
+
+
+                
+                async function apply (){
+                    
+                    const couponCode = document.getElementById('couponCode').value
+                    await axios.post('/user/applyCoupon',{couponCode})
+                    .then(response =>{
+                        grandTotal.innerText = response.data.totalPrice
+
+                    })
+                    .catch(response =>{
+                        Swal.fire({
+  icon: 'error', // Sets the alert icon
+  title: 'Oops!',
+  text: 'Something went wrong.', // Custom message for the alert
+});
+                    })
+                }
+
+                function toggleCouponSelect() {
+        const selectBox = document.getElementById("couponSelectBox");
+        selectBox.style.display = selectBox.style.display === "none" ? "block" : "none";
+    
+        // Populate the Select Box
+        
+      }
+    
             </script>
+
 
 
 

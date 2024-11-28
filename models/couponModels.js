@@ -46,6 +46,12 @@ const couponSchema = new mongoose.Schema(
         type: Date,
         required: true, // Coupon must have an expiry date
       },
+      status: {
+        type: String,
+        required: true,
+        default: "Activated",
+        enum: ['Deactivated', 'Activated']
+    },
       
     },
     {

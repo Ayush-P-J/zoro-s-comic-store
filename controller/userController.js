@@ -4,6 +4,7 @@ const user = require('../models/userModels');
 const admin = require('../models/adminModels');
 const cart = require('../models/cartModels');
 const wishlist = require('../models/wishlistModels');
+const wallet = require('../models/walletModels');
 const order = require('../models/orderModels');
 const coupon = require("../models/couponModels");
 
@@ -467,12 +468,14 @@ const viewProduct = async (req, res) => {
   res.render('user/viewProduct', { product, products, userCart })
 }
 
-const getCategoryUser = async (req, res) => {
+const getCategoryUser  = async (req, res) => {
   const sortOption = req.query.sortBy;
+  const searchTerm = req.query.search || ''; // Get the search term from query
   let sortCriteria;
+
   switch (sortOption) {
     case 'popularity':
-      sortCriteria = { popularity: -1 }; // Assuming a `popularity` field in the database
+      sortCriteria = { popularity: -1 };
       break;
     case 'price-low-high':
       sortCriteria = { salePrice: 1 };
@@ -493,27 +496,48 @@ const getCategoryUser = async (req, res) => {
       sortCriteria = {};
   }
 
+  // Find products based on the search term
+  const products = await admin.Product.find({
+    isListed: true,
+    productName: { $regex: searchTerm, $options: 'i' } // Case-insensitive search
+  }).sort(sortCriteria).populate('category');
 
-
-  const products = await admin.Product.find({ isListed: true }).sort(sortCriteria).populate('category');
-
-
-
-
-  res.render('user/categories', { products, sortOption })
+  res.render('user/categories', { products, sortOption, searchTerm });
 }
 
 
 const getProfilePage = async (req, res) => {
   // const userId = this.userEmail
   const userId = req.session.userId;
-  const coupons = await coupon.Coupon.find()
+  const coupons = await coupon.Coupon.find({expiryDate:{$gt:Date.now()}})
   const userData = await user.User.findOne({ _id: userId })
-  const orderDetails = await order.Order.find({ userId }).populate('userId').populate('addressId').sort({createdAt:-1})
-  // console.log("aa ithaa" + userData);
-  // console.log("szdfd"+orderDetails.); 
+  const orderDetails = await order.Order.find({ userId }).populate('userId').sort({createdAt:-1})
+  const userWallet = await wallet.Wallet.findOne({userId});
 
-  res.render('user/profile', { userData, orderDetails,coupons });
+  console.log("kkkk"+userWallet);
+  
+  
+    if(!userWallet){
+      console.log("wallte");
+    
+    const myWallet = new wallet.Wallet ({
+      userId:userId,
+    })
+    await myWallet.save();
+    }
+    
+    
+  
+  
+  const wallets = await wallet.Wallet.findOne({userId});
+
+  
+
+  
+  // console.log("aa ithaa" + userData);
+  // console.log("szdfd"+orderDetails.);
+
+  res.render('user/profile', { userData, orderDetails,coupons, wallets });
 }
 
 // const editProfile = async (req, res) => {

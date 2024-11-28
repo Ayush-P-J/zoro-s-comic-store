@@ -178,8 +178,8 @@
 					<div class="free_delivery d-flex flex-row align-items-center justify-content-center">
 						<span class="ti-truck"></span><span>free delivery</span>
 					</div>
-					<div class="original_price">$<%= product.regularPrice %></div>
-					<div class="product_price" id="">$<a id="price"><%= product.salePrice %></a></div>
+					<div class="original_price"><i class="fa fa-rupee"></i><%= product.regularPrice %></div>
+					<div class="product_price" id=""><i class="fa fa-rupee"></i><a id="price"><%= product.salePrice %></a></div>
 					<ul class="star_rating">
 						<li><i class="fa fa-star" aria-hidden="true"></i></li>
 						<li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -403,10 +403,10 @@
 											<img src="/images/<%= prod.images[0] %>" alt="">
 										</div>
 										<div class="favorite favorite_left"></div>
-										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$<%= prod.regularPrice - prod.salePrice  %></span></div>
+										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-<i class="fa fa-rupee"></i><%= prod.regularPrice - prod.salePrice  %></span></div>
 										<div class="product_info">
 											<h6 class="product_name"><a href="/user/viewProduct/<%= prod._id %>"><%= prod.productName %></a></h6>
-											<div class="product_price">$<%= prod.salePrice %><span>$<%= prod.regularPrice %></span></div>
+											<div class="product_price"><i class="fa fa-rupee"></i><%= prod.salePrice %><span><i class="fa fa-rupee"></i><%= prod.regularPrice %></span></div>
 										</div>
 									</div>
 									</a>
@@ -557,10 +557,7 @@
             }).removeClass('zoomed');
         });
     });
-	function addToCarts() {
-		alert("haiiii")
-
-	}
+	
     const price = parseInt(document.getElementById('price').textContent);  // Use textContent instead of value
     
 	const quantity = parseInt(document.getElementById('quantity_value').textContent);  // Use textContent instead of value

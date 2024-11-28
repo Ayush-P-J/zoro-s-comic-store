@@ -13,12 +13,12 @@
                         <div class="coupon-details">
                           <div class="badge badge-primary mb-2">
                             <% if (coupon.discountType === 'PERCENTAGE') { %>
-                            <%= coupon.discountValue %>% Off <% } else { %> $<%=
+                            <%= coupon.discountValue %>% Off <% } else { %> <i class="fa fa-rupee"></i><%=
                             coupon.discountValue %> Off <% } %>
                           </div>
 
                           <div class="text-muted small">
-                            <p>Minimum Order: $<%= coupon.minCartValue %></p>
+                            <p>Minimum Order: <%= coupon.minCartValue %></p>
                             <p>
                               Expires: <%=
                               coupon.expiryDate.toLocaleDateString() %>

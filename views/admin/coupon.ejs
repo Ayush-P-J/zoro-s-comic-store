@@ -22,6 +22,10 @@
   <link rel="stylesheet" href="/assets/css/style.css">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="/assets/images/favicon.png" />
+  <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.css"
+    />
 </head>
 
 <body>
@@ -160,7 +164,7 @@
                             <td><%= coupon.couponName %></td>
                             <td><%= coupon.couponCode %></td>
                             <td>                                                
-                                <%= coupon.discountType === 'PERCENTAGE' ? coupon.discountValue + '%' : '$' + coupon.discountValue %>
+                                <%= coupon.discountType === 'PERCENTAGE' ? coupon.discountValue + '%' : '<i class="fa fa-rupee"></i>' + coupon.discountValue %>
                             </td>
                             <td><%= coupon.minCartValue %></td>
                             <td><%= coupon.maxCartValue %></td>
@@ -235,6 +239,8 @@
   <!-- container-scroller -->
   <!-- plugins:js -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
   <script>
     document.getElementById('couponForm').addEventListener('submit', async (e) => {
@@ -263,30 +269,41 @@ const couponName = document.getElementById('couponName').value;
     perUserLimit,
     expiryDate,
   }
-alert(formData)
   try {
     const response = await axios.post('/admin/coupon', formData);
 
     // Handle success
     if (response.status === 200) {
-      alert('Coupon added successfully!');
+      Swal.fire({
+  icon: 'success', // Show 'success' icon
+  title: 'Coupon Added',
+  text: 'Coupon added successfully!',
+});
     }
   } catch (error) {
     // Handle error
     console.error('Error adding coupon:', error.response?.data || error.message);
-    alert('Failed to add coupon. Please try again.');
+    Swal.fire({
+  icon: 'error', // Show 'error' icon
+  title: 'Failed to Add Coupon',
+  text: 'Failed to add coupon. Please try again.',
+});
   }
 });
 
 
 function updateStatus(couponId, status) {
-  axios.post(`/admin/coupons/update-status`, { couponId, status })
+  axios.post(`/admin/coupons/updateStatus`, { couponId, status })
     .then((response) => {
       location.reload(); // Reload to reflect changes
     })
     .catch((error) => {
       console.error(error);
-      alert("Error updating status.");
+      Swal.fire({
+  icon: 'error', // Show 'error' icon
+  title: 'Status Update Failed',
+  text: 'Error updating status.',
+});
     });
 }
 
@@ -316,6 +333,84 @@ function setDeleteUrl(url) {
   <!-- endinject -->
   <!-- Custom js for this page -->
   <script src="/assets/js/dashboard.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const couponForm = document.getElementById("couponForm");
+  
+      // Function to show error popup
+      function showError(message) {
+        const errorPopup = document.createElement("div");
+        errorPopup.className = "fixed top-4 right-4 bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg z-50";
+        errorPopup.style.opacity = "0";
+        errorPopup.style.transform = "translateY(-20px)";
+        errorPopup.textContent = message;
+  
+        document.body.appendChild(errorPopup);
+  
+        // Animate in
+        setTimeout(() => {
+          errorPopup.style.opacity = "1";
+          errorPopup.style.transform = "translateY(0)";
+        }, 10);
+  
+        // Remove after 3 seconds
+        setTimeout(() => {
+          errorPopup.style.opacity = "0";
+          errorPopup.style.transform = "translateY(-20px)";
+          setTimeout(() => {
+            document.body.removeChild(errorPopup);
+          }, 300);
+        }, 3000);
+      }
+  
+      // Validation function
+      function validateForm(event) {
+        event.preventDefault();
+  
+        const couponName = document.getElementById("couponName").value.trim();
+        const couponCode = document.getElementById("couponCode").value.trim();
+        const discountType = document.getElementById("discountType").value;
+        const discountValue = document.getElementById("discountValue").value.trim();
+        const expiryDate = document.getElementById("expiryDate").value.trim();
+        const minAmount = document.getElementById("minAmount").value.trim();
+        const maxAmount = document.getElementById("maxAmount").value.trim();
+        const totalLimit = document.getElementById("totalLimit").value.trim();
+        const perUserLimit = document.getElementById("perUserLimit").value.trim();
+  
+        // Check if fields are empty
+        if (!couponName) return showError("Coupon Name is required.");
+        if (!couponCode) return showError("Coupon Code is required.");
+        if (!discountType) return showError("Discount Type is required.");
+        if (!discountValue || isNaN(discountValue) || parseFloat(discountValue) <= 0)
+          return showError("Discount Value must be a valid positive number.");
+        if (!expiryDate) return showError("Expiry Date is required.");
+        
+        // Check numeric limits
+        if (minAmount && (isNaN(minAmount) || parseFloat(minAmount) < 0))
+          return showError("Minimum Amount must be a valid non-negative number.");
+        if (maxAmount && (isNaN(maxAmount) || parseFloat(maxAmount) < 0))
+          return showError("Maximum Amount must be a valid non-negative number.");
+        if (maxAmount && minAmount && parseFloat(maxAmount) < parseFloat(minAmount))
+          return showError("Maximum Amount must be greater than or equal to Minimum Amount.");
+        if (totalLimit && (isNaN(totalLimit) || parseInt(totalLimit) <= 0))
+          return showError("Total Usage Limit must be a valid positive integer.");
+        if (perUserLimit && (isNaN(perUserLimit) || parseInt(perUserLimit) <= 0))
+          return showError("Per User Limit must be a valid positive integer.");
+  
+        // Check expiry date
+        const expiry = new Date(expiryDate);
+        if (expiry < new Date()) return showError("Expiry Date must be in the future.");
+  
+        // If all validations pass, submit the form
+        couponForm.submit();
+      }
+  
+      // Attach the validation function to the form's submit event
+      couponForm.addEventListener("submit", validateForm);
+    });
+  </script>
+  
   <!-- End custom js for this page -->
 </body>
 

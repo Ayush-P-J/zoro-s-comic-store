@@ -344,7 +344,15 @@
         input.addEventListener("input", function () {
           if (input.value < 0) {
             input.value = "";
-            alert("Please enter a positive number");
+            Swal.fire({
+  icon: 'warning', // Show 'warning' icon
+  title: 'Invalid Input',
+  text: 'Please enter a positive number.',
+  toast: true, // Makes it a toast notification
+  position: 'top', // Position it at the middle of the top
+  timer: 3000, // Duration in milliseconds (3 seconds)
+  showConfirmButton: false, // Hide the confirm button
+});
           }
         });
       });
@@ -353,7 +361,15 @@
         input.addEventListener("change", function () {
           const file = input.files[0];
           if (file && !["image/png", "image/jpeg", "image/jpg"].includes(file.type)) {
-            alert("The image file will change into these format (PNG, JPEG, JPG)");
+            Swal.fire({
+  icon: 'info', // Show 'info' icon
+  title: 'Image Format Information',
+  text: 'The image file will change into these formats: PNG, JPEG, JPG.',
+  toast: true, // Makes it a toast notification
+  position: 'top', // Position the toast at the middle of the top
+  timer: 3000, // Duration in milliseconds (3 seconds)
+  showConfirmButton: false, // Hide confirm button
+});
             input.value = "";
           }
         });
