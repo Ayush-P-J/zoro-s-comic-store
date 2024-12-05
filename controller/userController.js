@@ -457,6 +457,8 @@ const viewProduct = async (req, res) => {
 
   const product = await admin.Product.findOne({ _id: productId }).populate('category');
   const userCart = await cart.Cart.find({ userId }).populate('productId')
+  const userWishlist = await wishlist.Wishlist.find({ userId }).populate('productId')
+
 
 
   const products = await admin.Product.find({
@@ -465,13 +467,15 @@ const viewProduct = async (req, res) => {
     _id: { $ne: productId }
   }).limit(3)
 
-  res.render('user/viewProduct', { product, products, userCart })
+  res.render('user/viewProduct', { product, products, userCart ,userWishlist})
 }
 
 const getCategoryUser  = async (req, res) => {
   const sortOption = req.query.sortBy;
   const searchTerm = req.query.search || ''; // Get the search term from query
   let sortCriteria;
+  const categories = await admin.Category.find({ status: true })
+const categoryId = await req.query.category 
 
   switch (sortOption) {
     case 'popularity':
@@ -495,14 +499,22 @@ const getCategoryUser  = async (req, res) => {
     default:
       sortCriteria = {};
   }
-
+  let products;
   // Find products based on the search term
-  const products = await admin.Product.find({
-    isListed: true,
-    productName: { $regex: searchTerm, $options: 'i' } // Case-insensitive search
-  }).sort(sortCriteria).populate('category');
+  if(categoryId){
+     products = await admin.Product.find({
+      isListed: true,
+      category:categoryId,
+      productName: { $regex: searchTerm, $options: 'i' } // Case-insensitive search
+    }).sort(sortCriteria).populate('category');
+  }else{
+     products = await admin.Product.find({
+      isListed: true,
+      productName: { $regex: searchTerm, $options: 'i' } // Case-insensitive search
+    }).sort(sortCriteria).populate('category');
+  }
 
-  res.render('user/categories', { products, sortOption, searchTerm });
+  res.render('user/categories', { products, sortOption, searchTerm,categories,categoryId });
 }
 
 
@@ -513,8 +525,10 @@ const getProfilePage = async (req, res) => {
   const userData = await user.User.findOne({ _id: userId })
   const orderDetails = await order.Order.find({ userId }).populate('userId').sort({createdAt:-1})
   const userWallet = await wallet.Wallet.findOne({userId});
+  const userWishlist = await wishlist.Wishlist.find({ userId }).populate('productId')
 
-  console.log("kkkk"+userWallet);
+
+  // console.log("kkkk"+userWallet);
   
   
     if(!userWallet){
@@ -531,13 +545,17 @@ const getProfilePage = async (req, res) => {
   
   const wallets = await wallet.Wallet.findOne({userId});
 
+  if (wallets) {
+    wallets.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+}
+
   
 
   
   // console.log("aa ithaa" + userData);
   // console.log("szdfd"+orderDetails.);
 
-  res.render('user/profile', { userData, orderDetails,coupons, wallets });
+  res.render('user/profile', { userData, orderDetails,coupons, wallets,userWishlist });
 }
 
 // const editProfile = async (req, res) => {

@@ -182,26 +182,25 @@ const removeCoupon = async (req, res) => {
 };
 
 
-const { Coupon } = require('../models/couponModels');
 
 // Update Coupon Status
-const updateStatus = async (req, res) => {
-  const { couponId, status } = req.body;
+const deleteCoupon = async (req, res) => {
+  const  couponId  = req.params.couponId;
 
-  if (!couponId || !['Activated', 'Deactivated'].includes(status)) {
-    return res.status(400).json({ error: 'Invalid request data' });
-  }
+  
 
   try {
-    const coupon = await Coupon.findById(couponId);
-    if (!coupon) {
+    const coupons = await coupon.Coupon.findById(couponId);
+    if (!coupons) {
       return res.status(404).json({ error: 'Coupon not found' });
     }
+     await coupon.Coupon.deleteOne({_id:couponId});
+     console.log("deleted coupon");
+     
 
-    coupon.status = status;
-    await coupon.save();
+    
 
-    return res.status(200).json({ message: 'Status updated successfully' });
+    return res.status(200).json({ message: 'Deleted successfully' });
   } catch (error) {
     console.error('Error updating coupon status:', error);
     return res.status(500).json({ error: 'Internal server error' });
@@ -214,5 +213,5 @@ module.exports = {
   addCoupon,
   applyCoupon,
   removeCoupon,
-  updateStatus,
+  deleteCoupon,
 };

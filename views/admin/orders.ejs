@@ -202,37 +202,25 @@
 
 
                     <!-- Modal -->
-                    <div class="modal" id="orderModal" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Order Products</h5>
-                                    <button type="button" class="close" onclick="closeOrderModal()" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Product Name</th>
-                                                <th>Quantity</th>
-                                                <th>Price at Purchase</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="modalProductList">
-                                            <!-- Products will be dynamically inserted here -->
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        onclick="closeOrderModal()">Close</button>
-                                </div>
+                    <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
+                            <div class="modal-body">
+                              <!-- Order details will be dynamically populated here -->
+                              <div id="modal-order-details">
+                                <p>Loading order details...</p>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                          </div>
                         </div>
-                    </div>
+                      </div>
                     <!-- Modal -->
 
 
@@ -269,7 +257,7 @@
                                                             <th> OrderId </th>
                                                             <th> User </th>
                                                             <th> Price</th>
-                                                            <th> Ordered </th>
+                                                            <!-- <th> Ordered </th> -->
                                                             <th> Status</th>
                                                             <th> Actions </th>
 
@@ -291,11 +279,11 @@
                                                                         <%= order.userId.fullName %>
                                                                     </td>
                                                                     <td class="product-name-cell">
-                                                                        <i class="fa fa-rupee"></i><%= order.totalAmount %>
+                                                                        &#8377;<%= order.totalAmount %>
                                                                     </td>
-                                                                    <td class="product-name-cell">
+                                                                    <!-- <td class="product-name-cell">
                                                                         <%= order.createdAt %>
-                                                                    </td>
+                                                                    </td> -->
 
                                                                     <% const getStatusClass=(status)=> {
                                                                         switch(status) {
@@ -354,6 +342,10 @@
                                                                             </select>
                                                                         </td>
                                                                         <td>
+                                                                            <button type="button" class="btn btn-info" onclick="showOrderDetails('<%= order.orderId %>')">
+                                                                                View Details
+                                                                              </button>
+                                                                              
                                                                             <% if(order.status=="Order Placed" ){%>
                                                                                 <button type="button"
                                                                                     onclick="orderCancel('<%= order.orderId %>')"
@@ -554,6 +546,43 @@
         }
 
     </script>
+    <script>
+        async function showOrderDetails(orderId) {
+          try {
+            // Fetch order details via an API
+            const response = await fetch(`/user/profile/orders/${orderId}`);
+            if (!response.ok) alert('kahdgksh')
+            
+            
+            const orderDetails = await response.json();
+            
+            // Populate the modal with order details
+            const modalContent = document.getElementById("modal-order-details");
+            modalContent.innerHTML = `
+              <p><strong>Order ID:</strong> ${orderDetails.orderId}</p>
+              <p><strong>Total Amount:</strong> ₹${orderDetails.totalAmount}</p>
+              <p><strong>Status:</strong> ${orderDetails.status}</p>
+              <p><strong>Address:</strong> ${orderDetails.address.recipientName}, ${orderDetails.address.addressLine}, ${orderDetails.address.city}, ${orderDetails.address.state} - ${orderDetails.address.pinCode}</p>
+              <h5>Products:</h5>
+              <ul>
+                ${orderDetails.products
+                  .map(
+                    (product) =>
+                      `<li>${product.productName} (x${product.quantity}) - ₹${product.priceAtPurchase}</li>`
+                  )
+                  .join("")}
+              </ul>
+            `;
+            
+            // Show the modal
+            const modal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
+            modal.show();
+          } catch (error) {
+            console.error(error);
+            alert("Unable to fetch order details. Please try again later.");
+          }
+        }
+      </script>
 
 
 

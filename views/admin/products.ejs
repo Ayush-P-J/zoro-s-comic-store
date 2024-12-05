@@ -110,7 +110,7 @@
                                 <%= product.salePrice ? product.salePrice : 'N/A' %>
                               </td>
                               <td>
-                                <% if (product.status==="Available" ) { %>
+                                <% if (product.status==="Available" && product.stock > 0 ) { %>
                                   <span class="badge badge-success">Available</span>
                                   <% } else { %>
                                     <span class="badge badge-danger">Out of Stock</span>

@@ -249,12 +249,121 @@ jQuery(document).ready(function ($) {
 
 	*/
 
+	// function initFavorite() {
+	// 	if ($('.product_favorite').length) {
+	// 		var fav = $('.product_favorite');
+
+	// 		fav.on('click', function () {
+	// 			fav.toggleClass('active');
+	// 		});
+	// 	}
+	// }
+
 	function initFavorite() {
 		if ($('.product_favorite').length) {
-			var fav = $('.product_favorite');
+			var favs = $('.product_favorite');
 
-			fav.on('click', function () {
-				fav.toggleClass('active');
+			favs.each(function () {
+				var fav = $(this);
+				var active = false;
+				if (fav.hasClass('active')) {
+					active = true;
+				}
+				
+				fav.on('click', function () {
+					// alert(productId)
+					if (active) {
+						
+						fav.removeClass('active');
+						active = false;
+						axios.post('/user/addToWishlist', {productId,active:false})
+							.then(response => {
+								// Success SweetAlert notification
+								if (response.data.success === true) {
+									
+									Swal.fire({
+										icon: 'success',
+										title: 'removed successfully!',
+										toast: true,
+										color:'black',
+										position: 'top-end',
+										showConfirmButton: false,
+										timer: 2000
+									})
+									.then(() => {
+										window.location.reload();
+									});
+										
+									// cartNumber.innerText = ""
+								} else {
+									Swal.fire({
+										icon: 'error',
+										title: 'error',
+										text: response.data.message,
+										confirmButtonText: 'OK'
+									});
+
+								}
+							})
+							.catch(error => {
+								// Error SweetAlert notification
+								Swal.fire({
+									icon: 'error',
+									title: 'Error',
+									text: 'There was an error updating the quantity. Please try again.',
+									confirmButtonText: 'OK'
+								});
+								console.error("Error updating quantity:", error);
+							});
+
+						
+					}
+					else {
+						
+						fav.addClass('active');
+						active = true;
+
+						axios.post('/user/addToWishlist', {productId,active:true})
+							.then(response => {
+								// Success SweetAlert notification
+								if (response.data.success === true) {
+									
+									Swal.fire({
+										icon: 'success',
+										title: 'Added to wishlist successfully!',
+										toast: true,
+										color:'black',
+										position: 'top-end',
+										showConfirmButton: false,
+										timer: 2000
+									})
+									.then(() => {
+										window.location.reload();
+									});
+										
+									// cartNumber.innerText = ""
+								} else {
+									Swal.fire({
+										icon: 'error',
+										title: 'error',
+										text: response.data.message,
+										confirmButtonText: 'OK'
+									});
+
+								}
+							})
+							.catch(error => {
+								// Error SweetAlert notification
+								Swal.fire({
+									icon: 'error',
+									title: 'Error',
+									text: 'There was an error updating the quantity. Please try again.',
+									confirmButtonText: 'OK'
+								});
+								console.error("Error updating quantity:", error);
+							});
+					}
+				});
 			});
 		}
 	}

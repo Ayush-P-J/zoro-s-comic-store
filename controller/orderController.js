@@ -5,6 +5,12 @@ const admin = require("../models/adminModels");
 const coupon = require("../models/couponModels");
 const wallet = require("../models/walletModels");
 const { type } = require("express/lib/response");
+const PDFDocument = require("pdfkit");
+const fs = require('fs');
+const path = require('path');
+const Razorpay = require('razorpay');
+
+
 
 function generateOrderId() {
   const prefix = "ORD";
@@ -22,6 +28,12 @@ const placeOrder = async (req, res) => {
     const userId = req.session.userId;
     const { addressId, paymentMethod, paymentStatus, amount, couponCode } =
       req.body;
+
+    if(amount >= 1000 && paymentMethod == "COD"){
+      return res
+      .status(200)
+      .json({ success: false, message: "The order is more than 1000 Rs, you can proceed with online payment " });
+    }
     const userCart = await cart.Cart.find({ userId }).populate("productId");
     const userDetails = await user.User.findOne({ _id: userId });
     const userCoupon = await coupon.Coupon.findOne({ couponCode });
@@ -84,6 +96,8 @@ const placeOrder = async (req, res) => {
 
     await cart.Cart.deleteMany({ userId });
     console.log("order success");
+    console.log("order id "+orderId);
+    
 
     return res
       .status(200)
@@ -157,7 +171,7 @@ const orderReturn = async (req, res) => {
     //     })
 
     let amount = userWallet.balance + orders.totalAmount;
-    const description = "skdjhfksj";
+    const description = "Order return";
 
     const transaction = {
       type: "credit",
@@ -283,6 +297,299 @@ const walletTransaction = async (req, res) => {
   }
 };
 
+
+const viewOrders = async (req, res) => {
+  try {
+    console.log("view");
+    
+    const { orderId } = req.params;
+    const orderDetails = await order.Order.findOne({ orderId }).populate('products.productId');
+    if (!orderDetails){
+console.log("no order");
+
+return  res.status(404).json({ error: 'Order not found' });
+}  
+
+console.log(" order"+orderDetails);
+
+    res.json(orderDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while fetching the order details' });
+  }
+}
+
+
+const invoiceDownload = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+
+    // Fetch the order details from the database
+    const orderDetails = await order.Order.findOne({ orderId })
+      .populate("userId")
+      .populate("products.productId");
+
+    if (!orderDetails) {
+      return res.status(404).send("Order not found");
+    }
+
+    // Create a new PDF document
+    const doc = new PDFDocument({ margin: 50 });
+
+    // Set response headers for PDF download
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="Invoice_${orderDetails.orderId}.pdf"`
+    );
+
+    // Pipe the PDF into the response
+    doc.pipe(res);
+
+    // Add invoice title
+    doc.fontSize(20).text("Invoice", { align: "center" });
+    doc.moveDown(2);
+
+    // Add Order Details
+    doc.fontSize(12).text(`Order ID: ${orderDetails.orderId}`);
+    doc.text(`Order Date: ${new Date(orderDetails.createdAt).toLocaleDateString()}`);
+    doc.text(`Status: ${orderDetails.status}`);
+    doc.text(`Total Amount: ₹${orderDetails.totalAmount}`);
+    doc.moveDown();
+
+    // Add User Details
+    doc.fontSize(14).text("Customer Details", { underline: true });
+    doc.fontSize(12).text(`Name: ${orderDetails.userId.fullName}`);
+    doc.text(`Email: ${orderDetails.userId.email}`);
+    doc.text(`Address: ${orderDetails.address.recipientName}, ${orderDetails.address.addressLine}, ${orderDetails.address.city}, ${orderDetails.address.state} - ${orderDetails.address.pinCode}`);
+    doc.moveDown();
+
+    // Add Products Table Header
+    doc.fontSize(14).text("Products", { underline: true });
+    doc.moveDown();
+
+    const tableTop = doc.y;
+    const colWidths = [50, 200, 80, 100, 100]; // Column widths
+    const headers = ["#", "Product Name", "Quantity", "Price", "Total"];
+
+    // Draw table header background
+    doc.rect(50, tableTop, colWidths.reduce((a, b) => a + b), 20).fill("#eeeeee");
+
+    // Add table headers
+    headers.forEach((header, i) => {
+      const x = 50 + colWidths.slice(0, i).reduce((a, b) => a + b, 0);
+      doc.fontSize(10).fill("#000").text(header, x + 5, tableTop + 5);
+    });
+
+    // Reset fill color for rows
+    doc.fill("#000");
+
+    // Add Products Table Rows
+    let rowTop = tableTop + 20;
+    orderDetails.products.forEach((product, index) => {
+      const rowData = [
+        index + 1,
+        product.productId?.productName || "N/A",
+        product.quantity,
+        `₹${product.priceAtPurchase}`,
+        `₹${product.quantity * product.priceAtPurchase}`,
+      ];
+
+      // Draw row background alternately
+      doc.rect(50, rowTop, colWidths.reduce((a, b) => a + b), 20).fill(index % 2 === 0 ? "#f9f9f9" : "#ffffff").stroke();
+
+      // Add row text
+      rowData.forEach((data, i) => {
+        const x = 50 + colWidths.slice(0, i).reduce((a, b) => a + b, 0);
+        doc.fontSize(10).fill("#000").text(data, x + 5, rowTop + 5);
+      });
+
+      rowTop += 20;
+
+      // Add a new page if the table exceeds the page height
+      if (rowTop > doc.page.height - 50) {
+        doc.addPage();
+        rowTop = 50; // Reset rowTop for the new page
+      }
+    });
+
+    // Finalize the PDF
+    doc.end();
+  } catch (error) {
+    console.error("Error generating invoice PDF:", error);
+    res.status(500).send("Error generating invoice");
+  }
+};
+
+
+const failedPayment = async (req, res) => {
+  console.log("reached on FailedPayment");
+
+  try {
+    const orderId = generateOrderId();
+    console.log("reached on FailedPayment 1");
+
+    const userId = req.session.userId;
+    const { addressId, paymentMethod, paymentStatus, amount, couponCode } =
+      req.body;
+
+    // Check if payment status is failed
+    if (paymentStatus !== "Failed") {
+  console.log("reached on FailedPayment not failed");
+
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid payment status" });
+    }
+
+    const userCart = await cart.Cart.find({ userId }).populate("productId");
+    const userDetails = await user.User.findOne({ _id: userId });
+    const userCoupon = await coupon.Coupon.findOne({ couponCode });
+  console.log("reached on FailedPayment 2");
+
+
+    console.log(userDetails);
+
+    const selectedAddress = userDetails.addresses.find(
+      (address) => address._id.toString() === addressId
+    );
+    const address = { ...selectedAddress._doc };
+    address.addressId = address._id; // Add new field with renamed property
+
+    delete address._id; // Or optionally rename it
+    console.log("cart found ");
+    console.log("address : " + address);
+
+    const products = [];
+    let totalAmount = 0;
+    userCart.forEach(async (cart) => {
+      const product = {
+        productId: cart.productId._id,
+        productName: cart.productName,
+        quantity: cart.quantity,
+        priceAtPurchase: cart.totalPrice,
+      };
+      products.push(product);
+      totalAmount += cart.totalPrice;
+      
+    });
+
+    
+
+    const orders = new order.Order({
+      userId: userId,
+      address: address,
+      orderId: orderId,
+      products: products,
+      status:"Payment Failed",
+      paymentMethod: paymentMethod,
+      paymentStatus: paymentStatus,
+
+      totalAmount: amount,
+    });
+    console.log("order saved1");
+    await orders.save();
+    console.log("order saved2");
+
+    if(userCoupon){
+      const coupons = {
+        couponId: userCoupon.couponCode,
+      };
+      await user.User.updateOne(
+        { _id: userId },
+        { $push: { appliedCoupons: coupons } }
+      );
+    }
+
+    await cart.Cart.deleteMany({ userId });
+    console.log("order success");
+    console.log("order id "+orderId);
+    
+
+    return res
+    .status(200)
+    .json({ success: false, message: "Payment failed. Please try again." });
+
+
+    
+  } catch (error) {
+    console.log("Something happened: " + error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal error occurred" });
+  }
+};
+
+const retryPayment = async (req, res)=>{
+  try {
+      const { orderId  } = req.body;
+
+      console.log("reached on razorPay retry: "+req.body);
+
+      const userOrder = await order.Order.findOne({orderId:orderId}) 
+
+      const amount = userOrder.totalAmount
+      console.log("dsfdsf"+userOrder);
+      
+
+      
+      
+      const rzp = new Razorpay({
+          key_id: 'rzp_test_KMHnYj4Ync3OkC', // Replace with your Razorpay key ID
+          key_secret: '332yAZBUPllWJ0RkdhL6B4Rp', // Replace with your Razorpay secret
+        });
+
+        const orders = rzp.orders.create({
+            amount: amount * 100, // Convert to paise
+            currency: "INR",
+            receipt: "userOrder.userId.fullName",
+            payment_capture: 1,
+        });
+    
+        res.status(201).json({ success: true, order: orders });
+      } catch (error) {
+        console.error('Error creating order:', error);
+        res.status(500).json({ success: false, error: error });
+      }
+     
+}
+
+const retrySuccess = async (req, res)=>{
+  try {
+    const orderId = req.body.orderId;
+    const userOrder = order.Order.findOne({orderId}).populate('userId') 
+
+    await order.Order.updateOne(
+      { orderId: orderId },
+      {
+        $set: {
+          paymentStatus: "Success",
+          status: "Order placed",
+        },
+      }
+    );
+
+    userOrder.products.forEach( async (product)=>{
+      await admin.Product.updateOne(
+        { _id: product.productId },
+        { $inc: { stock: -product.quantity } }
+      );    
+    })
+
+
+
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Order success..", orderId: orderId });
+
+  } catch (error) {
+    
+  }
+
+}
+
+
 module.exports = {
   placeOrder,
   orderConfirmationPage,
@@ -291,4 +598,9 @@ module.exports = {
   getOrders,
   changeOrderStatus,
   walletTransaction,
+  viewOrders,
+  invoiceDownload,
+  failedPayment,
+  retryPayment,
+  retrySuccess,
 };

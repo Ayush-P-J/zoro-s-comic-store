@@ -87,14 +87,21 @@ router.route('/coupon')
     .get(auth.adminAuth,couponController.getCouponAdmin)
     .post(couponController.addCoupon)
 
-router.route('/coupon/updateStatus')
-.post(couponController.updateStatus)
+router.route('/coupon/delete/:couponId')
+.get(couponController.deleteCoupon)
 
 router.route('/salesReport')
     .get(auth.adminAuth,salesController.getSalesReport)
 
-router.route("/salesReport/download")
+router.route("/salesReport/download/excel")
     .get(auth.adminAuth, salesController.downloadSalesReport);
+
+router.route("/salesReport/download/pdf")
+    .get(auth.adminAuth, salesController.downloadPdf);
+
+router.route('/dashboard')
+    .get(auth.adminAuth,salesController.getDashboard)
+    .post(couponController.addCoupon)
 
 
 

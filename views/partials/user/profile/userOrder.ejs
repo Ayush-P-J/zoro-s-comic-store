@@ -1,3 +1,24 @@
+<!-- Modal -->
+<div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Order details will be dynamically populated here -->
+        <div id="modal-order-details">
+          <p>Loading order details...</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="orders" class="content-section mt-4">
   <div class="order-details-container">
     <% orderDetails.forEach((order)=>{ %>
@@ -8,7 +29,7 @@
       <div class="product-info">
         <p class="product-name"><%= order.orderId %></p>
         <p class="product-price">
-          <i class="fa fa-rupee"></i><%= order.totalAmount %>
+          &#8377;<%= order.totalAmount %>
         </p>
         <% const formattedDate=new Intl.DateTimeFormat('en-US', {
         year: 'numeric' , month: 'long' , day: "numeric" ,
@@ -31,8 +52,9 @@
       'Processing': return 'status-processing'; case 'Shipped':
       return 'status-shipped'; case 'Out for delivery': return
       'status-out-for-delivery'; case 'Delivered': return
-      'status-delivered'; case 'Cancelled': return
+      'status-delivered'; case 'Cancelled' : return
       'status-cancelled'; case 'Returned': return 'status-returned';
+      case 'Payment Failed' : return 'status-returned'
       default: return ''; } } %>
       <div>
         <p class="status-badge <%= getStatusClass(order.status) %>">
@@ -40,14 +62,36 @@
         </p>
       </div>
       <div>
-        <% if(order.status=="Order Placed" ){%>
         <button
+          type="button"
+          onclick="showOrderDetails('<%= order.orderId %>')"
+          class="btn btn-primary"
+          
+        >
+          View details 
+        </button>
+        <% if ( order.status == "Delivered" ){ %>
+          <button type="button" class="btn btn-secondary" onclick="downloadInvoice('<%= order.orderId %>')"><i class="fa-solid fa-download"></i></button>
+        <% } %>
+
+        <% if( order.paymentStatus == "Failed" ){%>
+        <button
+          type="button"
+          onclick="retryPayment('<%= order.orderId %>','<%= order.totalAmount %>')"
+          class="btn btn-danger"
+        >
+          Retry
+        </button>
+        <% }else if (order.status == "Order Placed"){%>
+          <button
           type="button"
           onclick="orderCancel('<%= order.orderId %>')"
           class="btn btn-danger"
+          
         >
           Cancel
         </button>
+
         <% }else if (order.status == "Delivered"){%>
           <button
           type="button"
@@ -74,3 +118,130 @@
     <% }) %>
   </div>
 </div>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+<script>
+
+  async function showOrderDetails(orderId) {
+    try {
+      // Fetch order details via an API
+      const response = await fetch(`/user/profile/orders/${orderId}`);
+      if (!response.ok) alert('kahdgksh')
+      
+      ///////////
+      const orderDetails = await response.json(); 
+      
+      // Populate the modal with order details
+      const modalContent = document.getElementById("modal-order-details");
+      modalContent.innerHTML = `
+        <p><strong>Order ID:</strong> ${orderDetails.orderId}</p>
+        <p><strong>Total Amount:</strong> ₹${orderDetails.totalAmount}</p>
+        <p><strong>Status:</strong> ${orderDetails.status}</p>
+        <p><strong>Address:</strong> ${orderDetails.address.recipientName}, ${orderDetails.address.addressLine}, ${orderDetails.address.city}, ${orderDetails.address.state} - ${orderDetails.address.pinCode}</p>
+        <h5>Products:</h5>
+        <ul>
+          ${orderDetails.products
+            .map(
+              (product) =>
+                `<li>${product.productName} (x${product.quantity}) - ₹${product.priceAtPurchase}</li>`
+            )
+            .join("")}
+        </ul>
+      `;
+      
+      // Show the modal
+      const modal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
+      modal.show();
+    } catch (error) {
+      console.error(error);
+      alert("Unable to fetch order details. Please try again later.");
+    }
+  }
+
+  async function downloadInvoice(orderId) {
+  try {
+    const response = await fetch(`/user/profile/orders/${orderId}/invoice`);
+
+    if (!response.ok) {
+      alert('Failed to download invoice');
+    }
+
+    // Create a blob and trigger a download
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `invoice-${orderId}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error(error);
+    alert('Unable to download the invoice. Please try again.');
+  }
+}
+
+async function retryPayment(orderId,amount){
+  {
+  try {
+    // Fetch order details from the backend
+    const  responseData  = await axios.post("/user/retryPayment", { orderId: orderId });
+
+    if (responseData.data.success) {
+      const order = responseData.data.order;
+      alert(order.amount)
+
+      const options = {
+        key: "rzp_test_KMHnYj4Ync3OkC", // Razorpay API key
+        amount: amount * 100, // Amount in paise
+        currency: "INR",
+        name: "Your Store Name",
+        description: "Retry Payment",
+        handler: async function (response) {
+          // Handle payment success
+          const paymentResponse = await axios.post("/user/retrySuccess", {
+            
+            orderId: orderId, 
+          });
+
+          Swal.fire({
+            title: "Payment Successful",
+            text: paymentResponse.data.message,
+            icon: "success",
+            timer: 2000,
+          }).then(() => {
+            window.location.href = "/user/profile";
+          });
+        },
+        prefill: {
+                  name: "Customer Name",
+                  email: "customer@example.com",
+                  contact: "9876543210",
+                },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+
+      const razorpay = new Razorpay(options);
+      razorpay.open();
+    } else {
+      Swal.fire({
+        title: "Error",
+        text: data.message,
+        icon: "error",
+        timer: 2000,
+      });
+    }
+  } catch (error) {
+    console.error("Retry Payment Error:", error);
+    alert("Something went wrong. Please try again later.");
+  }
+}
+
+}
+
+
+</script>

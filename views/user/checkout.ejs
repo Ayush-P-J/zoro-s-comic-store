@@ -197,7 +197,12 @@
           style="padding: 0px; margin: 0px"
         >
           <ul>
-            <li><a href="/user/cart">cart</a></li>
+            <li><a href="/user/home">Home</a></li>
+            <li>
+              <a href="/user/cart"
+                ><i class="fa fa-angle-right" aria-hidden="true"></i>Cart</a
+              >
+            </li>
             <li class="active">
               <a href="#"
                 ><i class="fa fa-angle-right" aria-hidden="true"></i>Checkout</a
@@ -1073,7 +1078,7 @@
                 key: "rzp_test_KMHnYj4Ync3OkC", // Replace with your Razorpay key ID
                 amount: amount * 100,
                 currency: order.currency,
-                name: "Your Company Name",
+                name: "Zoro's Comic Store",
                 description: "Test Transaction",
                 order_id: order.id, // Razorpay Order ID
                 handler: async function (response) {
@@ -1111,6 +1116,32 @@
               };
 
               const razorpay = new Razorpay(options);
+
+              razorpay.on("payment.failed", function (response) {
+                // Handle failed payment
+                console.error("Payment Failed", response);
+                alert(`Payment Failed: ${response.error.description}`);
+                // Optionally, send failure details to the backend
+                const failedResponse = axios.post("/user/paymentFailed", {
+                  addressId: addressId,
+                        paymentMethod: paymentMethod,
+                        paymentStatus: "Failed",
+                        amount: amount,
+                        couponCode: couponCode,
+                        razorpayPaymentId: response.razorpay_payment_id,
+                });
+                Swal.fire({
+          title: "Failed",
+          text: failedResponse.data.message,
+          icon: "Failed",
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          window.location.href = `/user/profile`;
+        });
+
+              });
               razorpay.open();
             } else {
               console.error("Order creation failed:", orderResponse.data.error);
@@ -1186,8 +1217,19 @@
               paymentStatus: "COD",
               couponCode: couponCode,
             });
-
-            handleSuccess(response.data.orderId);
+            if (response.data.success == false) {
+              Swal.fire({
+                title: "error",
+                text: response.data.message,
+                icon: "success",
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 2000,
+              });
+            }
+            if (response.data.success == true) {
+              handleSuccess(response.data.orderId);
+            }
           }
         } catch (error) {
           console.error("Error placing order:", error);

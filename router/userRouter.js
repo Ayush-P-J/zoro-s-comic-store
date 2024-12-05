@@ -62,6 +62,12 @@ router.route('/user/profile')
     .get(auth.userAuth, controller.getProfilePage)
     .post(controller.editProfile)
 
+router.route('/user/profile/orders/:orderId')
+.get(orderController.viewOrders)
+
+router.route('/user/profile/orders/:orderId/invoice')
+.get(orderController.invoiceDownload)
+
 router.route('/user/addAddress/:address')
     .post(controller.postAddress)
 
@@ -117,6 +123,15 @@ router.route('/user/razorPay')
         }
        
 })
+
+router.route('/user/paymentFailed')
+    .post(orderController.failedPayment)
+
+
+router.route("/user/retryPayment").post(orderController.retryPayment);
+
+router.route("/user/retrySuccess").post(orderController.retrySuccess);
+
 
 router.route('/user/walletTransaction')
 .post(orderController.walletTransaction)

@@ -52,7 +52,9 @@ const postLogin = async (req, res) => {
 
 const getIndex = (req, res) => {
   nocache();
-  res.render("admin/index");
+  console.log("user" + req.session.userId);
+
+  res.redirect("/admin/dashboard");
 };
 
 const getUserList = async (req, res) => {
@@ -103,11 +105,10 @@ const blockUser = async (req, res) => {
   }
 };
 
-
 module.exports = {
   getLogin,
-postLogin,
-getIndex,
-getUserList,
-blockUser,
-}
+  postLogin,
+  getIndex,
+  getUserList,
+  blockUser,
+};

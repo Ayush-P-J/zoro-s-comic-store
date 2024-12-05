@@ -213,7 +213,7 @@ jQuery(document).ready(function ($) {
 				}
 				
 				fav.on('click', function () {
-					alert(productId)
+					// alert(productId)
 					if (active) {
 						
 						fav.removeClass('active');

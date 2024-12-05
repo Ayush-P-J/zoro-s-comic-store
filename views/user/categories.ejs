@@ -201,20 +201,24 @@
 					<!-- Sidebar -->
 
 					<div class="sidebar">
-						<!-- <div class="sidebar_section">
+						<div class="sidebar_section">
 							<div class="sidebar_title">
 								<h5>Product Category</h5>
 							</div>
+							
 							<ul class="sidebar_categories">
-								<li><a href="#">Men</a></li>
-								<li class="active"><a href="#"><span><i class="fa fa-angle-double-right"
+								<% categories.forEach((category)=>{%>
+									<li><a href="/user/categories?category=<%= category._id %>" ><%= category.categoryName %></a></li>
+								
+								<%})%>
+								<!-- <li class="active"><a href="#"><span><i class="fa fa-angle-double-right"
 												aria-hidden="true"></i></span>Women</a></li>
 								<li><a href="#">Accessories</a></li>
 								<li><a href="#">New Arrivals</a></li>
 								<li><a href="#">Collection</a></li>
-								<li><a href="#">Shop</a></li>
+								<li><a href="#">Shop</a></li> -->
 							</ul>
-						</div> -->
+						</div>
 
 						<!-- Price Range Filtering -->
 						<div class="sidebar_section">
@@ -439,7 +443,7 @@
 				const searchTerm = searchInput.value;
 	
 				// Redirect to the categories page with the selected sort option and search term
-				window.location.href = `/user/categories?sortBy=${sortBy}&search=${encodeURIComponent(searchTerm)}`;
+				window.location.href = `/user/categories?sortBy=${sortBy}&search=${encodeURIComponent(searchTerm)}&category=${'<%= categoryId %>'}`;
 			});
 	
 			// Event listener for the search input
@@ -449,7 +453,7 @@
 					const searchTerm = searchInput.value;
 	
 					// Redirect to the categories page with the current sort option and search term
-					window.location.href = `/user/categories?sortBy=${sortBy}&search=${encodeURIComponent(searchTerm)}`;
+					window.location.href = `/user/categories?sortBy=${sortBy}&search=${encodeURIComponent(searchTerm)}&category=${'<%= categoryId %>'}`;
 				}
 			});
 		});

@@ -102,7 +102,7 @@
                               </div>
               
                               <div class="form-group">
-                                <label for="maxAmount">Maximum Amount</label>
+                                <label for="maxAmount">Maximum discount Amount</label>
                                 <input type="number" class="form-control" id="maxAmount" name="maxAmount" placeholder="Maximum Order Amount">
                               </div>
               
@@ -147,8 +147,8 @@
                           <th>Coupon Name</th>
                           <th>Coupon Code</th>
                           <th>Discount Value</th>
-                          <th>Minimum Amount</th>
-                          <th>Maximum Amount</th>
+                          <th>Mini Amount</th>
+                          <th>Max Discount Amount</th>
                           <th>Total Limit</th>
                           <th>Per User Limit</th>
                           <th>Expiry Date</th>
@@ -170,7 +170,13 @@
                             <td><%= coupon.maxCartValue %></td>
                             <td><%= coupon.totalUsageLimit %></td>
                             <td><%= coupon.perUserLimit %></td>
-                            <td><%= new Date(coupon.expiryDate).toLocaleString() %></td>
+                            <% if(coupon.expiryDate < Date.now()) { %>
+                              <td>Expired</td>
+
+                            <% }else{%>
+                              <td><%= new Date(coupon.expiryDate).toLocaleString() %></td>
+
+                            <% } %>
                             <td>
                               <% if (coupon.status === false) { %>
                                 <a type="button" href="#" class="btn btn-success"
@@ -181,13 +187,12 @@
                               <% } %>
                             </td>
                             <td>
-                              <a href="/admin/coupons/edit/<%= coupon._id %>" class="btn btn-primary">
+                              <!-- <a href="/admin/coupon/edit/<%= coupon._id %>" class="btn btn-primary">
                                 <i class="fa-solid fa-pen-to-square"></i>
-                              </a>
+                              </a> -->
                               <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmModal"
-                                onclick="setDeleteUrl('/admin/coupons/delete/<%= coupon._id %>')">
-                                <i class="fa-solid fa-trash">T</i>
-                              </a>
+                                onclick="setDeleteUrl('/admin/coupon/delete/<%= coupon._id %>')">
+delete                              </a>
                             </td>
                           </tr>
                         <% }); %>
@@ -366,7 +371,6 @@ function setDeleteUrl(url) {
   
       // Validation function
       function validateForm(event) {
-        event.preventDefault();
   
         const couponName = document.getElementById("couponName").value.trim();
         const couponCode = document.getElementById("couponCode").value.trim();
