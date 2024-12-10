@@ -101,7 +101,7 @@ router.route('/dashboard')
     .post(auth.adminAuth, couponController.addCoupon)
 
 
-
+    router.get('*',adminController.pageNotFoundAdmin)
 
 
 

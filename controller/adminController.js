@@ -105,10 +105,16 @@ const blockUser = async (req, res) => {
   }
 };
 
+const pageNotFoundAdmin = ( req, res)=>{
+  res.render('admin/404')
+
+}
+
 module.exports = {
   getLogin,
   postLogin,
   getIndex,
   getUserList,
   blockUser,
+  pageNotFoundAdmin
 };

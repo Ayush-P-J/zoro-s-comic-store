@@ -36,20 +36,40 @@
 
 
   <style>
-    img {
-      max-width: 100%;
-    }
-
-    #preview {
+    .image-upload-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 20px;
     }
 
-    .preview-image {
-      width: 150px;
-      height: 150px;
-      overflow: hidden;
+    .upload-card {
+      width: 300px;
+      height: 250px;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+      text-align: center;
+    }
+
+
+
+    .upload-card img {
+      max-width: 100%;
+      max-height: 150px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 2px solid #ddd;
+    }
+
+    .preview-image img {
+      display: block;
+      height: 100%;
+      border-radius: 5px;
+    }
+
+    .image-cropper .btn-sm {
+      margin: 5px;
     }
   </style>
   <link rel="stylesheet" href="/assets/css/style.css">
@@ -231,7 +251,7 @@
 
       <!-- Submit and Cancel -->
       <button type="submit" class="btn btn-primary mr-2">Submit</button>
-      <button type="reset" class="btn btn-dark">Cancel</button>
+      <a type="reset" class="btn btn-dark">Cancel</a>
       </form>
       <!-- Row for Image Sections -->
 
