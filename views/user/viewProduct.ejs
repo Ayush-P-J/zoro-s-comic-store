@@ -47,7 +47,7 @@
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
-								<li><a href="index.html">home</a></li>
+								<li><a href="/home">home</a></li>
 								<li><a href="#">shop</a></li>
 								<li><a href="#">promotion</a></li>
 								<li><a href="#">pages</a></li>
@@ -58,7 +58,7 @@
 								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
 								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li>
-									<a href="/user/wishlist"
+									<a href="/wishlist"
 									  ><i class="fa fa-heart" aria-hidden="true"></i>
 									  <span id="wishlist_items" class="checkout_items">
 										<%= userWishlist.length %>
@@ -66,7 +66,7 @@
 									</a>
 								  </li>
 								  <li class="checkout">
-									<a href="/user/cart">
+									<a href="/cart">
 									  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
 									  <span id="checkout_items" class="checkout_items">
 										<%= userCart.length %>
@@ -146,8 +146,14 @@
 
 				<div class="breadcrumbs d-flex flex-row align-items-center">
 					<ul>
-						<li><a href="/user/home">Home</a></li>
-						<!-- <li class="active"><a href="/user/categories"><i class="fa fa-angle-right" aria-hidden="true"></i><%= product.category.categoryName %></a></li> -->
+						<% if(isLoggedIn){ %>
+
+							<li><a href="/home">Home</a></li>
+						<% }else{ %>
+
+							<li><a href="/">Home</a></li>
+						<% } %>
+						<!-- <li class="active"><a href="/categories"><i class="fa fa-angle-right" aria-hidden="true"></i><%= product.category.categoryName %></a></li> -->
 						<li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Single Product</a></li>
 					</ul>
 				</div>
@@ -171,7 +177,7 @@
 						<div class="col-lg-9 image_col order-lg-2 order-1">
 
 							<div class="single_product_image">
-								<div class="single_product_image_background" data-BigImgsrc="/images/<%= product.images[0] %>" style="background-image:url(/images/<%= product.images[0] %>)"></div>
+								<div class="single_product_image_background" data-BigImgsrc="/images/<%= product.images[0] %>" style="background-image:url('/images/<%= product.images[0] %>')"></div>
 							</div>
 						</div>
 					</div>
@@ -226,15 +232,24 @@
 							<span style="padding: 0px 20px; " class="d-none" id="plus1"><i class="fa fa-plus" aria-hidden="true" ></i></span>
 							<span class="plus"  id="plus" ><i class="fa fa-plus" aria-hidden="true" ></i></span>
 						</div>
-						<div class=" add_to_cart_butto btn btn-warning" id="add" ><a  >add to cart</a></div>
-						
+						<% if(isLoggedIn){%>
+
+						<div class=" add_to_cart_butto btn btn-warning col-4 " id="add" style="margin: 10px;" ><a  >add to cart</a></div>
+						<% } else {%>
+							<a href="/login"><div class=" add_to_cart_butto btn btn-warning" onclick="loginNotify()" >add to cart</div></a>
+						<%}%>
+
 							
 						<% } else {%>
 								
 						<div class="red_button add_to_cart_button1" id="" ><a  >Out Of Stock</a></div>
 						<% }%>
 						<!-- <button onclick="addToCarts()">sfgd</button> -->
-						<div onclick="getProductId('<%= product._id %>')" class="product_favorite d-flex flex-column align-items-center justify-content-center <%= userWishlist.some(wish => wish.productId._id.toString() === product._id.toString()) ? 'active' : '' %> " ></div>
+						 <% if(isLoggedIn){%>
+							<div onclick="getProductId('<%= product._id %>')" class="product_favorite d-flex flex-column align-items-center justify-content-center <%= userWishlist.some(wish => wish.productId._id.toString() === product._id.toString()) ? 'active' : '' %> " ></div>
+							
+						 <% } %>
+							
 					</div>
 				</div>
 			</div>
@@ -350,33 +365,7 @@
 
 							<!-- Add Review -->
 
-							<!-- <div class="col-lg-6 add_review_col">
-
-								<div class="add_review">
-									<form id="review_form" action="post">
-										<div>
-											<h1>Add Review</h1>
-											<input id="review_name" class="form_input input_name" type="text" name="name" placeholder="Name*" required="required" data-error="Name is required.">
-											<input id="review_email" class="form_input input_email" type="email" name="email" placeholder="Email*" required="required" data-error="Valid email is required.">
-										</div>
-										<div>
-											<h1>Your Rating:</h1>
-											<ul class="user_star_rating">
-												<li><i class="fa fa-star" aria-hidden="true"></i></li>
-												<li><i class="fa fa-star" aria-hidden="true"></i></li>
-												<li><i class="fa fa-star" aria-hidden="true"></i></li>
-												<li><i class="fa fa-star" aria-hidden="true"></i></li>
-												<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-											</ul>
-											<textarea id="review_message" class="input_review" name="message"  placeholder="Your Review" rows="4" required data-error="Please, leave us a review."></textarea>
-										</div>
-										<div class="text-left text-sm-right">
-											<button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Submit">submit</button>
-										</div>
-									</form>
-								</div>
-
-							</div> -->
+							
 
 						</div>
 					</div>
@@ -408,7 +397,7 @@
 							
 							
 								<div class="product-item men m-4 p-1" >
-									<a href="/user/viewProduct/<%= prod._id %>">
+									<a href="/viewProduct/<%= prod._id %>">
 									<div class="product discount product_filter">
 										<div class="product_image">
 											<img src="/images/<%= prod.images[0] %>" alt="">
@@ -419,7 +408,7 @@
 										onclick="getProductId('<%= prod._id %>')"
 									  ></div>										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-<i class="fa fa-rupee"></i><%= prod.regularPrice - prod.salePrice  %></span></div>
 										<div class="product_info">
-											<h6 class="product_name"><a href="/user/viewProduct/<%= prod._id %>"><%= prod.productName %></a></h6>
+											<h6 class="product_name"><a href="/viewProduct/<%= prod._id %>"><%= prod.productName %></a></h6>
 											<div class="product_price"><i class="fa fa-rupee"></i><%= prod.salePrice %><span><i class="fa fa-rupee"></i><%= prod.regularPrice %></span></div>
 										</div>
 									</div>
@@ -443,48 +432,7 @@
 
 	<!-- Benefit -->
 
-	<div class="benefit">
-		<div class="container">
-			<div class="row benefit_row">
-				<div class="col-lg-3 benefit_col">
-					<div class="benefit_item d-flex flex-row align-items-center">
-						<div class="benefit_icon"><i class="fa fa-truck" aria-hidden="true"></i></div>
-						<div class="benefit_content">
-							<h6>free shipping</h6>
-							<p>Suffered Alteration in Some Form</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 benefit_col">
-					<div class="benefit_item d-flex flex-row align-items-center">
-						<div class="benefit_icon"><i class="fa fa-money" aria-hidden="true"></i></div>
-						<div class="benefit_content">
-							<h6>cach on delivery</h6>
-							<p>The Internet Tend To Repeat</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 benefit_col">
-					<div class="benefit_item d-flex flex-row align-items-center">
-						<div class="benefit_icon"><i class="fa fa-undo" aria-hidden="true"></i></div>
-						<div class="benefit_content">
-							<h6>45 days return</h6>
-							<p>Making it Look Like Readable</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 benefit_col">
-					<div class="benefit_item d-flex flex-row align-items-center">
-						<div class="benefit_icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
-						<div class="benefit_content">
-							<h6>opening all week</h6>
-							<p>8AM - 09PM</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 
 	<!-- Newsletter -->
 
@@ -590,7 +538,7 @@
 			};
 
 			
-			axios.post('/user/addToCart', productData)
+			axios.post('/addToCart', productData)
 				.then(response => {
 					// Success SweetAlert notification
 					if (response.data.success === true) {
@@ -628,6 +576,16 @@
 
 		});
 
+	const loginNotify = () => {
+		Swal.fire({
+						icon: 'warning',
+						title: 'Warning',
+						text: 'If you want to proceed more ',
+						confirmButtonText: 'OK'
+					});
+	}
+
+
 
 // const add = document.getElementById('click',()=>{
 	
@@ -643,7 +601,7 @@
 
 
 // 		}
-// 		axios.post('/user/addToCart', productData)
+// 		axios.post('/addToCart', productData)
 //             .then(response => {
 //                 console.log("Quantity updated:", response.data);
 //             })
@@ -667,7 +625,7 @@
 
 
 	// 	}
-	// 	axios.post('/user/addToCart', productData)
+	// 	axios.post('/addToCart', productData)
     //         .then(response => {
     //             console.log("Quantity updated:", response.data);
     //         })
@@ -709,6 +667,7 @@
 </script>	
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="/user/js/jquery-3.2.1.min.js"></script>
 <script src="/user/styles/bootstrap4/popper.js"></script>

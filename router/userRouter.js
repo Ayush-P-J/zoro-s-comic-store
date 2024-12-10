@@ -1,166 +1,132 @@
-const express = require('express');
-const controller = require('../controller/userController');
-const cartController = require('../controller/cartController');
-const orderController = require('../controller/orderController');
-const wishlistController = require('../controller/wishlistController');
-const couponController = require('../controller/couponController');
-const passport = require('passport');
-const auth = require('../middlewares/userAuth');
-const Razorpay = require('razorpay');
-
+const express = require("express");
+const controller = require("../controller/userController");
+const cartController = require("../controller/cartController");
+const orderController = require("../controller/orderController");
+const wishlistController = require("../controller/wishlistController");
+const couponController = require("../controller/couponController");
+const passport = require("passport");
+const auth = require("../middlewares/userAuth");
+const Razorpay = require("razorpay");
 
 const router = express.Router();
 
-router.get('/user/', controller.getIndexPage);
+router.get("/",auth.isLogged, controller.getIndexPage);
 
-router.route('/user/home')
-    .get(controller.getHomePage)
+router.route("/home").get(auth.userAuth,controller.getHomePage);
 
-router.route('/user/login')
-    .get(auth.isLogged, controller.getLoginPage)
-    .post(controller.postLogin);
+router
+  .route("/login")
+  .get(auth.isLogged, controller.getLoginPage)
+  .post(controller.postLogin);
 
-router.route('/user/forgotPassword')
-    .get(auth.isLogged, controller.getForgotPage)
-    .post(controller.postForgotPass);
+router
+  .route("/forgotPassword")
+  .get(auth.isLogged, controller.getForgotPage)
+  .post(controller.postForgotPass);
 
-router.route('/user/forgotPasswordOtp')
-    .get(controller.getForgetPasswordOtp)
-    .post(controller.forgetPassOtpVerify)
+router
+  .route("/forgotPasswordOtp")
+  .get(auth.isLogged,controller.getForgetPasswordOtp)
+  .post(controller.forgetPassOtpVerify);
 
+router
+  .route("/changePassword")
+  .get(controller.getChangePassword)
+  .post(controller.postChangePassword);
 
-router.route('/user/changePassword')
-    .get(controller.getChangePassword)
-    .post(controller.postChangePassword)
+router.route("/forgetPassResendOTP").post(controller.forgetPassResendOTP);
 
-router.route('/user/forgetPassResendOTP')
-    .post(controller.forgetPassResendOTP)
+router.route("/logout").get(auth.userLogout);
 
-router.route('/user/logout')
-    .get(auth.userLogout)
+router
+  .route("/signup")
+  .get(auth.isLogged,controller.getSignupPage)
+  .post(controller.postSignup);
 
-router.route('/user/signup')
-    .get(controller.getSignupPage)
-    .post(controller.postSignup);
+router
+  .route("/verifyOTP")
+  .get(auth.isLogged,controller.getOTP)
+  .post(controller.verifyOtp);
 
-router.route('/user/verifyOTP')
-    .get(controller.getOTP)
-    .post(controller.verifyOtp)
+router.route("/resendOTP").post(controller.resendOTP);
 
-router.route('/user/resendOTP')
-    .post(controller.resendOTP)
+router
+  .route("/auth/google")
+  .get(passport.authenticate("google", { scope: ["Profile", "email"] }));
 
-router.route('/user/auth/google')
-    .get(passport.authenticate('google', { scope: ['Profile', 'email'] }))
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/signup" }),
+  controller.googleLogin
+);
 
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/signup' }), controller.googleLogin);
+router
+  .route("/viewProduct/:id")
+  .get( controller.viewProduct);
 
-router.route('/user/viewProduct/:id')
-    .get(auth.userAuth, controller.viewProduct)
+router
+  .route("/profile")
+  .get(auth.userAuth, controller.getProfilePage)
+  .post(auth.userAuth, controller.editProfile);
 
-router.route('/user/profile')
-    .get(auth.userAuth, controller.getProfilePage)
-    .post(controller.editProfile)
+router.route("/profile/orders/:orderId").get(auth.userAuth,orderController.viewOrders);
 
-router.route('/user/profile/orders/:orderId')
-.get(orderController.viewOrders)
+router
+  .route("/profile/orders/:orderId/invoice")
+  .get(auth.userAuth,orderController.invoiceDownload);
 
-router.route('/user/profile/orders/:orderId/invoice')
-.get(orderController.invoiceDownload)
+router.route("/addAddress/:address").post(auth.userAuth,controller.postAddress);
 
-router.route('/user/addAddress/:address')
-    .post(controller.postAddress)
+router.route("/address/:address/delete/:id").get(auth.userAuth,controller.deleteAddress);
 
-router.route('/user/address/:address/delete/:id')
-    .get(controller.deleteAddress)
+router.route("/address/edit/:id").post(auth.userAuth,controller.editAddress);
 
-router.route('/user/address/edit/:id')
-    .post(controller.editAddress)
+router.route("/cart").get(auth.userAuth, cartController.getCartPage);
 
-router.route('/user/cart')
-    .get(auth.userAuth, cartController.getCartPage)
+router.route("/addToCart").post(auth.userAuth,cartController.addToCart);
 
-router.route('/user/addToCart')
-    .post(cartController.addToCart)
+router.route("/updateQuantity").post(auth.userAuth,cartController.updateQuantity);
 
-router.route('/user/updateQuantity')
-    .post(cartController.updateQuantity)
+router
+  .route("/cart/:id")
+  .get(auth.userAuth, cartController.deleteFromCart);
 
+router.route("/categories").get(auth.userAuth, controller.getCategoryUser);
 
-router.route('/user/cart/:id')
-    .get(auth.userAuth, cartController.deleteFromCart)
+router.route("/checkout").get(auth.userAuth, cartController.checkout);
 
-router.route('/user/categories')
-    .get(auth.userAuth, controller.getCategoryUser)
+router.route("/razorPay").post(orderController.razorpayPayment);
 
-router.route('/user/checkout')
-    .get(auth.userAuth, cartController.checkout)
+router.route("/paymentFailed").post(auth.userAuth,orderController.failedPayment);
 
-router.route('/user/razorPay')
-.post(async (req, res)=>{
-    try {
-        const { amount, currency, receipt } = req.body;
-        console.log("reached on razorPay: "+req.body);
-        console.log(amount);
-        
-        
-        const rzp = new Razorpay({
-            key_id: 'rzp_test_KMHnYj4Ync3OkC', // Replace with your Razorpay key ID
-            key_secret: '332yAZBUPllWJ0RkdhL6B4Rp', // Replace with your Razorpay secret
-          });
+router.route("/retryPayment").post(auth.userAuth,orderController.retryPayment);
 
-          const order = rzp.orders.create({
-              amount: amount * 100, // Convert to paise
-              currency: currency,
-              receipt: receipt,
-              payment_capture: 1,
-          });
-      
-          res.status(201).json({ success: true, order: order });
-        } catch (error) {
-          console.error('Error creating order:', error);
-          res.status(500).json({ success: false, error: error.message });
-        }
-       
-})
+router.route("/retrySuccess").post(auth.userAuth,orderController.retrySuccess);
 
-router.route('/user/paymentFailed')
-    .post(orderController.failedPayment)
+router.route("/walletTransaction").post(auth.userAuth,orderController.walletTransaction);
 
+router.route("/placeOrder").post(auth.userAuth,orderController.placeOrder);
 
-router.route("/user/retryPayment").post(orderController.retryPayment);
+router
+  .route("/orderConfirmation/:orderId")
+  .get(auth.userAuth,orderController.orderConfirmationPage);
 
-router.route("/user/retrySuccess").post(orderController.retrySuccess);
+router.route("/orderCancel/").post(auth.userAuth,orderController.orderCancel);
 
+router.route("/orderReturn/").post(auth.userAuth,orderController.orderReturn);
 
-router.route('/user/walletTransaction')
-.post(orderController.walletTransaction)
+router
+  .route("/wishlist")
+  .get(auth.userAuth, wishlistController.getWishlistPage);
 
-router.route('/user/placeOrder')
-    .post(orderController.placeOrder)
+router.route("/addToWishlist").post(auth.userAuth,wishlistController.addToWishlist);
 
-router.route('/user/orderConfirmation/:orderId')
-    .get(orderController.orderConfirmationPage)
+router.route("/applyCoupon").post(auth.userAuth,couponController.applyCoupon);
 
-router.route('/user/orderCancel/')
-    .post(orderController.orderCancel)
+router.route("/removeCoupon").post(auth.userAuth,couponController.removeCoupon);
 
-router.route('/user/orderReturn/')
-    .post(orderController.orderReturn);
-    
+router.get('*',controller.pageNotFound)
 
-
-router.route('/user/wishlist')
-    .get(auth.userAuth, wishlistController.getWishlistPage)
-
-router.route('/user/addToWishlist')
-    .post(wishlistController.addToWishlist)
-
-router.route('/user/applyCoupon')
-.post(couponController.applyCoupon)
-
-router.route('/user/removeCoupon')
-.post(couponController.removeCoupon)
 
 
 module.exports = router;

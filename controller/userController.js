@@ -15,13 +15,11 @@ const env = require("dotenv").config()
 // let userEmail = "";
 
 const getIndexPage = async (req, res) => {
-  if (req.session.email) {
-    return res.redirect('/user/home');
+  const categories = await admin.Category.find({ status: true })
 
-  }
-  const products = await admin.Product.find({ isListed: true })
+  const products = await admin.Product.find({ isListed: true }).populate('category')
 
-  res.render('user/index', { products });
+  res.render('user/index', { products ,categories});
 
 }
 const getHomePage = async (req, res) => {
@@ -30,16 +28,18 @@ const getHomePage = async (req, res) => {
   const products = await admin.Product.find({ isListed: true }).populate('category')
   const userCart = await cart.Cart.find({ userId }).populate('productId')
   const userWishlist = await wishlist.Wishlist.find({ userId }).populate('productId')
+  
 
   console.log("User" + this.userEmail);
 
 
-  if (!req.session.email) {
-    return res.redirect('/user/login');
-
-  }
+ 
   res.status(200).render('user/home', { products, categories, userCart, userWishlist });
 
+}
+
+const pageNotFound = (req, res)=>{
+  res.render('user/404')
 }
 
 
@@ -49,7 +49,7 @@ const getHomePage = async (req, res) => {
 const getLoginPage = async (req, res) => {
 
   if (req.session.email) {
-    return res.redirect('/user/home');
+    return res.redirect('/home');
 
   } else if (req.session.isBlocked) {
 
@@ -86,7 +86,7 @@ const postForgotPass = async (req, res) => {
     req.session.userEmail = email
     req.session.userOtp = otp;
     req.session.otpExpires = Date.now() + 30 * 1000;
-    return res.redirect('/user/forgotPasswordOtp')
+    return res.redirect('/forgotPasswordOtp')
   } else {
     return res.render('user/forgotPassword', { success: false, message: "Invalid Email!!!" })
   }
@@ -107,7 +107,7 @@ const forgetPassOtpVerify = async (req, res) => {
       return res.status(200).json({
         success: true,
         message: "Email verified",
-        redirectUrl: "/user/changePassword"
+        redirectUrl: "/changePassword"
       });
     } else if (req.session.userOtp === null) {
       return res.status(200).json({ success: false, message: "OTP expired" });
@@ -135,7 +135,7 @@ const postChangePassword = async (req, res) => {
 
     await user.User.updateOne({ email: req.session.userEmail }, { password: passwordHash })
     req.session.passChanged = true;
-    res.redirect('/user/login')
+    res.redirect('/login')
   } catch (error) {
     console.log(error)
   }
@@ -193,7 +193,7 @@ const postLogin = async (req, res) => {
 
     if (userDetails.isBlocked === true) {
       req.session.isBlocked = true;
-      return res.redirect('/user/login')
+      return res.redirect('/login')
     }
 
   
@@ -204,7 +204,7 @@ const postLogin = async (req, res) => {
     console.log("user" + userVerify);
 
     if (userVerify) {
-      req.session.email = email;
+      req.session.email = true;
       this.userEmail = email
       req.session.userId = userDetails._id
       console.log("user: " + this.userEmail)
@@ -213,7 +213,7 @@ const postLogin = async (req, res) => {
 
       // req.session.fullName = FULLNAME;
 
-      res.redirect('/user/home');
+      res.redirect('/home');
     } else {
       return res.render('user/login', { message: ' Incorrect password', title: "Login page" });
     }
@@ -238,17 +238,17 @@ const googleLogin = async (req, res) => {
 
   if (!userDetails.googleId) {
     req.session.isExist = true;
-    return res.redirect('/user/login')
+    return res.redirect('/login')
 
   }
   if (userDetails.isBlocked) {
     req.session.isBlocked = true;
-    return res.redirect('/user/login')
+    return res.redirect('/login')
     // return res.render('user/login', { message: 'This Email is blocked by the admin', title: "Login page" });
 
   }
   req.session.email = true;
-  res.redirect('/user/home');
+  res.redirect('/home');
 }
 
 
@@ -258,6 +258,7 @@ const googleLogin = async (req, res) => {
 
 
 const getSignupPage = (req, res) => {
+
   res.render('user/signup', { message: "" });
 
 };
@@ -298,7 +299,7 @@ const postSignup = async (req, res) => {
 
     req.session.userData = { fullName, userName, phone, email, password };
 
-    res.redirect("/user/verifyOTP")
+    res.redirect("/verifyOTP")
     console.log("OTP send", otp)
 
 
@@ -400,7 +401,7 @@ const verifyOtp = async (req, res) => {
       return res.status(200).json({
         success: true,
         message: "Email verified",
-        redirectUrl: "/user/login"
+        redirectUrl: "/login"
       });
 
     } else if (req.session.userOtp === null) {
@@ -453,8 +454,7 @@ const resendOTP = async (req, res) => {
 const viewProduct = async (req, res) => {
   const productId = req.params.id;
   const userId = req.session.userId;
-
-
+  const isLoggedIn = userId ? true : false;
   const product = await admin.Product.findOne({ _id: productId }).populate('category');
   const userCart = await cart.Cart.find({ userId }).populate('productId')
   const userWishlist = await wishlist.Wishlist.find({ userId }).populate('productId')
@@ -467,7 +467,7 @@ const viewProduct = async (req, res) => {
     _id: { $ne: productId }
   }).limit(3)
 
-  res.render('user/viewProduct', { product, products, userCart ,userWishlist})
+  res.render('user/viewProduct', { product, products, userCart ,userWishlist, isLoggedIn})
 }
 
 const getCategoryUser  = async (req, res) => {
@@ -565,7 +565,7 @@ const getProfilePage = async (req, res) => {
 //     await user.User.updateOne({ email: this.userEmail }, { fullName, userName, phone: phoneNumber });
 
 
-//     return res.redirect('/user/profile')
+//     return res.redirect('/profile')
 //     // res.status(200).json({ message: 'Profile updated successfully' });
 //   } catch (error) {
 //     console.error(error);
@@ -630,10 +630,10 @@ const postAddress = async (req, res) => {
     );
     console.log("aaaaaaaaaashsa");
     if (req.params.address == "checkout") {
-      return res.redirect('/user/checkout')
+      return res.redirect('/checkout')
 
     } else if (req.params.address == "profile") {
-      return res.redirect('/user/profile')
+      return res.redirect('/profile')
 
     }
 
@@ -747,10 +747,10 @@ const deleteAddress = async (req, res) => {
     );
     console.log("delete over");
     if (req.params.address == "checkout") {
-      return res.redirect('/user/checkout')
+      return res.redirect('/checkout')
 
     } else if (req.params.address == "profile") {
-      return res.redirect('/user/profile')
+      return res.redirect('/profile')
 
     }
 
@@ -761,6 +761,8 @@ const deleteAddress = async (req, res) => {
   }
 
 }
+
+
 
 module.exports = {
   getIndexPage,
@@ -787,4 +789,5 @@ module.exports = {
   postAddress,
   editAddress,
   deleteAddress,
+  pageNotFound
 };

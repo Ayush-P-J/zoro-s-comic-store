@@ -85,7 +85,7 @@ const deleteFromCart = async (req, res) => {
   await cart.Cart.deleteOne({ userId, productId });
   console.log("deleted");
 
-  return res.redirect("/user/cart");
+  return res.redirect("cart");
 };
 
 const checkout = async (req, res) => {

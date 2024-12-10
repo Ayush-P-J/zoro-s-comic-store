@@ -197,9 +197,9 @@
           style="padding: 0px; margin: 0px"
         >
           <ul>
-            <li><a href="/user/home">Home</a></li>
+            <li><a href="/home">Home</a></li>
             <li>
-              <a href="/user/cart"
+              <a href="/cart"
                 ><i class="fa fa-angle-right" aria-hidden="true"></i>Cart</a
               >
             </li>
@@ -274,7 +274,7 @@
                     <h2>Add Address</h2>
                     <form
                       id="addressForm"
-                      action="/user/addAddress/checkout"
+                      action="/addAddress/checkout"
                       method="POST"
                     >
                       <!-- Recipient Name -->
@@ -588,7 +588,6 @@
 
                   <hr />
                   <% }); %>
-                  <a href="/user/checkout?product='Book'">dfgdfgf</a>
                 </div>
               </div>
             </div>
@@ -632,7 +631,7 @@
                       <!-- <a id="salePrice<=%i%>">d<%= cart.productId.salePrice %></a> -->
                       <!-- <span class="close" id="close">
                                                 <a href="javascript:void(0);"
-                                                    onclick="confirmDelete('/user/cart/<%= cart.productId._id %>')">&#10005;</a>
+                                                    onclick="confirmDelete('/cart/<%= cart.productId._id %>')">&#10005;</a>
                                             </span> -->
                     </div>
                   </div>
@@ -959,7 +958,7 @@
 
         try {
           const response = await axios.post(
-            `/user/address/edit/${addressId}`,
+            `/address/edit/${addressId}`,
             updatedAddress
           );
           if (response.status === 200) {
@@ -997,7 +996,7 @@
         }).then((result) => {
           if (result.isConfirmed) {
             // Redirect to the action URL
-            window.location.href = `/user/address/checkout/delete/${id}`;
+            window.location.href = `/address/checkout/delete/${id}`;
           }
         });
       }
@@ -1015,7 +1014,7 @@
           };
 
           axios
-            .post("/user/profile", formData)
+            .post("/profile", formData)
             .then((response) => {
               // Handle success response, e.g., show a success message or redirect
               Swal.fire({
@@ -1026,7 +1025,7 @@
                 showConfirmButton: false, // Hide confirm button
                 timer: 2000, // Close after 3 seconds
               }).then(() => {
-                window.location.href = "/user/checkout"; // Reload profile page after the alert disappears
+                window.location.href = "/checkout"; // Reload profile page after the alert disappears
               });
               toggleEdit(false); // Optionally reset form to non-editable
             })
@@ -1066,7 +1065,7 @@
           }
 
           if (paymentMethod === "razorPay") {
-            const orderResponse = await axios.post("/user/razorPay", {
+            const orderResponse = await axios.post("/razorPay", {
               amount: amount,
               currency: "INR",
               receipt: "receipt#123",
@@ -1075,7 +1074,7 @@
             if (orderResponse.data.success) {
               const order = orderResponse.data.order;
               const options = {
-                key: "rzp_test_KMHnYj4Ync3OkC", // Replace with your Razorpay key ID
+                key: orderResponse.data.key, // Replace with your Razorpay key ID
                 amount: amount * 100,
                 currency: order.currency,
                 name: "Zoro's Comic Store",
@@ -1084,7 +1083,7 @@
                 handler: async function (response) {
                   try {
                     const confirmResponse = await axios.post(
-                      "/user/placeOrder",
+                      "/placeOrder",
                       {
                         addressId: addressId,
                         paymentMethod: paymentMethod,
@@ -1122,7 +1121,7 @@
                 console.error("Payment Failed", response);
                 alert(`Payment Failed: ${response.error.description}`);
                 // Optionally, send failure details to the backend
-                const failedResponse = axios.post("/user/paymentFailed", {
+                const failedResponse = axios.post("/paymentFailed", {
                   addressId: addressId,
                         paymentMethod: paymentMethod,
                         paymentStatus: "Failed",
@@ -1138,7 +1137,7 @@
           showConfirmButton: false,
           timer: 2000,
         }).then(() => {
-          window.location.href = `/user/profile`;
+          window.location.href = `/profile`;
         });
 
               });
@@ -1152,7 +1151,7 @@
             try {
               // Step 1: Request to process wallet payment transaction
               const walletTransactionResponse = await axios.post(
-                "/user/walletTransaction",
+                "/walletTransaction",
                 {
                   amount: amount,
                 }
@@ -1160,7 +1159,7 @@
 
               if (walletTransactionResponse.data.success) {
                 // Step 2: If wallet transaction is successful, place the order
-                const orderResponse = await axios.post("/user/placeOrder", {
+                const orderResponse = await axios.post("/placeOrder", {
                   addressId: addressId,
                   paymentMethod: paymentMethod,
                   paymentStatus: "Success",
@@ -1210,7 +1209,7 @@
           }
 
           if (paymentMethod === "COD") {
-            const response = await axios.post("/user/placeOrder", {
+            const response = await axios.post("/placeOrder", {
               addressId: addressId,
               paymentMethod: paymentMethod,
               amount: amount,
@@ -1251,7 +1250,7 @@
           showConfirmButton: false,
           timer: 2000,
         }).then(() => {
-          window.location.href = `/user/orderConfirmation/${orderId}`;
+          window.location.href = `/orderConfirmation/${orderId}`;
         });
       }
     </script>
@@ -1308,7 +1307,7 @@
 
       //               const couponCode = document.getElementById('couponCode').value
       //               if(couponCode){
-      //                 await axios.post('/user/applyCoupon',{couponCode})
+      //                 await axios.post('/applyCoupon',{couponCode})
       //               .then(response =>{
       //                 // alert(response.data.totalPrice)
       //                   grandTotal.innerText = response.data.totalPrice
@@ -1340,7 +1339,7 @@
 
           // Reset total price (send request to recalculate the price without coupon)
           try {
-            const response = await axios.post("/user/removeCoupon"); // Backend endpoint to reset the price
+            const response = await axios.post("/removeCoupon"); // Backend endpoint to reset the price
             document.getElementById("grandTotal").innerText =
               response.data.totalPrice;
             document.getElementById("discount").innerText =
@@ -1372,7 +1371,7 @@
           }
 
           try {
-            const response = await axios.post("/user/applyCoupon", {
+            const response = await axios.post("/applyCoupon", {
               couponCode,
             });
             const { totalPrice } = response.data;

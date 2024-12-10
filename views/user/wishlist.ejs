@@ -312,7 +312,7 @@
     </div>
     <div class="breadcrumbs d-flex flex-row align-items-center">
         <ul>
-            <li><a href="/user/home">Home</a></li>
+            <li><a href="/home">Home</a></li>
             <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>cart</a></li>
         </ul>
     </div>
@@ -331,7 +331,7 @@
         </div>
         <div class="product-details">
           
-          <a href="/user/viewProduct/<%= cart.productId._id %>" target="_blank">
+          <a href="/viewProduct/<%= cart.productId._id %>" target="_blank">
             <h2 class="product-name">
               <%= cart.productId.productName %> (<%= cart.productId.size %>)
             </h2>
@@ -387,7 +387,7 @@
                         confirmButtonText: 'Yes, delete it!'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            axios.post('/user/addToWishlist', {productId,active:false})
+                            axios.post('/addToWishlist', {productId,active:false})
 							.then(response => {
 								// Success SweetAlert notification
 								if (response.data.success === true) {

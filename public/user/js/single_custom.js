@@ -276,7 +276,7 @@ jQuery(document).ready(function ($) {
 						
 						fav.removeClass('active');
 						active = false;
-						axios.post('/user/addToWishlist', {productId,active:false})
+						axios.post('/addToWishlist', {productId,active:false})
 							.then(response => {
 								// Success SweetAlert notification
 								if (response.data.success === true) {
@@ -323,7 +323,7 @@ jQuery(document).ready(function ($) {
 						fav.addClass('active');
 						active = true;
 
-						axios.post('/user/addToWishlist', {productId,active:true})
+						axios.post('/addToWishlist', {productId,active:true})
 							.then(response => {
 								// Success SweetAlert notification
 								if (response.data.success === true) {

@@ -249,6 +249,37 @@ const changeOrderStatus = async (req, res) => {
   } catch (error) {}
 };
 
+const razorpayPayment = async (req, res)=>{
+  try {
+      const { amount, currency, receipt } = req.body;
+      console.log("reached on razorPay: "+req.body);
+      console.log(amount);
+      
+      
+      const rzp = new Razorpay({
+          key_id: process.env.RAZORPAY_KEY_ID, // Replace with your Razorpay key ID
+          key_secret: process.env.RAZORPAY_KEY_SECRET, // Replace with your Razorpay secret
+        });
+        console.log(process.env.RAZORPAY_KEY_ID);
+        
+
+        const order = await rzp.orders.create({
+            amount: amount * 100, // Convert to paise
+            currency: currency,
+            receipt: receipt,
+            payment_capture: 1,
+        });
+        console.log(order);
+        
+    
+        res.status(201).json({ success: true, order: order,key:process.env.RAZORPAY_KEY_ID });
+      } catch (error) {
+        console.error('Error creating order:', error);
+        res.status(500).json({ success: false, error: error.message });
+      }
+     
+}
+
 const walletTransaction = async (req, res) => {
   const { amount } = req.body;
   const userId = req.session.userId;
@@ -535,8 +566,8 @@ const retryPayment = async (req, res)=>{
       
       
       const rzp = new Razorpay({
-          key_id: 'rzp_test_KMHnYj4Ync3OkC', // Replace with your Razorpay key ID
-          key_secret: '332yAZBUPllWJ0RkdhL6B4Rp', // Replace with your Razorpay secret
+          key_id: process.env.RAZORPAY_KEY_ID, // Replace with your Razorpay key ID
+          key_secret: process.env.RAZORPAY_KEY_SECRET, // Replace with your Razorpay secret
         });
 
         const orders = rzp.orders.create({
@@ -546,7 +577,7 @@ const retryPayment = async (req, res)=>{
             payment_capture: 1,
         });
     
-        res.status(201).json({ success: true, order: orders });
+        res.status(201).json({ success: true, order: orders, key: process.env.RAZORPAY_KEY_ID });
       } catch (error) {
         console.error('Error creating order:', error);
         res.status(500).json({ success: false, error: error });
@@ -600,6 +631,7 @@ module.exports = {
   walletTransaction,
   viewOrders,
   invoiceDownload,
+  razorpayPayment,
   failedPayment,
   retryPayment,
   retrySuccess,

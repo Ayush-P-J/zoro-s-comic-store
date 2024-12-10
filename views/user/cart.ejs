@@ -228,7 +228,7 @@
 
                 <div class="breadcrumbs d-flex flex-row align-items-center">
                     <ul>
-                        <li><a href="/user/home">Home</a></li>
+                        <li><a href="/home">Home</a></li>
                         <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>cart</a></li>
                     </ul>
                 </div>
@@ -274,7 +274,7 @@
                                         <!-- <a id="salePrice<=%i%>">d<%= cart.productId.salePrice %></a> -->
                                         <span class="close" id="close">
                                             <a href="javascript:void(0);"
-                                                onclick="confirmDelete('/user/cart/<%= cart.productId._id %>')">&#10005;</a>
+                                                onclick="confirmDelete('/cart/<%= cart.productId._id %>')">&#10005;</a>
                                         </span>
                                     </div>
                                 </div>
@@ -417,7 +417,7 @@
 
                     if (quantity < 5 && quantity < stock) {
                         quantity += 1
-                        await axios.post('/user/updateQuantity', {
+                        await axios.post('/updateQuantity', {
                             productId: product,  // Example product ID
                             quantity: quantity,
 
@@ -437,7 +437,7 @@
 
 
                                 // total.innerText = totalPrice;
-                                // window.location.href = "/user/cart"
+                                // window.location.href = "/cart"
                                 console.log("Quantity updated:", response.data);
 
                             })
@@ -474,7 +474,7 @@
 
                     if (quantity > 1) {
                         quantity -= 1;
-                        await axios.post('/user/updateQuantity', {
+                        await axios.post('/updateQuantity', {
                             productId: product,
                             quantity: quantity
                         })
@@ -497,7 +497,7 @@
                                 // });
 
                                 // Reload the cart page
-                                // window.location.href = "/user/cart";
+                                // window.location.href = "/cart";
 
                                 console.log("Quantity updated:", response.data);
                             })
@@ -530,7 +530,7 @@
                     quantityElement.innerText = quantity;
 
                     // Make an Axios request to update the quantity on the server
-                    axios.post('/user/updateQuantity', {
+                    axios.post('/updateQuantity', {
                         productId: product,  // Example product ID
                         quantity: quantity
                     })
@@ -564,7 +564,7 @@
                 async function apply (){
                     
                     const couponCode = document.getElementById('couponCode').value
-                    await axios.post('/user/applyCoupon',{couponCode})
+                    await axios.post('/applyCoupon',{couponCode})
                     .then(response =>{
                         grandTotal.innerText = response.data.totalPrice
 

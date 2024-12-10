@@ -256,7 +256,7 @@
                       ></a>
                     </li>
                     <li class="checkout">
-                      <a href="/user/cart">
+                      <a href="/cart">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                         <span id="checkout_items" class="checkout_items"
                           >2</span
@@ -347,7 +347,7 @@
               style="padding: 0px; margin: 0px"
             >
               <ul>
-                <li><a href="/user/home">Home</a></li>
+                <li><a href="/home">Home</a></li>
                 <li class="active">
                   <a href="#"
                     ><i class="fa fa-angle-right" aria-hidden="true"></i
@@ -664,7 +664,7 @@
                     <h2>Add Address</h2>
                     <form
                       id="addressForm"
-                      action="/user/addAddress/profile"
+                      action="/addAddress/profile"
                       method="POST"
                     >
                       <!-- Recipient Name -->
@@ -1000,7 +1000,7 @@
         }).then((result) => {
           if (result.isConfirmed) {
             // Redirect to the action URL
-            window.location.href = `/user/address/profile/delete/${id}`;
+            window.location.href = `/address/profile/delete/${id}`;
           }
         });
       }
@@ -1045,7 +1045,7 @@
 
         try {
           const response = await axios.post(
-            `/user/address/edit/${addressId}`,
+            `/address/edit/${addressId}`,
             updatedAddress
           );
           if (response.status === 200) {
@@ -1131,7 +1131,7 @@
 
           // Proceed with the Axios request if validation passes
           try {
-            const response = await axios.post("/user/profile", {
+            const response = await axios.post("/profile", {
               fullName: fullName.value.trim(),
               userName: userName.value.trim(),
               phoneNumber: phoneNumber.value.trim(),
@@ -1147,7 +1147,7 @@
                 showConfirmButton: false, // Hide confirm button
                 timer: 2000, // Close after 3 seconds
               }).then(() => {
-                window.location.href = "/user/profile"; // Reload profile page after the alert disappears
+                window.location.href = "/profile"; // Reload profile page after the alert disappears
               });
             }
           } catch (error) {
@@ -1181,7 +1181,7 @@
         // Proceed if confirmed
         if (result.isConfirmed) {
           try {
-            await axios.post(`/user/orderCancel`, {
+            await axios.post(`/orderCancel`, {
               orderId: orderId,
             });
 
@@ -1220,7 +1220,7 @@
         // Proceed if confirmed
         if (result.isConfirmed) {
           try {
-            await axios.post(`/user/orderReturn`, { orderId });
+            await axios.post(`/orderReturn`, { orderId });
 
             // Show success message
             Swal.fire(
@@ -1248,11 +1248,13 @@
           icon: "warning",
           showCancelButton: true,
           showConfirmButton: true, // Hide confirm button
-        });
+        }).then(()=>{
 
-        if (result.isConfirmed) {
-          window.location.href = "/user/logout";
-        }
+          
+            window.location.href = "/logout";
+         
+        })
+
       }
     </script>
 

@@ -126,7 +126,7 @@
   async function showOrderDetails(orderId) {
     try {
       // Fetch order details via an API
-      const response = await fetch(`/user/profile/orders/${orderId}`);
+      const response = await fetch(`/profile/orders/${orderId}`);
       if (!response.ok) alert('kahdgksh')
       
       ///////////
@@ -161,7 +161,7 @@
 
   async function downloadInvoice(orderId) {
   try {
-    const response = await fetch(`/user/profile/orders/${orderId}/invoice`);
+    const response = await fetch(`/profile/orders/${orderId}/invoice`);
 
     if (!response.ok) {
       alert('Failed to download invoice');
@@ -187,21 +187,21 @@ async function retryPayment(orderId,amount){
   {
   try {
     // Fetch order details from the backend
-    const  responseData  = await axios.post("/user/retryPayment", { orderId: orderId });
+    const  responseData  = await axios.post("/retryPayment", { orderId: orderId });
 
     if (responseData.data.success) {
       const order = responseData.data.order;
       alert(order.amount)
 
       const options = {
-        key: "rzp_test_KMHnYj4Ync3OkC", // Razorpay API key
+        key: responseData.data.key, // Razorpay API key
         amount: amount * 100, // Amount in paise
         currency: "INR",
         name: "Your Store Name",
         description: "Retry Payment",
         handler: async function (response) {
           // Handle payment success
-          const paymentResponse = await axios.post("/user/retrySuccess", {
+          const paymentResponse = await axios.post("/retrySuccess", {
             
             orderId: orderId, 
           });
@@ -212,7 +212,7 @@ async function retryPayment(orderId,amount){
             icon: "success",
             timer: 2000,
           }).then(() => {
-            window.location.href = "/user/profile";
+            window.location.href = "/profile";
           });
         },
         prefill: {

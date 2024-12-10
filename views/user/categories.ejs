@@ -38,60 +38,7 @@
 
 			<!-- Top Navigation -->
 
-			<div class="top_nav">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-6">
-							<div class="top_nav_left">free shipping on all u.s orders over <i class="fa fa-rupee"></i>50</div>
-						</div>
-						<div class="col-md-6 text-right">
-							<div class="top_nav_right">
-								<ul class="top_nav_menu">
-
-									<!-- Currency / Language / My Account -->
-
-									<li class="currency">
-										<a href="#">
-											usd
-											<i class="fa fa-angle-down"></i>
-										</a>
-										<ul class="currency_selection">
-											<li><a href="#">cad</a></li>
-											<li><a href="#">aud</a></li>
-											<li><a href="#">eur</a></li>
-											<li><a href="#">gbp</a></li>
-										</ul>
-									</li>
-									<li class="language">
-										<a href="#">
-											English
-											<i class="fa fa-angle-down"></i>
-										</a>
-										<ul class="language_selection">
-											<li><a href="#">French</a></li>
-											<li><a href="#">Italian</a></li>
-											<li><a href="#">German</a></li>
-											<li><a href="#">Spanish</a></li>
-										</ul>
-									</li>
-									<li class="account">
-										<a href="#">
-											My Account
-											<i class="fa fa-angle-down"></i>
-										</a>
-										<ul class="account_selection">
-											<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a>
-											</li>
-											<li><a href="#"><i class="fa fa-user-plus"
-														aria-hidden="true"></i>Register</a></li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			
 
 			<!-- Main Navigation -->
 
@@ -100,15 +47,13 @@
 					<div class="row">
 						<div class="col-lg-12 text-right">
 							<div class="logo_container">
-								<a href="#">colo<span>shop</span></a>
+								<a href="#">Zoro<span>'S</span></a>
 							</div>
 							<nav class="navbar">
 								<ul class="navbar_menu">
 									<li><a href="/user/index.html">home</a></li>
 									<li><a href="#">shop</a></li>
-									<li><a href="#">promotion</a></li>
-									<li><a href="#">pages</a></li>
-									<li><a href="#">blog</a></li>
+									
 									<li><a href="/user/contact.html">contact</a></li>
 								</ul>
 								<ul class="navbar_user">
@@ -140,45 +85,10 @@
 			<div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
 			<div class="hamburger_menu_content text-right">
 				<ul class="menu_top_nav">
-					<li class="menu_item has-children">
-						<a href="#">
-							usd
-							<i class="fa fa-angle-down"></i>
-						</a>
-						<ul class="menu_selection">
-							<li><a href="#">cad</a></li>
-							<li><a href="#">aud</a></li>
-							<li><a href="#">eur</a></li>
-							<li><a href="#">gbp</a></li>
-						</ul>
-					</li>
-					<li class="menu_item has-children">
-						<a href="#">
-							English
-							<i class="fa fa-angle-down"></i>
-						</a>
-						<ul class="menu_selection">
-							<li><a href="#">French</a></li>
-							<li><a href="#">Italian</a></li>
-							<li><a href="#">German</a></li>
-							<li><a href="#">Spanish</a></li>
-						</ul>
-					</li>
-					<li class="menu_item has-children">
-						<a href="#">
-							My Account
-							<i class="fa fa-angle-down"></i>
-						</a>
-						<ul class="menu_selection">
-							<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-							<li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
-						</ul>
-					</li>
+					
 					<li class="menu_item"><a href="#">home</a></li>
 					<li class="menu_item"><a href="#">shop</a></li>
-					<li class="menu_item"><a href="#">promotion</a></li>
-					<li class="menu_item"><a href="#">pages</a></li>
-					<li class="menu_item"><a href="#">blog</a></li>
+					
 					<li class="menu_item"><a href="#">contact</a></li>
 				</ul>
 			</div>
@@ -208,7 +118,7 @@
 							
 							<ul class="sidebar_categories">
 								<% categories.forEach((category)=>{%>
-									<li><a href="/user/categories?category=<%= category._id %>" ><%= category.categoryName %></a></li>
+									<li><a href="/categories?category=<%= category._id %>" ><%= category.categoryName %></a></li>
 								
 								<%})%>
 								<!-- <li class="active"><a href="#"><span><i class="fa fa-angle-double-right"
@@ -247,27 +157,7 @@
 						</div> -->
 
 						<!-- Color -->
-						<div class="sidebar_section">
-							<div class="sidebar_title">
-								<h5>Color</h5>
-							</div>
-							<ul class="checkboxes">
-								<li><i class="fa fa-square-o" aria-hidden="true"></i><span>Black</span></li>
-								<li class="active"><i class="fa fa-square" aria-hidden="true"></i><span>Pink</span></li>
-								<li><i class="fa fa-square-o" aria-hidden="true"></i><span>White</span></li>
-								<li><i class="fa fa-square-o" aria-hidden="true"></i><span>Blue</span></li>
-								<li><i class="fa fa-square-o" aria-hidden="true"></i><span>Orange</span></li>
-								<li><i class="fa fa-square-o" aria-hidden="true"></i><span>White</span></li>
-								<li><i class="fa fa-square-o" aria-hidden="true"></i><span>Blue</span></li>
-								<li><i class="fa fa-square-o" aria-hidden="true"></i><span>Orange</span></li>
-								<li><i class="fa fa-square-o" aria-hidden="true"></i><span>White</span></li>
-								<li><i class="fa fa-square-o" aria-hidden="true"></i><span>Blue</span></li>
-								<li><i class="fa fa-square-o" aria-hidden="true"></i><span>Orange</span></li>
-							</ul>
-							<div class="show_more">
-								<span><span>+</span>Show More</span>
-							</div>
-						</div>
+						
 
 					</div>
 
@@ -282,6 +172,7 @@
 							  <div class="product_sorting_container product_sorting_container_top">
 								<input type="text" id="search-input" placeholder="Search products..." value="<%= searchTerm || '' %>" />
 								<select id="sort-select">
+								  <option class="sort-option"  >Sort By</option>
 								  <option class="sort-option" value="aA-zZ" <%=sortOption==="aA-zZ" ? "selected" : "" %> >aA-zZ</option>
 								  <option class="sort-option" value="zZ-aA" <%=sortOption==="zZ-aA" ? "selected" : "" %> >zZ-aA</option>
 								  <option class="sort-option" value="price-low-high" <%=sortOption==="price-low-high" ? "selected" : "" %>>Price -- Low to High</option>
@@ -443,7 +334,7 @@
 				const searchTerm = searchInput.value;
 	
 				// Redirect to the categories page with the selected sort option and search term
-				window.location.href = `/user/categories?sortBy=${sortBy}&search=${encodeURIComponent(searchTerm)}&category=${'<%= categoryId %>'}`;
+				window.location.href = `/categories?sortBy=${sortBy}&search=${encodeURIComponent(searchTerm)}&category=${'<%= categoryId %>'}`;
 			});
 	
 			// Event listener for the search input
@@ -453,7 +344,7 @@
 					const searchTerm = searchInput.value;
 	
 					// Redirect to the categories page with the current sort option and search term
-					window.location.href = `/user/categories?sortBy=${sortBy}&search=${encodeURIComponent(searchTerm)}&category=${'<%= categoryId %>'}`;
+					window.location.href = `/categories?sortBy=${sortBy}&search=${encodeURIComponent(searchTerm)}&category=${'<%= categoryId %>'}`;
 				}
 			});
 		});

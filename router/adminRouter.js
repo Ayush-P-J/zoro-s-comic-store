@@ -42,16 +42,16 @@ router.get('/userList/:id', auth.adminAuth, adminController.blockUser);
 
 router.route('/categories')
     .get(auth.adminAuth, categoryController.getCategories)
-    .post(categoryController.postCategories)
+    .post(auth.adminAuth, categoryController.postCategories)
 
 router.get('/categories/:id', auth.adminAuth, categoryController.listOrUnlist);
 
 router.route('/categories/editOffer')
-.post(categoryController.editOffer)
+.post(auth.adminAuth, categoryController.editOffer)
 
 router.route('/categories/edit/:id')
     .get(auth.adminAuth, categoryController.getCategoryEdit)
-    .post(categoryController.editCategory)
+    .post(auth.adminAuth, categoryController.editCategory)
 
 router.route('/categories/delete/:id')
     .get(auth.adminAuth, categoryController.deleteCategory)
@@ -62,33 +62,30 @@ router.route('/products')
 
 router.route('/products/addProduct')
     .get(auth.adminAuth, productController.getAddProduct)
-    .post(upload.array('images', 3), productController.postProduct)
+    .post(auth.adminAuth, upload.array('images', 3), productController.postProduct)
 
 router.route('/products/delete/:id')
-    .get((req, res, next) => {
-        console.log("hhhh");
-        next();
-    }, auth.adminAuth, productController.deleteProduct)
+    .get( auth.adminAuth, productController.deleteProduct)
 
 router.route('/products/edit/:id')
     .get(auth.adminAuth, productController.getProductEdit)
-    .post(upload.array('images', 3), productController.editProduct)
+    .post(auth.adminAuth, upload.array('images', 3), productController.editProduct)
 
 router.route('/orders')
     .get(auth.adminAuth, orderController.getOrders)
 
 router.route('/orders/updateStatus')
-    .post(orderController.changeOrderStatus)
+    .post(auth.adminAuth, orderController.changeOrderStatus)
 
 router.route('/orders/cancel')
-    .post(orderController.orderCancel)
+    .post(auth.adminAuth, orderController.orderCancel)
 
 router.route('/coupon')
     .get(auth.adminAuth,couponController.getCouponAdmin)
-    .post(couponController.addCoupon)
+    .post(auth.adminAuth, couponController.addCoupon)
 
 router.route('/coupon/delete/:couponId')
-.get(couponController.deleteCoupon)
+.get(auth.adminAuth, couponController.deleteCoupon)
 
 router.route('/salesReport')
     .get(auth.adminAuth,salesController.getSalesReport)
@@ -101,7 +98,7 @@ router.route("/salesReport/download/pdf")
 
 router.route('/dashboard')
     .get(auth.adminAuth,salesController.getDashboard)
-    .post(couponController.addCoupon)
+    .post(auth.adminAuth, couponController.addCoupon)
 
 
 

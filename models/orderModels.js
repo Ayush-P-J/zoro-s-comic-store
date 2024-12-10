@@ -1,45 +1,7 @@
 const { type } = require('express/lib/response');
 const mongoose = require('mongoose')
 
-const addressSchema = new mongoose.Schema({
-    recipientName: {
-      type: String,
-      required: true,
-    },
-    phoneNumber: {
-      type: String,
-      required: true,
-    },
-    addressLine: {
-      type: String,
-      required: true,
-    },
-    landmark: {
-      type: String, // Optional
-    },
-    city: {
-      type: String,
-      required: true,
-    },
-    state: {
-      type: String,
-      required: true,
-    },
-    pinCode: {
-      type: String,
-      required: true,
-    },
-    country: {
-      type: String,
-      required: true,
-      default: "India",
-    },
-    isDefault: {
-      type: Boolean,
-      default: false,
-    },
-  });
-  
+
 
 const orderSchema = new mongoose.Schema({
     userId: {
