@@ -2,7 +2,7 @@ const { type } = require("express/lib/response");
 const mongoose = require("mongoose");
 
 async function connection() {
-    return mongoose.connect('mongodb://127.0.0.1:27017/ecommerce')
+    return mongoose.connect(process.env.MONGO_DB ?? 'mongodb://127.0.0.1:27017/ecommerce')
         .then(() => console.log("Mongoose connected..."))
         .catch((err) => console.log("Error", err));
 }
