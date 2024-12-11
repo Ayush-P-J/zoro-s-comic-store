@@ -2,7 +2,7 @@ const { type } = require("express/lib/response");
 const mongoose = require("mongoose");
 
 async function connection() {
-    return mongoose.connect(process.env.MONGO_DB || 'mongodb://127.0.0.1:27017/ecommerce')
+    return mongoose.connect('mongodb+srv://zoroscomicstore:Ayushpj@123@cluster0.qir17.mongodb.net/Ecommerce?retryWrites=true&w=majority&appName=Cluster0')
         .then(() => console.log("Mongoose connected..."))
         .catch((err) => console.log("Error", err));
 }
