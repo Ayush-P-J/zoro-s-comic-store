@@ -6,12 +6,10 @@ const User = require('../models/userModels');
 const env = require("dotenv").config()
 
 
-
-console.log("hai ethi");
 passport.use(new GoogleStrtegy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3006/auth/google/callback"
+    callbackURL: "https://zoroscomicstore.ayushpj.in.net/auth/google/callback"
 },
 
 
