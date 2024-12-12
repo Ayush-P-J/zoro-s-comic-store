@@ -57,7 +57,7 @@ router
 router.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/signup" }),
-  controller.g
+  controller.googleLogin
 );
 
 router

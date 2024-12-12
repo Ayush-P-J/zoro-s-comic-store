@@ -6,6 +6,7 @@ const User = require('../models/userModels');
 const env = require("dotenv").config()
 
 
+
 passport.use(new GoogleStrtegy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
