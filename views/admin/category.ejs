@@ -84,15 +84,7 @@
       <%- include("../partials/admin/navbar") %>
       <!-- partial -->
       <div class="main-panel">
-        <div style="display: flex" class="m-1">
-          <a
-            type="button"
-            class="btn btn-info m-3"
-            data-toggle="modal"
-            data-target="#addCategory"
-            >Add Categories</a
-          >
-        </div>
+        
 
         <!-- Button trigger modal -->
 
@@ -119,6 +111,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
+              
               <div class="modal-body">
                 <!-- Form inside modal -->
                 <form
@@ -233,7 +226,15 @@
                   &nbsp;<%= error %>
                 </div>
                 <%}%>
-
+                <div style="display: flex" class="m-1">
+                  <a
+                    type="button"
+                    class="btn btn-info m-3"
+                    data-toggle="modal"
+                    data-target="#addCategory"
+                    >Add Categories</a
+                  >
+                </div>
                 <div class="table-responsive">
                   <table class="table">
                     <thead>

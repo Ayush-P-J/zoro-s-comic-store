@@ -221,193 +221,191 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const reportType = document.getElementById("report-type");
-          const startDate = document.getElementById("start-date");
-          const endDate = document.getElementById("end-date");
-          const generateReport = document.getElementById("generate-report");
-          const downloadPdf = document.getElementById("download-pdf");
-          const downloadExcel = document.getElementById("download-excel");
-          const reportTableBody = document.getElementById("sales-report-table-body"); // Target tbody
+      document.addEventListener("DOMContentLoaded", function () {
+        const reportType = document.getElementById("report-type");
+        const startDate = document.getElementById("start-date");
+        const endDate = document.getElementById("end-date");
+        const generateReport = document.getElementById("generate-report");
+        const downloadPdf = document.getElementById("download-pdf");
+        const downloadExcel = document.getElementById("download-excel");
+        const reportTableBody = document.getElementById("sales-report-table-body"); // Target tbody
 
-          const reportContainer = document.getElementById("sales-report-container"); // Container for sales report data
-      
-          // Helper function to format date as YYYY-MM-DD
-          function formatDate(date) {
-            return date.toISOString().split("T")[0];
-          }
-      
-          // Show toast notification
-          function showToast(message, type = "success") {
-            const toast = document.createElement("div");
-            toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out z-50 ${
-              type === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white"
-            }`;
-            toast.style.opacity = "0";
-            toast.style.transform = "translateY(-20px)";
-            toast.innerHTML = `<div class="flex items-center space-x-2">
-                <span class="text-lg font-bold">${type === "success" ? "✓" : "⚠️"}</span>
-                <p class="font-medium">${message}</p>
-              </div>`;
-            document.body.appendChild(toast);
-      
-            setTimeout(() => {
-              toast.style.opacity = "1";
-              toast.style.transform = "translateY(0)";
-            }, 10);
-      
-            setTimeout(() => {
-              toast.style.opacity = "0";
-              toast.style.transform = "translateY(-20px)";
-              setTimeout(() => {
-                document.body.removeChild(toast);
-              }, 300);
-            }, 3000);
-          }
-      
-          // Fetch and update sales report dynamically
-          async function fetchAndUpdateReport(type, dates = {}) {
-            try {
-              const params = new URLSearchParams();
-              params.append("type", type);
-              params.append("axios", true);
-              params.append("startDate", startDate.value);
-              params.append("endDate", endDate.value);
-              window.location.href = `/admin/salesReport?${params.toString()}`
-      
-            //   const response = await axios.get(`/admin/salesReport?${params.toString()}`);
+        const reportContainer = document.getElementById("sales-report-container"); // Container for sales report data
 
-              // Update report container with new data
-            //   alert(orders)
-            //   reportContainer.innerHTML = orders;
-              
-              showToast("Sales report updated successfully");
-            } catch (error) {
-              console.error("Error updating sales report:", error);
-              showToast("Error updating sales report", "error");
-            }
-          }
-      
-          // Handle report type changes
-          reportType.addEventListener("change", function () {
-            const type = reportType.value;
-            setDefaultDates(type);
-            if (type == "Custom") {
-              startDate.disabled = false
-              endDate.disabled = false
-              
-            }
-            if (type !== "Custom") {
-              generateReport.addEventListener("click", function () {
-                
-                fetchAndUpdateReport(type);
-              })
-
-            }
-          });
-      
-          // Handle custom report generation
-          generateReport.addEventListener("click", function () {
-            if (startDate.value && endDate.value) {
-              fetchAndUpdateReport("custom", {
-                startDate: startDate.value,
-                endDate: endDate.value,
-              });
-            } else {
-              showToast("Please select both start and end dates", "error");
-            }
-          });
-      
-          // Initialize default dates
-          function setDefaultDates(type) {
-    const today = new Date();
-    const lastWeek = new Date(today);
-    const now = new Date(today);
-    lastWeek.setDate(today.getDate() - 7);
-    now.setDate(today.getDate() + 1);
-
-    if (type === "Daily") {
-        startDate.value = formatDate(today);
-        endDate.value = formatDate(now);  // Fix: Use today directly
-    } else if (type === "Weekly") {
-        startDate.value = formatDate(lastWeek);
-        endDate.value = formatDate(today);
-    } else if (type === "Monthly") {
-        const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-        startDate.value = formatDate(firstOfMonth);
-        endDate.value = formatDate(today);
-    } else if (type === "Yearly") {
-        const firstOfYear = new Date(today.getFullYear(), 0, 1); // Jan 1 of the current year
-        startDate.value = formatDate(firstOfYear);
-        endDate.value = formatDate(today);
-    } else {
-        startDate.value = "";
-        endDate.value = "";
-    }
-}
-
-// Utility function to format a date to 'YYYY-MM-DD'
-function formatDate(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-}
-      
-          // Set initial default state
-          setDefaultDates(reportType.value);
-        });
-
-        const startDate = document.getElementById('start-date').value;
-        const endDate = document.getElementById('end-date').value;
-        function downloadExcel(){
-            // alert(startDate+" "+endDate )
-            window.location.href = `/admin/salesReport/download/excel?startDate=${startDate}&endDate=${endDate}`
-
-
-
+        // Helper function to format date as YYYY-MM-DD
+        function formatDate(date) {
+          return date.toISOString().split("T")[0];
         }
 
+        // Show toast notification
+        function showToast(message, type = "success") {
+          const toast = document.createElement("div");
+          toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out z-50 ${type === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white"
+            }`;
+          toast.style.opacity = "0";
+          toast.style.transform = "translateY(-20px)";
+          toast.innerHTML = `<div class="flex items-center space-x-2">
+                    <span class="text-lg font-bold">${type === "success" ? "✓" : "⚠️"}</span>
+                    <p class="font-medium">${message}</p>
+                  </div>`;
+          document.body.appendChild(toast);
 
-        async function pdf() {
+          setTimeout(() => {
+            toast.style.opacity = "1";
+            toast.style.transform = "translateY(0)";
+          }, 10);
+
+          setTimeout(() => {
+            toast.style.opacity = "0";
+            toast.style.transform = "translateY(-20px)";
+            setTimeout(() => {
+              document.body.removeChild(toast);
+            }, 300);
+          }, 3000);
+        }
+
+        // Fetch and update sales report dynamically
+        async function fetchAndUpdateReport(type, dates = {}) {
           try {
-    alert("pdf")
-    // Define your API endpoint with query parameters (e.g., date filters)
-    const apiUrl = `/admin/salesReport/download/pdf?startDate=${startDate}&endDate=${endDate}`;
-    alert("pdf1")
+            const params = new URLSearchParams();
+            params.append("type", type);
+            params.append("axios", true);
+            params.append("startDate", startDate.value);
+            params.append("endDate", endDate.value);
+            window.location.href = `/admin/salesReport?${params.toString()}`
 
-    // Fetch the PDF
-    const response = await fetch(apiUrl, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/pdf",
-      },
-    });
+            //   const response = await axios.get(`/admin/salesReport?${params.toString()}`);
 
-    if (!response.ok) {
-      throw new Error("Failed to download the report");
-    }
+            // Update report container with new data
+            //   alert(orders)
+            //   reportContainer.innerHTML = orders;
 
-    // Convert the response into a Blob
-    const blob = await response.blob();
+            showToast("Sales report updated successfully");
+          } catch (error) {
+            console.error("Error updating sales report:", error);
+            showToast("Error updating sales report", "error");
+          }
+        }
 
-    // Create a link element
-    const downloadLink = document.createElement("a");
-    downloadLink.href = window.URL.createObjectURL(blob);
-    downloadLink.download = `Sales_Report_${new Date().toISOString()}.pdf`;
+        // Handle report type changes
+        reportType.addEventListener("change", function () {
+          const type = reportType.value;
+          setDefaultDates(type);
+          if (type == "Custom") {
+            startDate.disabled = false
+            endDate.disabled = false
 
-    // Trigger the download
-    downloadLink.click();
+          }
+          if (type !== "Custom") {
+            generateReport.addEventListener("click", function () {
 
-    // Clean up
-    window.URL.revokeObjectURL(downloadLink.href);
-  } catch (error) {
-    console.error("Error downloading the sales report:", error);
-    alert("Failed to download the report. Please try again.");
-  }
-};
+              fetchAndUpdateReport(type);
+            })
 
-      </script>
+          }
+        });
+
+        // Handle custom report generation
+        generateReport.addEventListener("click", function () {
+          if (startDate.value && endDate.value) {
+            fetchAndUpdateReport("custom", {
+              startDate: startDate.value,
+              endDate: endDate.value,
+            });
+          } else {
+            showToast("Please select both start and end dates", "error");
+          }
+        });
+
+        // Initialize default dates
+        function setDefaultDates(type) {
+          const today = new Date();
+          const lastWeek = new Date(today);
+          const now = new Date(today);
+          lastWeek.setDate(today.getDate() - 7);
+          now.setDate(today.getDate() + 1);
+
+          if (type === "Daily") {
+            startDate.value = formatDate(today);
+            endDate.value = formatDate(now);  // Fix: Use today directly
+          } else if (type === "Weekly") {
+            startDate.value = formatDate(lastWeek);
+            endDate.value = formatDate(today);
+          } else if (type === "Monthly") {
+            const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            startDate.value = formatDate(firstOfMonth);
+            endDate.value = formatDate(today);
+          } else if (type === "Yearly") {
+            const firstOfYear = new Date(today.getFullYear(), 0, 1); // Jan 1 of the current year
+            startDate.value = formatDate(firstOfYear);
+            endDate.value = formatDate(today);
+          } else {
+            startDate.value = "";
+            endDate.value = "";
+          }
+        }
+
+        // Utility function to format a date to 'YYYY-MM-DD'
+        function formatDate(date) {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+          const day = String(date.getDate()).padStart(2, '0');
+          return `${year}-${month}-${day}`;
+        }
+
+        // Set initial default state
+        setDefaultDates(reportType.value);
+      });
+
+      const startDates = document.getElementById('start-date');
+      const endDates = document.getElementById('end-date');
+      function downloadExcel() {
+        // alert(startDate+" "+endDate )
+        window.location.href = `/admin/salesReport/download/excel?startDate=${startDates.value}&endDate=${endDates.value}`
+
+
+
+      }
+
+
+      async function pdf() {
+        try {
+          // Define your API endpoint with query parameters (e.g., date filters)
+          const apiUrl = `/admin/salesReport/download/pdf?startDate=${startDates.value}&endDate=${endDates.value}`;
+          
+
+          // Fetch the PDF
+          const response = await fetch(apiUrl, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/pdf",
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to download the report");
+          }
+
+          // Convert the response into a Blob
+          const blob = await response.blob();
+
+          // Create a link element
+          const downloadLink = document.createElement("a");
+          downloadLink.href = window.URL.createObjectURL(blob);
+          downloadLink.download = `Sales_Report_${new Date().toISOString()}.pdf`;
+
+          // Trigger the download
+          downloadLink.click();
+
+          // Clean up
+          window.URL.revokeObjectURL(downloadLink.href);
+        } catch (error) {
+          console.error("Error downloading the sales report:", error);
+          alert("Failed to download the report. Please try again.");
+        }
+      };
+
+    </script>
       
       
       <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
