@@ -16,16 +16,7 @@ const storage = require('../multer/multer');
 const upload = multer({ storage: storage });
 
 
-router.use((req, res, next) => {
-    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    res.set('Pragma', 'no-cache');
-    res.set('Expires', '0');
-    res.set('Surrogate-Control', 'no-store');
-    next();
-});
-
-
-router.route('/login')
+router.route('/login' || '/')
     .get(auth.isLogged, adminController.getLogin)
     .post(adminController.postLogin)
 
@@ -96,7 +87,7 @@ router.route("/salesReport/download/excel")
 router.route("/salesReport/download/pdf")
     .get(auth.adminAuth, salesController.downloadPdf);
 
-router.route('/dashboard')
+router.route('/')
     .get(auth.adminAuth,salesController.getDashboard)
     .post(auth.adminAuth, couponController.addCoupon)
 

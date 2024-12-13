@@ -26,13 +26,6 @@ app.use(cacheController.cacheControl)
 
 
 
-// app.use((req, res, next) => {
-//     res.locals.spinnerHTML = `
-//     <div id="loadingSpinner" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
-//         <div class="loader border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
-//     </div>`;
-//     next();
-// });
 
 
 

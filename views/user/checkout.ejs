@@ -185,680 +185,797 @@
   <body>
     <div class="super_container">
       <!-- Header -->
+      <header class="header trans_300">
+        <!-- Top Navigation -->
 
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <!-- Breadcrumbs -->
+        
+
+        <!-- Main Navigation -->
+
+        <div class="main_nav_container">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12 text-right">
+                <div class="logo_container">
+                  <a href="#">ZORO<span>'S</span></a>
+                </div>
+                <nav class="navbar">
+                  <ul class="navbar_menu">
+                    <li><a href="#">home</a></li>
+                    <li><a href="categories">shop</a></li>
+                   
+                    <li><a href="contact.html">contact</a></li>
+                  </ul>
+                  <ul class="navbar_user">
+                    <li>
+                      <a href="#"
+                        ><i class="fa fa-search" aria-hidden="true"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a href="profile"
+                        ><i class="fa fa-user" aria-hidden="true"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a href="wishlist"
+                        ><i class="fa fa-heart" aria-hidden="true"></i>
+                        <span id="wishlist_items" class="checkout_items">
+                        </span>
+                      </a>
+                    </li>
+                    <li class="checkout">
+                      <a href="cart">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        <span id="checkout_items" class="checkout_items">
+                          <%= userCart.length %>
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+                  <div class="hamburger_container">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                  </div>
+                </nav>
+              </div>
+            </div>
           </div>
         </div>
-        <div
-          class="breadcrumbs d-flex flex-row align-items-center"
-          style="padding: 0px; margin: 0px"
-        >
-          <ul>
-            <li><a href="/home">Home</a></li>
-            <li>
-              <a href="/cart"
-                ><i class="fa fa-angle-right" aria-hidden="true"></i>Cart</a
-              >
+      </header>
+
+      <div class="fs_menu_overlay"></div>
+      <div class="hamburger_menu">
+        <div class="hamburger_close">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+        <div class="hamburger_menu_content text-right">
+          <ul class="menu_top_nav">
+            <li class="menu_item has-children">
+              <a href="#">
+                usd
+                <i class="fa fa-angle-down"></i>
+              </a>
+              <ul class="menu_selection">
+                <li><a href="#">cad</a></li>
+                <li><a href="#">aud</a></li>
+                <li><a href="#">eur</a></li>
+                <li><a href="#">gbp</a></li>
+              </ul>
             </li>
-            <li class="active">
-              <a href="#"
-                ><i class="fa fa-angle-right" aria-hidden="true"></i>Checkout</a
-              >
+            <li class="menu_item has-children">
+              <a href="#">
+                English
+                <i class="fa fa-angle-down"></i>
+              </a>
+              <ul class="menu_selection">
+                <li><a href="#">French</a></li>
+                <li><a href="#">Italian</a></li>
+                <li><a href="#">German</a></li>
+                <li><a href="#">Spanish</a></li>
+              </ul>
             </li>
+            <li class="menu_item has-children">
+              <a href="#">
+                My Accounts
+                <i class="fa fa-angle-down"></i>
+              </a>
+              <ul class="menu_selection">
+                <li>
+                  <a href="#"
+                    ><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a
+                  >
+                </li>
+                <li>
+                  <a href="#"
+                    ><i class="fa fa-user-plus" aria-hidden="true"></i
+                    >Register</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="menu_item"><a href="#">home</a></li>
+            <li class="menu_item"><a href="#">shop</a></li>
+            
+            <li class="menu_item"><a href="#">contact</a></li>
           </ul>
         </div>
+      </div>
 
-        <center>
-          <h2>Checkout</h2>
-        </center>
-        <div class="row">
-          <!-- Sidebar -->
-          <div class="col-md-3 col-lg-2">
-            <ul class="nav flex-column mt-4">
-              <li class="nav-item">
-                <ul>
-                  <li>
-                    <a
-                      class="nav-link active-link"
-                      onclick="showSection('address')"
-                    >
-                      <h3>Address</h3>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="nav-link" onclick="showSection('orderSummary')">
-                      <h3>Summary</h3>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="nav-link" onclick="showSection('payment')">
-                      <h3>Payment</h3>
-                    </a>
-                  </li>
-                </ul>
+      <div class="container single_product_container">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <!-- Breadcrumbs -->
+            </div>
+          </div>
+          <div
+            class="breadcrumbs d-flex flex-row align-items-center"
+            style="padding: 0px; margin: 0px"
+          >
+            <ul>
+              <li><a href="/home">Home</a></li>
+              <li>
+                <a href="/cart"
+                  ><i class="fa fa-angle-right" aria-hidden="true"></i>Cart</a
+                >
               </li>
-              <!-- <li class="nav-item">
-                            <a class="nav-link " href="" onclick="showSection('overview')">Overview</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="" onclick="showSection('orders')">Orders</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="" onclick="showSection('wishlist')">Wishlist</a>
-                        </li> -->
+              <li class="active">
+                <a href="#"
+                  ><i class="fa fa-angle-right" aria-hidden="true"></i>Checkout</a
+                >
+              </li>
             </ul>
           </div>
-
-          <!-- Main Content -->
-          <div class="col-md-9 col-lg-10">
-            <!-- address  -->
-
-            <div id="address" class="content-section active-section mt-4 ml-4">
-              <h4>Address selection</h4>
-
-              <button
-                type="button"
-                id="addAddressBtn"
-                class="nav-link btn btn-primary"
-                onclick="addAddressFrom('open')"
-              >
-                Add Address
-              </button>
-              <div>
-                <!-- Add Address Button -->
-                <section id="addressSection" style="display: none" class="">
-                  <div class="container">
-                    <h2>Add Address</h2>
-                    <form
-                      id="addressForm"
-                      action="/addAddress/checkout"
-                      method="POST"
-                    >
-                      <!-- Recipient Name -->
-                      <div class="form-group">
-                        <label for="recipientName">Recipient Name</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="recipientName"
-                          name="recipientName"
-                          required
-                        />
-                      </div>
-                      <!-- Phone Number -->
-                      <div class="form-group">
-                        <label for="phoneNumber">Phone Number</label>
-                        <input
-                          type="tel"
-                          class="form-control"
-                          id="phone"
-                          name="phoneNumber"
-                          required
-                        />
-                      </div>
-                      <!-- Address Line 1 -->
-                      <div class="form-group">
-                        <label for="addressLine1">Address Line</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="addressLine"
-                          name="addressLine"
-                          required
-                        />
-                      </div>
-                      <!-- Landmark (Optional) -->
-                      <div class="form-group">
-                        <label for="landmark">Landmark</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="landmark"
-                          name="landmark"
-                        />
-                      </div>
-                      <!-- City -->
-                      <div class="form-group">
-                        <label for="city">City</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="city"
-                          name="city"
-                          required
-                        />
-                      </div>
-                      <!-- State -->
-                      <div class="form-group">
-                        <label for="state">State</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="state"
-                          name="state"
-                          required
-                        />
-                      </div>
-                      <!-- Pin Code -->
-                      <div class="form-group">
-                        <label for="pinCode">Pin Code</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="pinCode"
-                          name="pinCode"
-                          required
-                        />
-                      </div>
-                      <!-- Country -->
-                      <div class="form-group">
-                        <label for="country">Country</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="country"
-                          name="country"
-                          value="India"
-                          readonly
-                        />
-                      </div>
-                      <!-- Set as Default Address -->
-                      <div class="form-group">
-                        <label>
-                          <input
-                            type="checkbox"
-                            id="isDefault"
-                            name="isDefault"
-                          />
-                          Set as Default Address
-                        </label>
-                      </div>
-                      <!-- Submit Button -->
-                      <button type="submit" class="btn btn-success">
-                        Save Address
-                      </button>
-                      <button
-                        id="cancelBtn"
-                        onclick="addAddressFrom('close')"
-                        class="btn btn-success"
+  
+          <center>
+            <h2>Checkout</h2>
+          </center>
+          <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2">
+              <ul class="nav flex-column mt-4">
+                <li class="nav-item">
+                  <ul>
+                    <li>
+                      <a
+                        class="nav-link active-link"
+                        onclick="showSection('address')"
                       >
-                        Cancel
-                      </button>
-                    </form>
-                  </div>
-                </section>
-
-                <!-- edit form section  -->
-                <div
-                  class="modal"
-                  id="editAddressModal"
-                  tabindex="-1"
-                  aria-hidden="true"
+                        <h3>Address</h3>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="nav-link" onclick="showSection('orderSummary')">
+                        <h3>Summary</h3>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="nav-link" onclick="showSection('payment')">
+                        <h3>Payment</h3>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <!-- <li class="nav-item">
+                              <a class="nav-link " href="" onclick="showSection('overview')">Overview</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="" onclick="showSection('orders')">Orders</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="" onclick="showSection('wishlist')">Wishlist</a>
+                          </li> -->
+              </ul>
+            </div>
+  
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10">
+              <!-- address  -->
+  
+              <div id="address" class="content-section active-section mt-4 ml-4">
+                <h4>Address selection</h4>
+  
+                <button
+                  type="button"
+                  id="addAddressBtn"
+                  class="nav-link btn btn-primary"
+                  onclick="addAddressFrom('open')"
                 >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title">Edit Address</h5>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body">
-                        <form id="editAddressForm">
+                  Add Address
+                </button>
+                <div>
+                  <!-- Add Address Button -->
+                  <section id="addressSection" style="display: none" class="">
+                    <div class="container">
+                      <h2>Add Address</h2>
+                      <form
+                        id="addressForm"
+                        action="/addAddress/checkout"
+                        method="POST"
+                      >
+                        <!-- Recipient Name -->
+                        <div class="form-group">
+                          <label for="recipientName">Recipient Name</label>
                           <input
-                            type="hidden"
-                            id="addressId"
-                            name="addressId"
+                            type="text"
+                            class="form-control"
+                            id="recipientName"
+                            name="recipientName"
+                            required
                           />
-
-                          <div class="mb-3">
-                            <label for="recipientName" class="form-label"
-                              >Recipient Name</label
-                            >
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="editRecipientName"
-                              name="recipientName"
-                              required
-                            />
-                          </div>
-                          <div class="mb-3">
-                            <label for="phoneNumber" class="form-label"
-                              >Phone Number</label
-                            >
-                            <input
-                              type="tel"
-                              class="form-control"
-                              id="editPhoneNumber"
-                              name="phoneNumber"
-                              required
-                            />
-                          </div>
-                          <div class="mb-3">
-                            <label for="addressLine" class="form-label"
-                              >Address Line</label
-                            >
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="editAddressLine"
-                              name="addressLine"
-                              required
-                            />
-                          </div>
-                          <div class="mb-3">
-                            <label for="landmark" class="form-label"
-                              >Landmark</label
-                            >
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="editLandmark"
-                              name="landmark"
-                            />
-                          </div>
-                          <div class="mb-3">
-                            <label for="city" class="form-label">City</label>
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="editCity"
-                              name="city"
-                              required
-                            />
-                          </div>
-                          <div class="mb-3">
-                            <label for="state" class="form-label">State</label>
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="editState"
-                              name="state"
-                              required
-                            />
-                          </div>
-                          <div class="mb-3">
-                            <label for="pinCode" class="form-label"
-                              >Pin Code</label
-                            >
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="editPinCode"
-                              name="pinCode"
-                              required
-                            />
-                          </div>
-                          <div class="mb-3 form-check">
+                        </div>
+                        <!-- Phone Number -->
+                        <div class="form-group">
+                          <label for="phoneNumber">Phone Number</label>
+                          <input
+                            type="tel"
+                            class="form-control"
+                            id="phone"
+                            name="phoneNumber"
+                            required
+                          />
+                        </div>
+                        <!-- Address Line 1 -->
+                        <div class="form-group">
+                          <label for="addressLine1">Address Line</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="addressLine"
+                            name="addressLine"
+                            required
+                          />
+                        </div>
+                        <!-- Landmark (Optional) -->
+                        <div class="form-group">
+                          <label for="landmark">Landmark</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="landmark"
+                            name="landmark"
+                          />
+                        </div>
+                        <!-- City -->
+                        <div class="form-group">
+                          <label for="city">City</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="city"
+                            name="city"
+                            required
+                          />
+                        </div>
+                        <!-- State -->
+                        <div class="form-group">
+                          <label for="state">State</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="state"
+                            name="state"
+                            required
+                          />
+                        </div>
+                        <!-- Pin Code -->
+                        <div class="form-group">
+                          <label for="pinCode">Pin Code</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="pinCode"
+                            name="pinCode"
+                            required
+                          />
+                        </div>
+                        <!-- Country -->
+                        <div class="form-group">
+                          <label for="country">Country</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="country"
+                            name="country"
+                            value="India"
+                            readonly
+                          />
+                        </div>
+                        <!-- Set as Default Address -->
+                        <div class="form-group">
+                          <label>
                             <input
                               type="checkbox"
-                              class="form-check-input"
-                              id="editIsDefault"
+                              id="isDefault"
                               name="isDefault"
                             />
-                            <label for="isDefault" class="form-check-label"
-                              >Set as Default Address</label
-                            >
-                          </div>
-                        </form>
-                      </div>
-                      <div class="modal-footer">
+                            Set as Default Address
+                          </label>
+                        </div>
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-success">
+                          Save Address
+                        </button>
                         <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-bs-dismiss="modal"
+                          id="cancelBtn"
+                          onclick="addAddressFrom('close')"
+                          class="btn btn-success"
                         >
                           Cancel
                         </button>
-                        <button
-                          type="button"
-                          class="btn btn-primary"
-                          onclick="saveAddress()"
-                        >
-                          Save Changes
-                        </button>
-                      </div>
+                      </form>
                     </div>
-                  </div>
-                </div>
-
-                <!-- Display Address List -->
-                <div id="addressList">
-                  <% userData.addresses.forEach((address, index)=> { %>
-                  <div class="address-card" id="addressCard<%= index %>">
-                    <h3>
-                      Address <%= index + 1 %> <%= address.isDefault ? '*' : ''
-                      %>
-                    </h3>
-                    <label for="Select address">Select address: </label>
-                    <% if (index===0){ %>
-                    <input
-                      type="radio"
-                      name="addressSelected"
-                      value="<%= address._id %>"
-                      id="<%= address._id %>"
-                      checked
-                    />
-
-                    <% } else{ %>
-
-                    <input
-                      type="radio"
-                      name="addressSelected"
-                      value="<%= address._id %>"
-                      id="<%= address._id %>"
-                    />
-                    <% } %>
-                    <p>
-                      <strong>Recipient Name:</strong>
-                      <%= address.recipientName %>,
-                      <strong>Phone Number:</strong>
-                      <%= address.phoneNumber %>,
-                      <strong>Address Line 1:</strong>
-                      <%= address.addressLine1 %>,
-                      <strong>Landmark:</strong>
-                      <%= address.landmark %>,
-                      <strong>Place:</strong>
-                      <%= address.city %>, <%= address.state %>, India,
-                      <strong>Pin Code:</strong>
-                      <%= address.pinCode %>,
-                    </p>
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      onclick="showEditForm('<%= index %>', '<%= JSON.stringify(address) %>')"
-                    >
-                      <i class="fa-solid fa-pen-to-square"></i>
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-danger"
-                      onclick="showAlert('<%= address._id %>')"
-                    >
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                  </div>
-
-                  <hr />
-                  <% }); %>
-                </div>
-              </div>
-            </div>
-            <div id="orderSummary" class="content-section mt-4 ml-4 p-4">
-              <!-- Add recent order items here -->
-
-              <h4>Order Summary</h4>
-              <div class="container p-4">
-                <% userCart.forEach((cart,i)=>{ %>
-
-                <div class="row border-top border-bottom">
-                  <div class="row main align-items-center">
-                    <div class="col-2">
-                      <img
-                        class="img-fluid"
-                        src="/images/<%= cart.productId.images[0] %>"
-                      />
-                    </div>
-                    <div class="col">
-                      <div class="row text-muted">
-                        <%= cart.productId.productName %>
-                      </div>
-                      <!-- <div class="row">
-                                                <%= cart.productId._id %>
-                                            </div> -->
-                    </div>
-                    <div class="col">
-                      <!-- <a
-                                                onclick="decrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')">-</a> -->
-                      <a id="quantity<%=i%>" class="border">
-                        <%= cart.quantity %>
-                      </a>
-                      <!-- <a
-                                                onclick="incrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')">+</a> -->
-                    </div>
-                    <div class="col">
-                      <i class="fa fa-rupee"></i
-                      ><a id="totalPrice<=%i%>">
-                        <%= cart.totalPrice.toFixed(2) %>
-                      </a>
-                      <!-- <a id="salePrice<=%i%>">d<%= cart.productId.salePrice %></a> -->
-                      <!-- <span class="close" id="close">
-                                                <a href="javascript:void(0);"
-                                                    onclick="confirmDelete('/cart/<%= cart.productId._id %>')">&#10005;</a>
-                                            </span> -->
-                    </div>
-                  </div>
-                </div>
-
-                <% }) %>
-                <div
-                  class="row"
-                  style="
-                    border-top: 1px solid rgba(0, 0, 0, 0.1);
-                    padding: 2vh 0;
-                  "
-                >
-                  <div class="col">
-                    <h3>TOTAL PRICE:</h3>
-                  </div>
-                  <div class="col text-right" id="checkoutTotal">
-                    <h3><i class="fa fa-rupee"></i><%= checkout %></h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              id="payment"
-              class="content-section mt-4 ml-4 payment-container"
-            >
-              <div class="container mt-4">
-                <!-- Two-column layout -->
-                <div class="row">
-                  <!-- Left Section: Apply Coupon -->
-                  <div class="col-md-6">
-                    <div id="apply-coupon-section" class="">
-                      <h4>Apply Coupon</h4>
-                      <div class="d-flex flex-column align-items-start">
-                        <!-- Button to Open Select Box -->
-                        <button
-                          class="btn btn-primary mb-2"
-                          id="couponButton"
-                          onclick="toggleCouponSelect()"
-                        >
-                          View Available Coupons
-                        </button>
-
-                        <!-- Dropdown-like Select Box -->
-                        <div
-                          id="couponSelectBox"
-                          style="
-                            display: none;
-                            margin-top: 10px;
-                            width: 100%;
-                            max-width: 300px;
-                            border: 1px solid #ccc;
-                            padding: 10px;
-                            border-radius: 5px;
-                            background: #f9f9f9;
-                          "
-                        >
-                          <label for="couponSelect" class="form-label"
-                            >Select a Coupon:</label
-                          >
-                          <select
-                            id="couponSelect"
-                            class="form-select"
-                            style="height: 50px"
-                          >
-                            <% coupons.forEach((coupon) => { %>
-                            <option class="" value="<%= coupon.couponCode %>">
-                              <div>
-                                <%= coupon.couponName %> (Code: <%=
-                                coupon.couponCode %>)
-                              </div>
-                              <br />
-                              <div>
-                                Discount: <% if (coupon.discountType ===
-                                'PERCENTAGE') { %> <%= coupon.discountValue %>%
-                                Off <% } else { %> $<%= coupon.discountValue %>
-                                Off <% } %>
-                              </div>
-                            </option>
-                            <% }) %>
-                          </select>
+                  </section>
+  
+                  <!-- edit form section  -->
+                  <div
+                    class="modal"
+                    id="editAddressModal"
+                    tabindex="-1"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Edit Address</h5>
                           <button
-                            class="btn btn-success mt-3 w-100"
-                            onclick="applyCoupon()"
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <form id="editAddressForm">
+                            <input
+                              type="hidden"
+                              id="addressId"
+                              name="addressId"
+                            />
+  
+                            <div class="mb-3">
+                              <label for="recipientName" class="form-label"
+                                >Recipient Name</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="editRecipientName"
+                                name="recipientName"
+                                required
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label for="phoneNumber" class="form-label"
+                                >Phone Number</label
+                              >
+                              <input
+                                type="tel"
+                                class="form-control"
+                                id="editPhoneNumber"
+                                name="phoneNumber"
+                                required
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label for="addressLine" class="form-label"
+                                >Address Line</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="editAddressLine"
+                                name="addressLine"
+                                required
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label for="landmark" class="form-label"
+                                >Landmark</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="editLandmark"
+                                name="landmark"
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label for="city" class="form-label">City</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="editCity"
+                                name="city"
+                                required
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label for="state" class="form-label">State</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="editState"
+                                name="state"
+                                required
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label for="pinCode" class="form-label"
+                                >Pin Code</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="editPinCode"
+                                name="pinCode"
+                                required
+                              />
+                            </div>
+                            <div class="mb-3 form-check">
+                              <input
+                                type="checkbox"
+                                class="form-check-input"
+                                id="editIsDefault"
+                                name="isDefault"
+                              />
+                              <label for="isDefault" class="form-check-label"
+                                >Set as Default Address</label
+                              >
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
                           >
-                            Select this Coupon
+                            Cancel
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            onclick="saveAddress()"
+                          >
+                            Save Changes
                           </button>
                         </div>
                       </div>
-
-                      <p>Enter Code</p>
-                      <div class="d-flex">
-                        <input
-                          id="couponCode"
-                          class="form-control me-2"
-                          placeholder="Enter your code"
-                        />
-                        <button
-                          id="applyButton"
-                          class="btn btn-primary"
-                          onclick="toggleCoupon()"
-                        >
-                          Apply
-                        </button>
-                      </div>
                     </div>
-                    <!-- <% userCart.forEach((cart,i)=>{ %>
-                    <div>
-                      <div class="row text-muted">
-                        <%= cart.productId.productName %>
-                      
-                        &#8377;<a id="totalPrice<=%i%>">
+                  </div>
+  
+                  <!-- Display Address List -->
+                  <div id="addressList">
+                    <% userData.addresses.forEach((address, index)=> { %>
+                    <div class="address-card" id="addressCard<%= index %>">
+                      <h3>
+                        Address <%= index + 1 %> <%= address.isDefault ? '*' : ''
+                        %>
+                      </h3>
+                      <label for="Select address">Select address: </label>
+                      <% if (index===0){ %>
+                      <input
+                        type="radio"
+                        name="addressSelected"
+                        value="<%= address._id %>"
+                        id="<%= address._id %>"
+                        checked
+                      />
+  
+                      <% } else{ %>
+  
+                      <input
+                        type="radio"
+                        name="addressSelected"
+                        value="<%= address._id %>"
+                        id="<%= address._id %>"
+                      />
+                      <% } %>
+                      <p>
+                        <strong>Recipient Name:</strong>
+                        <%= address.recipientName %>,
+                        <strong>Phone Number:</strong>
+                        <%= address.phoneNumber %>,
+                        <strong>Address Line 1:</strong>
+                        <%= address.addressLine1 %>,
+                        <strong>Landmark:</strong>
+                        <%= address.landmark %>,
+                        <strong>Place:</strong>
+                        <%= address.city %>, <%= address.state %>, India,
+                        <strong>Pin Code:</strong>
+                        <%= address.pinCode %>,
+                      </p>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="showEditForm('<%= index %>', '<%= JSON.stringify(address) %>')"
+                      >
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-danger"
+                        onclick="showAlert('<%= address._id %>')"
+                      >
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </div>
+  
+                    <hr />
+                    <% }); %>
+                  </div>
+                </div>
+              </div>
+              <div id="orderSummary" class="content-section mt-4 ml-4 p-4">
+                <!-- Add recent order items here -->
+  
+                <h4>Order Summary</h4>
+                <div class="container p-4">
+                  <% userCart.forEach((cart,i)=>{ %>
+  
+                  <div class="row border-top border-bottom">
+                    <div class="row main align-items-center">
+                      <div class="col-2">
+                        <img
+                          class="img-fluid"
+                          src="/images/<%= cart.productId.images[0] %>"
+                        />
+                      </div>
+                      <div class="col">
+                        <div class="row text-muted">
+                          <%= cart.productId.productName %>
+                        </div>
+                        <!-- <div class="row">
+                                                  <%= cart.productId._id %>
+                                              </div> -->
+                      </div>
+                      <div class="col">
+                        <!-- <a
+                                                  onclick="decrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')">-</a> -->
+                        <a id="quantity<%=i%>" class="border">
+                          <%= cart.quantity %>
+                        </a>
+                        <!-- <a
+                                                  onclick="incrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')">+</a> -->
+                      </div>
+                      <div class="col">
+                        <i class="fa fa-rupee"></i
+                        ><a id="totalPrice<=%i%>">
                           <%= cart.totalPrice.toFixed(2) %>
                         </a>
-                    </div>
-
-                  <% }) %> -->
-
-                    <div
-                      class="row"
-                      style="
-                        border-top: 1px solid rgba(0, 0, 0, 0.1);
-                        padding: 2vh 0;
-                      "
-                    >
-                      <div class="col">Price:</div>
-                      <div class="col text-right">
-                        <i class="fa fa-rupee"></i><%= checkout %>
-                      </div>
-                    </div>
-                    <div
-                      class="row"
-                      style="
-                        border-top: 1px solid rgba(0, 0, 0, 0.1);
-                        padding: 2vh 0;
-                      "
-                    >
-                      <div class="col">Discount</div>
-                      <div class="col text-right">
-                        - <span id="discount">0</span>
-                      </div>
-                    </div>
-                    <div
-                      class="row"
-                      style="
-                        border-top: 1px solid rgba(0, 0, 0, 0.1);
-                        padding: 2vh 0;
-                      "
-                    >
-                      <div>
-                        <div class="col text-left">TOTAL PRICE</div>
-                        <div class="col text-right">
-                          <i class="fa fa-rupee"></i
-                          ><span id="grandTotal"><%= checkout %></span>
-                        </div>
+                        <!-- <a id="salePrice<=%i%>">d<%= cart.productId.salePrice %></a> -->
+                        <!-- <span class="close" id="close">
+                                                  <a href="javascript:void(0);"
+                                                      onclick="confirmDelete('/cart/<%= cart.productId._id %>')">&#10005;</a>
+                                              </span> -->
                       </div>
                     </div>
                   </div>
-
-                  <!-- Right Section: Payment Method -->
-                  <div class="col-md-6">
-                    <div id="payment-method-section" class="">
-                      <h4>Select Payment Method</h4>
-                      <p>Select the payment method you want to use</p>
-
-                      <!-- Payment Method Options -->
-                      <!-- <div class="payment-methods">
-                      <div class="payment-option">
-                        <input type="radio" id="debitCard" name="paymentMethod" value="Debit Card" />
-                        <label for="debitCard">Debit Card</label>
+  
+                  <% }) %>
+                  <div
+                    class="row"
+                    style="
+                      border-top: 1px solid rgba(0, 0, 0, 0.1);
+                      padding: 2vh 0;
+                    "
+                  >
+                    <div class="col">
+                      <h3>TOTAL PRICE:</h3>
+                    </div>
+                    <div class="col text-right" id="checkoutTotal">
+                      <h3><i class="fa fa-rupee"></i><%= checkout %></h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div
+                id="payment"
+                class="content-section mt-4 ml-4 payment-container"
+              >
+                <div class="container mt-4">
+                  <!-- Two-column layout -->
+                  <div class="row">
+                    <!-- Left Section: Apply Coupon -->
+                    <div class="col-md-6">
+                      <div id="apply-coupon-section" class="">
+                        <h4>Apply Coupon</h4>
+                        <div class="d-flex flex-column align-items-start">
+                          <!-- Button to Open Select Box -->
+                          <button
+                            class="btn btn-primary mb-2"
+                            id="couponButton"
+                            onclick="toggleCouponSelect()"
+                          >
+                            View Available Coupons
+                          </button>
+  
+                          <!-- Dropdown-like Select Box -->
+                          <div
+                            id="couponSelectBox"
+                            style="
+                              display: none;
+                              margin-top: 10px;
+                              width: 100%;
+                              max-width: 300px;
+                              border: 1px solid #ccc;
+                              padding: 10px;
+                              border-radius: 5px;
+                              background: #f9f9f9;
+                            "
+                          >
+                            <label for="couponSelect" class="form-label"
+                              >Select a Coupon:</label
+                            >
+                            <select
+                              id="couponSelect"
+                              class="form-select"
+                              style="height: 50px"
+                            >
+                              <% coupons.forEach((coupon) => { %>
+                              <option class="" value="<%= coupon.couponCode %>">
+                                <div>
+                                  <%= coupon.couponName %> (Code: <%=
+                                  coupon.couponCode %>)
+                                </div>
+                                <br />
+                                <div>
+                                  Discount: <% if (coupon.discountType ===
+                                  'PERCENTAGE') { %> <%= coupon.discountValue %>%
+                                  Off <% } else { %> $<%= coupon.discountValue %>
+                                  Off <% } %>
+                                </div>
+                              </option>
+                              <% }) %>
+                            </select>
+                            <button
+                              class="btn btn-success mt-3 w-100"
+                              onclick="applyCoupon()"
+                            >
+                              Select this Coupon
+                            </button>
+                          </div>
+                        </div>
+  
+                        <p>Enter Code</p>
+                        <div class="d-flex">
+                          <input
+                            id="couponCode"
+                            class="form-control me-2"
+                            placeholder="Enter your code"
+                          />
+                          <button
+                            id="applyButton"
+                            class="btn btn-primary"
+                            onclick="toggleCoupon()"
+                          >
+                            Apply
+                          </button>
+                        </div>
                       </div>
-                      
-                      <div class="payment-option">
-                        <input type="radio" id="netBanking" name="paymentMethod" value="Internet Banking" />
-                        <label for="netBanking">Internet Banking</label>
-                      </div> -->
-
-                      <div class="payment-option">
-                        <input
-                          type="radio"
-                          id="upi"
-                          name="paymentMethod"
-                          value="razorPay"
-                        />
-                        <label for="upi">Razor Pay</label>
+                      <!-- <% userCart.forEach((cart,i)=>{ %>
+                      <div>
+                        <div class="row text-muted">
+                          <%= cart.productId.productName %>
+                        
+                          &#8377;<a id="totalPrice<=%i%>">
+                            <%= cart.totalPrice.toFixed(2) %>
+                          </a>
                       </div>
-
-                      <div class="payment-option">
-                        <input
-                          type="radio"
-                          id="wallet"
-                          name="paymentMethod"
-                          value="wallet"
-                        />
-                        <label for="wallet">Wallet</label>
+  
+                    <% }) %> -->
+  
+                      <div
+                        class="row"
+                        style="
+                          border-top: 1px solid rgba(0, 0, 0, 0.1);
+                          padding: 2vh 0;
+                        "
+                      >
+                        <div class="col">Price:</div>
+                        <div class="col text-right">
+                          <i class="fa fa-rupee"></i><%= checkout %>
+                        </div>
                       </div>
-
-                      <div class="payment-option">
-                        <input
-                          type="radio"
-                          id="cod"
-                          name="paymentMethod"
-                          value="COD"
-                          checked
-                        />
-                        <label for="cod">Cash on Delivery</label>
+                      <div
+                        class="row"
+                        style="
+                          border-top: 1px solid rgba(0, 0, 0, 0.1);
+                          padding: 2vh 0;
+                        "
+                      >
+                        <div class="col">Discount</div>
+                        <div class="col text-right">
+                          - <span id="discount">0</span>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                        style="
+                          border-top: 1px solid rgba(0, 0, 0, 0.1);
+                          padding: 2vh 0;
+                        "
+                      >
+                        <div>
+                          <div class="col text-left">TOTAL PRICE</div>
+                          <div class="col text-right">
+                            <i class="fa fa-rupee"></i
+                            ><span id="grandTotal"><%= checkout %></span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-
-                    <button
-                      class="btn btn-danger mt-3"
-                      onclick="placeOrder()"
-                      id="placeOrder"
-                    >
-                      Place Order
-                    </button>
+  
+                    <!-- Right Section: Payment Method -->
+                    <div class="col-md-6">
+                      <div id="payment-method-section" class="">
+                        <h4>Select Payment Method</h4>
+                        <p>Select the payment method you want to use</p>
+  
+                        <!-- Payment Method Options -->
+                        <!-- <div class="payment-methods">
+                        <div class="payment-option">
+                          <input type="radio" id="debitCard" name="paymentMethod" value="Debit Card" />
+                          <label for="debitCard">Debit Card</label>
+                        </div>
+                        
+                        <div class="payment-option">
+                          <input type="radio" id="netBanking" name="paymentMethod" value="Internet Banking" />
+                          <label for="netBanking">Internet Banking</label>
+                        </div> -->
+  
+                        <div class="payment-option">
+                          <input
+                            type="radio"
+                            id="upi"
+                            name="paymentMethod"
+                            value="razorPay"
+                          />
+                          <label for="upi">Razor Pay</label>
+                        </div>
+  
+                        <div class="payment-option">
+                          <input
+                            type="radio"
+                            id="wallet"
+                            name="paymentMethod"
+                            value="wallet"
+                          />
+                          <label for="wallet">Wallet</label>
+                        </div>
+  
+                        <div class="payment-option">
+                          <input
+                            type="radio"
+                            id="cod"
+                            name="paymentMethod"
+                            value="COD"
+                            checked
+                          />
+                          <label for="cod">Cash on Delivery</label>
+                        </div>
+                      </div>
+  
+                      <button
+                        class="btn btn-danger mt-3"
+                        onclick="placeOrder()"
+                        id="placeOrder"
+                      >
+                        Place Order
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div id="wishlist" class="content-section mt-4 ml-4">
-            <h4>Wishlist</h4>
-            <p>Items you’ve added to your wishlist.</p>
-            <!-- Add wishlist items here -->
+  
+            <div id="wishlist" class="content-section mt-4 ml-4">
+              <h4>Wishlist</h4>
+              <p>Items you’ve added to your wishlist.</p>
+              <!-- Add wishlist items here -->
+            </div>
           </div>
         </div>
       </div>

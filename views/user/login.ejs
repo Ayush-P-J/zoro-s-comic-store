@@ -1,175 +1,213 @@
-<link rel="stylesheet" href="/user/userStyle.css">
-<link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
-<!-- Layout styles -->
-<link rel="stylesheet" href="/assets/css/style.css">
-<!-- End layout styles -->
-<link rel="shortcut icon" href="/assets/images/favicon.png" />
-<style>
-  .error-popup {
-    background-color: red;
-    color: white;
-    padding: 15px;
-    border-radius: 5px;
-    position: fixed;
-    top: 120px;
-    right: 50%;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    opacity: 1;
-    transition: opacity 0.5s ease;
-  }
-  .login-with-google-btn {
-  transition: background-color .3s, box-shadow .3s;
-  text-decoration: none; 
-  padding: 12px 16px 12px 42px;
-  border: none;
-  border-radius: 3px;
-  box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
-  
-  color: #757575;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
-  
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=);
-  background-color: white;
-  background-repeat: no-repeat;
-  background-position: 12px 11px;
-  
-  &:hover {
-    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
-  }
-  
-  &:active {
-    background-color: #eeeeee;
-  }
-  
-  &:focus {
-    outline: none;
-    box-shadow: 
-      0 -1px 0 rgba(0, 0, 0, .04),
-      0 2px 4px rgba(0, 0, 0, .25),
-      0 0 0 3px #c8dafc;
-  }
-  
-  &:disabled {
-    filter: grayscale(100%);
-    background-color: #ebebeb;
-    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
-    cursor: not-allowed;
-  }
-}
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #6e6e6e 0%, #353535 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
 
+        .login-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
 
-<!-- <div class="container d-flex justify-content-center align-items-center vh-100"> -->
-<div class="container-scroller">
-  <div class="container-fluid page-body-wrapper full-page-wrapper">
-    <div class="row w-100 m-0">
-      <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
-        <div class="card col-lg-4 mx-auto">
-          <div class="card-body px-5 py-5">
-            <h3 class="card-title text-left mb-3">Login</h3>
-            <form id="loginPage" action="login" method="post" onsubmit="return validateForm()">
-              <h6 id="msg" class="text-center text-danger">&nbsp;<%= message %>
-              </h6>
+        .login-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            
+        }
+        .body-back {
+            background-color: #75ea66;
+        }
 
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-              <div class="form-group">
-                <label for="email">Email *</label>
-                <input type="email" class="form-control p_input" id="email" name="email"
-                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid email address.">
-              </div>
+        .login-header h2 {
+            color: #4a4a4a;
+            font-weight: 600;
+        }
 
-              <div class="form-group">
-                <label for="password">Password *</label>
-                <input type="password" class="form-control p_input" id="password" name="password" required minlength="8"
-                  maxlength="20" title="Password must be 8-20 characters long.">
-              </div>
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-              <div class="form-group d-flex align-items-center justify-content-between">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" name="rememberMe"> Remember me
-                  </label>
-                </div>
-                <a href="forgotPassword" class="forgot-pass">Forgot password</a>
-              </div>
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
 
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary btn-block enter-btn">Login</button>
-              </div>
+        .form-control:focus {
+            outline: none;
+            border-color: #75ea66;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
 
-              <div class="d-flex">
-                <div class="g-signin2">
-                  <a class="login-with-google-btn" href="auth/google">
-                    Sign in with Google                  </a>
-                </div>
-              </div>
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #dbdbdb 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
 
-              <p class="sign-up">Don't have an Account? <a href="/signup">Sign Up</a></p>
-            </form>
+        .login-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
 
-          </div>
+        .form-extras {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px;
+            background-color: #fff;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            color: #757575;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .google-btn img {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .google-btn:hover {
+            background-color: #f5f5f5;
+            border-color: #d0d0d0;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .signup-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    
+        #bttn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #000000;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        #bttn:hover {
+            background-color: #c2c2c2;
+            transform: scale(1.05);
+        }
+    </style>
+    
+</head>
+<body>
+    <button id="bttn" style="margin-left:20px ;" class="ml-5">back</button>
+    <div class="login-container" id="login-container">
+        <div class="login-header">
+            <h2>Welcome Back</h2>
         </div>
-      </div>
-      <!-- content-wrapper ends -->
+        <form id="loginPage" action="login" method="post" onsubmit="return validateForm()">
+            <div class="form-group">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" 
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid email address." required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="password" name="password" 
+                    placeholder="Password" required minlength="8" maxlength="20">
+            </div>
+            <div class="form-extras">
+                
+                <a href="forgotPassword" style="color: #667eea; text-decoration: none;">Forgot password?</a>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+            <a class="google-btn" href="auth/google">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=" alt="Google Logo">
+                Sign in with Google
+            </a>
+            <div class="signup-link">
+                Don't have an account? <a href="/signup">Sign Up</a>
+            </div>
+        </form>
     </div>
-    <!-- row ends -->
-  </div>
-  <!-- page-body-wrapper ends -->
-</div>
-<script>
-  function validateForm() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const msg = document.getElementById("msg");
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
-    // Clear any previous messages
-    msg.textContent = "";
+    <script>
+        function validateForm() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
-    // Email validation
-    if (!emailRegex.test(email)) {
-      msg.textContent = "Please enter a valid email address.";
-      return false;
-    }
+            if (!emailRegex.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
 
-    // Password validation (min 8 characters)
-    if (password.length < 8 || password.length > 20) {
-      msg.textContent = "Password must be between 8 and 20 characters.";
-      return false;
-    }
+            if (password.length < 8 || password.length > 20) {
+                alert("Password must be between 8 and 20 characters.");
+                return false;
+            }
 
-    return true;
-  }
+            return true;
+        }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const errorPopup = document.getElementById("errorPopup");
-    if (errorPopup) {
-      setTimeout(() => {
-        errorPopup.style.opacity = '0'; // fade out
-        setTimeout(() => errorPopup.remove(), 500); // remove from DOM after fade out
-      }, 3000); // disappear after 3 seconds
-    }
-  });
-</script>
-<!-- plugins:js -->
-<script src="/assets/vendors/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page -->
-<!-- End plugin js for this page -->
-<!-- inject:js -->
-<script src="/assets/js/off-canvas.js"></script>
-<script src="/assets/js/hoverable-collapse.js"></script>
-<script src="/assets/js/misc.js"></script>
-<script src="/assets/js/settings.js"></script>
-<script src="/assets/js/todolist.js"></script>
-
-</div>
-
-
-
-</div>
+        document.getElementById('bttn').addEventListener('click',()=>{
+            
+            window.history.back()
+        })
+        
+    </script>
+</body>
+</html>

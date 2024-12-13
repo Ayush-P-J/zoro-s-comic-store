@@ -6,7 +6,7 @@ const PDFDocument = require("pdfkit");
 
 const getSalesReport = async (req, res) => {
   try {
-    console.log(req.query);
+    // console.log(req.query);
 
     const page = parseInt(req.query.page) || 1; // Current page (default: 1)
     const limit = 10000000; // Number of records per page
@@ -57,6 +57,7 @@ const getSalesReport = async (req, res) => {
 
 const downloadSalesReport = async (req, res) => {
   try {
+    
     const startDate = req.query.startDate
       ? new Date(req.query.startDate)
       : null;
@@ -125,7 +126,7 @@ const downloadSalesReport = async (req, res) => {
 
 const downloadPdf = async (req, res) => {
   try {
-    console.log("pdf");
+    console.log(req.query.endDate+"pdf"+req.query.startDate);
 
     const startDate = req.query.startDate
       ? new Date(req.query.startDate)
@@ -133,15 +134,20 @@ const downloadPdf = async (req, res) => {
     const endDate = req.query.endDate ? new Date(req.query.endDate) : null;
 
     // Build query object for filtering
-    const query = {};
+    let query = {};
     if (startDate && endDate) {
       query.createdAt = { $gte: startDate, $lte: endDate };
     }
+     
+    console.log(query);
+    
 
     // Fetch orders for the report
     const orders = await order.Order.find(query)
       .populate("userId")
       .sort({ createdAt: -1 });
+      // console.log(orders);
+      
 
     // Create a PDF document
     const doc = new PDFDocument();

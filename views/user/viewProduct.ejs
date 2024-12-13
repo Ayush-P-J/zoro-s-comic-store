@@ -48,22 +48,20 @@
 						<nav class="navbar">
 							<ul class="navbar_menu">
 								<li><a href="/home">home</a></li>
-								<li><a href="#">shop</a></li>
-								<li><a href="#">promotion</a></li>
-								<li><a href="#">pages</a></li>
-								<li><a href="#">blog</a></li>
+								<li><a href="login">shop</a></li>
+								
 								<li><a href="contact.html">contact</a></li>
 							</ul>
 							<ul class="navbar_user">
 								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
 								<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
 								<li>
-									<a href="/wishlist"
+									<!-- <a href="/wishlist"
 									  ><i class="fa fa-heart" aria-hidden="true"></i>
 									  <span id="wishlist_items" class="checkout_items">
 										<%= userWishlist.length %>
 									  </span>
-									</a>
+									</a> -->
 								  </li>
 								  <li class="checkout">
 									<a href="/cart">
@@ -185,7 +183,7 @@
 			</div>
 			<div class="col-lg-5">
 				<div class="product_details">
-					<div class="product_details_title">
+					<div class="product_details_title p-1">
 						<h2><%= product.productName %> </h2>
 						<% if(product.status !== "Available"){ %>
 							<h4 style="color: red;" >Out Of Stock</h4>
@@ -225,7 +223,7 @@
 						
 						<% if(product.status == "Available" && product.stock  > 0 ){ %>
 						<span>Quantity:</span>
-						<div class="quantity_selector">
+						<div class="quantity_selector ">
 							<span class="minus" ><i class="fa fa-minus" aria-hidden="true"></i></span>
 							<span id="stockLeft" class="d-none"><%= product.stock %></span>
 							<span id="quantity_value">1</span>
@@ -234,15 +232,15 @@
 						</div>
 						<% if(isLoggedIn){%>
 
-						<div class=" add_to_cart_butto btn btn-warning col-4 " id="add" style="margin: 10px;" ><a  >add to cart</a></div>
+						<div class=" add_to_cart_butto btn btn-warning col-4 m-1" id="add" style="margin: 10px;" ><a  >add to cart</a></div>
 						<% } else {%>
-							<a href="/login"><div class=" add_to_cart_butto btn btn-warning" onclick="loginNotify()" >add to cart</div></a>
+							<a href="/login"><div class=" add_to_cart_butto btn btn-warning m-1" onclick="loginNotify()" >add to cart</div></a>
 						<%}%>
 
 							
 						<% } else {%>
 								
-						<div class="red_button add_to_cart_button1" id="" ><a  >Out Of Stock</a></div>
+						<div class="red_button add_to_cart_button1 p-3" id="" ><a  >Unavailable now</a></div>
 						<% }%>
 						<!-- <button onclick="addToCarts()">sfgd</button> -->
 						 <% if(isLoggedIn){%>
@@ -413,7 +411,7 @@
 										</div>
 									</div>
 									</a>
-									<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+									<div class="red_button add_to_cart_button"><a href="#">View product</a></div>
 								</div>
 
 						

@@ -38,7 +38,7 @@ const postLogin = async (req, res) => {
 
     if (adminVerify) {
       req.session.Admin = true;
-      res.status(200).redirect("/admin/index");
+      res.status(200).redirect("/admin");
     } else {
       return res.render("admin/login", {
         message: "Invalid password",
@@ -54,7 +54,7 @@ const getIndex = (req, res) => {
   nocache();
   console.log("user" + req.session.userId);
 
-  res.redirect("/admin/dashboard");
+  res.redirect("/admin");
 };
 
 const getUserList = async (req, res) => {

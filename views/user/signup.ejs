@@ -1,184 +1,202 @@
-<!-- <div class="container d-flex justify-content-center align-items-center vh-100">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #6e6e6e 0%, #353535 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .signup-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 750px;
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .signup-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .signup-header h2 {
+            color: #4a4a4a;
+            font-weight: 600;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #75ea66;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .signup-btn {
+            width: 50%;
+            padding: 14px;
+            background: linear-gradient(135deg, #dbdbdb 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .signup-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            background-color: #fff;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            color: #757575;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .google-btn img {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .google-btn:hover {
+            background-color: #f5f5f5;
+            border-color: #d0d0d0;
+        }
+
+        .extra-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .extra-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        #bttn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #000000;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
     
-<div class="container mt-5" style="width: 25rem;" >
-    <h2 class="text-center">Sign Up</h2>
-    <form id="signupForm" action="signup" method="post" >
+        #bttn:hover {
+            background-color: #c2c2c2;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
 
-      <h6 id="msg" class="text-center text-danger"> &nbsp;<%= message %> </h6>
+<body>
+  <button id="bttn" style="margin-left:20px ;" class="ml-5">back</button>
 
-        <div class="mb-3">
-            <label for="fullName" class="form-label">Full Name</label>
-            <input type="text" class="form-control" id="fullName" name="fullName" required>
+    <div class="signup-container">
+        <div class="signup-header">
+            <h2>Create an Account</h2>
         </div>
-        <div class="mb-3">
-            <label for="userName" class="form-label">Username</label>
-            <input type="text" class="form-control" id="userName" name="userName" required>
-        </div>
-        <div class="mb-3">
-            <label for="phone" class="form-label">Phone Number</label>
-            <input type="tel" class="form-control" id="phone" name="phone" required pattern="[0-9]{10}">
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-        </div>
-        <div class="mb-3">
-            <label for="confirmPass" class="form-label">Confirm Password</label>
-            <input type="password" class="form-control" id="confirmPass" name="confirmPass" required>
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
-    </form>
-</div> -->
-<style>
-  .login-with-google-btn {
-  transition: background-color .3s, box-shadow .3s;
-  text-decoration: none; 
-  padding: 12px 16px 12px 42px;
-  border: none;
-  border-radius: 3px;
-  box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
-  
-  color: #757575;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
-  
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=);
-  background-color: white;
-  background-repeat: no-repeat;
-  background-position: 12px 11px;
-  
-  &:hover {
-    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
-  }
-  
-  &:active {
-    background-color: #eeeeee;
-  }
-  
-  &:focus {
-    outline: none;
-    box-shadow: 
-      0 -1px 0 rgba(0, 0, 0, .04),
-      0 2px 4px rgba(0, 0, 0, .25),
-      0 0 0 3px #c8dafc;
-  }
-  
-  &:disabled {
-    filter: grayscale(100%);
-    background-color: #ebebeb;
-    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
-    cursor: not-allowed;
-  }
-}
-
-body {
-  text-align: center;
-  padding-top: 2rem;
-}
-</style>
-
-<link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
-<!-- Layout styles -->
-<link rel="stylesheet" href="/assets/css/style.css">
-<!-- End layout styles -->
-<link rel="shortcut icon" href="/assets/images/favicon.png" />
-<div class="container-scroller">
-  <div class="container-fluid page-body-wrapper full-page-wrapper">
-    <div class="row w-100 m-0">
-      <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
-        <div class="card col-lg-4 mx-auto">
-          <div class="card-body px-5 py-5">
-            <h3 class="card-title text-left mb-3">Register</h3>
-            <form id="signupForm" action="signup" method="post">
-
-              <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" class="form-control" id="fullName" name="fullName">
-                <small id="error-fullName" class="text-danger"></small>
-              </div>
-
-              <div class="form-group">
-                <label for="userName">Username</label>
-                <input type="text" class="form-control" id="userName" name="userName">
-                <small id="error-userName" class="text-danger"></small>
-              </div>
-
-              <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}">
-                <small id="error-phone" class="text-danger"></small>
-              </div>
-
-              <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email" class="form-control" id="email" name="email">
-                <small id="error-email" class="text-danger"></small>
-              </div>
-
-              <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password">
-                <small id="error-password" class="text-danger"></small>
-              </div>
-
-              <div class="form-group">
-                <label for="confirmPass">Confirm Password</label>
-                <input type="password" class="form-control" id="confirmPass" name="confirmPass">
-                <small id="error-confirmPass" class="text-danger"></small>
-              </div>
-
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
-              </div>
-
-              <div class="text-center mt-3">
-                <a class=" login-with-google-btn " href="auth/google">
-                  Sign in with Google
-                </a>
-              </div>
-
-
-
-
-
-
-              <p class="sign-up text-center mt-3">Already have an Account? <a href="/login">Login</a></p>
-              <p class="terms text-center mt-3">By creating an account, you accept our <a href="#">Terms &
-                  Conditions</a></p>
-            </form>
-          </div>
-        </div>
-      </div>
-      <!-- content-wrapper ends -->
+        <form id="signupForm" action="signup" method="post">
+            <div class="form-grid">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="userName" name="userName" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone Number"
+                        pattern="[0-9]{10}" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                        required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="confirmPass" name="confirmPass"
+                        placeholder="Confirm Password" required>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+              <button type="submit" class="signup-btn col-6 m-1">Sign Up</button>
+            <a class="google-btn col-6" href="auth/google">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE3LjYgOS4ybC4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiLz48L3N2Zz4="
+                    alt="Google Logo"> Sign in with Google
+            </a>
+            </div>
+            <div class="extra-links">
+                Already have an account? <a href="/login">Login</a>
+            </div>
+        </form>
     </div>
-    <!-- row ends -->
-  </div>
-  <!-- page-body-wrapper ends -->
-</div>
-
-<!-- plugins:js -->
-<script src="/assets/vendors/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page -->
-<!-- End plugin js for this page -->
-<!-- inject:js -->
-<script src="/assets/js/off-canvas.js"></script>
-<script src="/assets/js/hoverable-collapse.js"></script>
-<script src="/assets/js/misc.js"></script>
-<script src="/assets/js/settings.js"></script>
-<script src="/assets/js/todolist.js"></script>
-
-<!-- endinject -->
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-</div>
-
-
+</body>
 <script>
   const fullName = document.getElementById('fullName');
   const userName = document.getElementById('userName');
@@ -257,5 +275,11 @@ body {
       e.preventDefault();
     }
   });
+  document.getElementById('bttn').addEventListener('click',()=>{
+            
+            window.history.back()
+        })
 </script>
-</div>
+
+
+</html>
