@@ -108,7 +108,7 @@ const placeOrder = async (req, res) => {
       .status(500)
       .json({ success: false, message: "Internal error occured" });
   }
-};
+};  
 
 const orderConfirmationPage = async (req, res) => {
   const orderId = req.params.orderId;

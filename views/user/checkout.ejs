@@ -1,362 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Single Product</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="Colo Shop Template" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/user/styles/bootstrap4/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/user/plugins/OwlCarousel2-2.2.1/owl.carousel.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/user/plugins/OwlCarousel2-2.2.1/owl.theme.default.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/user/plugins/OwlCarousel2-2.2.1/animate.css"
-    />
-    <link
-      rel="stylesheet"
-      href="/user/plugins/themify-icons/themify-icons.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/user/plugins/jquery-ui-1.12.1.custom/jquery-ui.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/user/styles/single_styles.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/user/styles/main_styles.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.css"
-    />
 
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/user/styles/single_responsive.css"
-    />
-    <style>
-      .modal {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        border-radius: 5px;
-      }
+<head>
+  <title>Single Product</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="Colo Shop Template" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" type="text/css" href="/user/styles/bootstrap4/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/user/plugins/OwlCarousel2-2.2.1/owl.carousel.css" />
+  <link rel="stylesheet" type="text/css" href="/user/plugins/OwlCarousel2-2.2.1/owl.theme.default.css" />
+  <link rel="stylesheet" type="text/css" href="/user/plugins/OwlCarousel2-2.2.1/animate.css" />
+  <link rel="stylesheet" href="/user/plugins/themify-icons/themify-icons.css" />
+  <link rel="stylesheet" type="text/css" href="/user/plugins/jquery-ui-1.12.1.custom/jquery-ui.css" />
+  <link rel="stylesheet" type="text/css" href="/user/styles/single_styles.css" />
+  <link rel="stylesheet" type="text/css" href="/user/styles/main_styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.css" />
 
-      .address-card {
-        margin-bottom: 20px;
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-      }
-    </style>
+  <link rel="stylesheet" type="text/css" href="/user/styles/single_responsive.css" />
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border-radius: 5px;
+    }
 
-    <style>
-      .profile-header {
-        text-align: center;
-        padding: 10px;
-        background-color: #f8f9fa;
-      }
+    .address-card {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+  </style>
 
-      .profile-header img {
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        margin-bottom: 10px;
-      }
+  <style>
+    .profile-header {
+      text-align: center;
+      padding: 10px;
+      background-color: #f8f9fa;
+    }
 
-      .sidebar {
-        min-height: 100vh;
-        background-color: #f8f9fa;
-        padding-top: 10px;
-      }
+    .profile-header img {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      margin-bottom: 10px;
+    }
 
-      .sidebar .nav-link {
-        color: #333;
-        font-weight: bold;
-      }
+    .sidebar {
+      min-height: 100vh;
+      background-color: #f8f9fa;
+      padding-top: 10px;
+    }
 
-      .content-section {
-        display: none;
-      }
+    .sidebar .nav-link {
+      color: #333;
+      font-weight: bold;
+    }
 
-      .active-section {
-        display: block;
-      }
+    .content-section {
+      display: none;
+    }
 
-      .active-link {
-        background-color: rgb(230, 230, 230);
-        transition: background-color 0.3s ease, transform 0.2s ease;
-      }
+    .active-section {
+      display: block;
+    }
 
-      /* .active-link:hover { */
-      /* background-color: rgb(216, 216, 216); */
-      /* Slightly darker gray on hover */
-      /* transform: scale(1.05); */
-      /* Slightly enlarges the element */
-      /* } */
+    .active-link {
+      background-color: rgb(230, 230, 230);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
 
-      /* Styling the entire payment container box */
-      .payment-container {
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        padding: 20px;
-        /* max-width: 400px; */
-        background-color: #f9f9f9;
-      }
+    /* .active-link:hover { */
+    /* background-color: rgb(216, 216, 216); */
+    /* Slightly darker gray on hover */
+    /* transform: scale(1.05); */
+    /* Slightly enlarges the element */
+    /* } */
 
-      /* Styling each payment method option */
-      .payment-methods {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        /* Adds space between options */
-      }
+    /* Styling the entire payment container box */
+    .payment-container {
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      /* max-width: 400px; */
+      background-color: #f9f9f9;
+    }
 
-      .payment-option {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
+    /* Styling each payment method option */
+    .payment-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      /* Adds space between options */
+    }
 
-      .payment-option label {
-        cursor: pointer;
-        font-size: 1em;
-      }
+    .payment-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-      .payment-option input[type="radio"] {
-        cursor: pointer;
-      }
+    .payment-option label {
+      cursor: pointer;
+      font-size: 1em;
+    }
 
-      /* Styling for the Order Summary container */
-      .order-summary-box {
-        border: 2px solid #ccc;
-        /* Box border */
-        border-radius: 8px;
-        /* Rounded corners */
-        padding: 20px;
-        /* Inner padding */
-        background-color: #f9f9f9;
-        /* Light background color */
-        margin-top: 15px;
-        /* Space from surrounding content */
-      }
+    .payment-option input[type="radio"] {
+      cursor: pointer;
+    }
 
-      .order-summary-box .row {
-        padding: 10px 0;
-        /* Padding for each row */
-      }
+    /* Styling for the Order Summary container */
+    .order-summary-box {
+      border: 2px solid #ccc;
+      /* Box border */
+      border-radius: 8px;
+      /* Rounded corners */
+      padding: 20px;
+      /* Inner padding */
+      background-color: #f9f9f9;
+      /* Light background color */
+      margin-top: 15px;
+      /* Space from surrounding content */
+    }
 
-      .order-summary-box img {
-        max-width: 100%;
-        /* Make images responsive */
-        height: auto;
-      }
-    </style>
-  </head>
+    .order-summary-box .row {
+      padding: 10px 0;
+      /* Padding for each row */
+    }
 
-  <body>
-    <div class="super_container">
-      <!-- Header -->
-      <header class="header trans_300">
-        <!-- Top Navigation -->
+    .order-summary-box img {
+      max-width: 100%;
+      /* Make images responsive */
+      height: auto;
+    }
+  </style>
+</head>
 
-        
+<body>
+  <div class="super_container">
+    <!-- Header -->
+    <header class="header trans_300">
+      <!-- Top Navigation -->
 
-        <!-- Main Navigation -->
 
-        <div class="main_nav_container">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-12 text-right">
-                <div class="logo_container">
-                  <a href="#">ZORO<span>'S</span></a>
-                </div>
-                <nav class="navbar">
-                  <ul class="navbar_menu">
-                    <li><a href="#">home</a></li>
-                    <li><a href="categories">shop</a></li>
-                   
-                    <li><a href="contact.html">contact</a></li>
-                  </ul>
-                  <ul class="navbar_user">
-                    <li>
-                      <a href="#"
-                        ><i class="fa fa-search" aria-hidden="true"></i
-                      ></a>
-                    </li>
-                    <li>
-                      <a href="profile"
-                        ><i class="fa fa-user" aria-hidden="true"></i
-                      ></a>
-                    </li>
-                    <li>
-                      <a href="wishlist"
-                        ><i class="fa fa-heart" aria-hidden="true"></i>
-                        <span id="wishlist_items" class="checkout_items">
-                        </span>
-                      </a>
-                    </li>
-                    <li class="checkout">
-                      <a href="cart">
-                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                        <span id="checkout_items" class="checkout_items">
-                          <%= userCart.length %>
-                        </span>
-                      </a>
-                    </li>
-                  </ul>
-                  <div class="hamburger_container">
-                    <i class="fa fa-bars" aria-hidden="true"></i>
-                  </div>
-                </nav>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
 
-      <div class="fs_menu_overlay"></div>
-      <div class="hamburger_menu">
-        <div class="hamburger_close">
-          <i class="fa fa-times" aria-hidden="true"></i>
-        </div>
-        <div class="hamburger_menu_content text-right">
-          <ul class="menu_top_nav">
-            <li class="menu_item has-children">
-              <a href="#">
-                usd
-                <i class="fa fa-angle-down"></i>
-              </a>
-              <ul class="menu_selection">
-                <li><a href="#">cad</a></li>
-                <li><a href="#">aud</a></li>
-                <li><a href="#">eur</a></li>
-                <li><a href="#">gbp</a></li>
-              </ul>
-            </li>
-            <li class="menu_item has-children">
-              <a href="#">
-                English
-                <i class="fa fa-angle-down"></i>
-              </a>
-              <ul class="menu_selection">
-                <li><a href="#">French</a></li>
-                <li><a href="#">Italian</a></li>
-                <li><a href="#">German</a></li>
-                <li><a href="#">Spanish</a></li>
-              </ul>
-            </li>
-            <li class="menu_item has-children">
-              <a href="#">
-                My Accounts
-                <i class="fa fa-angle-down"></i>
-              </a>
-              <ul class="menu_selection">
-                <li>
-                  <a href="#"
-                    ><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a
-                  >
-                </li>
-                <li>
-                  <a href="#"
-                    ><i class="fa fa-user-plus" aria-hidden="true"></i
-                    >Register</a
-                  >
-                </li>
-              </ul>
-            </li>
-            <li class="menu_item"><a href="#">home</a></li>
-            <li class="menu_item"><a href="#">shop</a></li>
-            
-            <li class="menu_item"><a href="#">contact</a></li>
-          </ul>
-        </div>
-      </div>
+      <!-- Main Navigation -->
 
-      <div class="container single_product_container">
+      <div class="main_nav_container">
         <div class="container">
           <div class="row">
-            <div class="col">
-              <!-- Breadcrumbs -->
+            <div class="col-lg-12 text-right">
+              <div class="logo_container">
+                <a href="#">ZORO<span>'S</span></a>
+              </div>
+              <nav class="navbar">
+                <ul class="navbar_menu">
+                  <li><a href="#">home</a></li>
+                  <li><a href="categories">shop</a></li>
+
+                  <li><a href="contact.html">contact</a></li>
+                </ul>
+                <ul class="navbar_user">
+                  <li>
+                    <a href="#"><i class="fa fa-search" aria-hidden="true"></i></a>
+                  </li>
+                  <li>
+                    <a href="profile"><i class="fa fa-user" aria-hidden="true"></i></a>
+                  </li>
+                  <li>
+                    <a href="wishlist"><i class="fa fa-heart" aria-hidden="true"></i>
+                      <span id="wishlist_items" class="checkout_items">
+                      </span>
+                    </a>
+                  </li>
+                  <li class="checkout">
+                    <a href="cart">
+                      <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                      <span id="checkout_items" class="checkout_items">
+                        <%= userCart.length %>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+                <div class="hamburger_container">
+                  <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+              </nav>
             </div>
           </div>
-          <div
-            class="breadcrumbs d-flex flex-row align-items-center"
-            style="padding: 0px; margin: 0px"
-          >
-            <ul>
-              <li><a href="/home">Home</a></li>
+        </div>
+      </div>
+    </header>
+
+    <div class="fs_menu_overlay"></div>
+    <div class="hamburger_menu">
+      <div class="hamburger_close">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </div>
+      <div class="hamburger_menu_content text-right">
+        <ul class="menu_top_nav">
+          <li class="menu_item has-children">
+            <a href="#">
+              usd
+              <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="menu_selection">
+              <li><a href="#">cad</a></li>
+              <li><a href="#">aud</a></li>
+              <li><a href="#">eur</a></li>
+              <li><a href="#">gbp</a></li>
+            </ul>
+          </li>
+          <li class="menu_item has-children">
+            <a href="#">
+              English
+              <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="menu_selection">
+              <li><a href="#">French</a></li>
+              <li><a href="#">Italian</a></li>
+              <li><a href="#">German</a></li>
+              <li><a href="#">Spanish</a></li>
+            </ul>
+          </li>
+          <li class="menu_item has-children">
+            <a href="#">
+              My Accounts
+              <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="menu_selection">
               <li>
-                <a href="/cart"
-                  ><i class="fa fa-angle-right" aria-hidden="true"></i>Cart</a
-                >
+                <a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a>
               </li>
-              <li class="active">
-                <a href="#"
-                  ><i class="fa fa-angle-right" aria-hidden="true"></i>Checkout</a
-                >
+              <li>
+                <a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a>
               </li>
             </ul>
+          </li>
+          <li class="menu_item"><a href="#">home</a></li>
+          <li class="menu_item"><a href="#">shop</a></li>
+
+          <li class="menu_item"><a href="#">contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container single_product_container">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <!-- Breadcrumbs -->
           </div>
-  
-          <center>
-            <h2>Checkout</h2>
-          </center>
-          <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2">
-              <ul class="nav flex-column mt-4">
-                <li class="nav-item">
-                  <ul>
-                    <li>
-                      <a
-                        class="nav-link active-link"
-                        onclick="showSection('address')"
-                      >
-                        <h3>Address</h3>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="nav-link" onclick="showSection('orderSummary')">
-                        <h3>Summary</h3>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="nav-link" onclick="showSection('payment')">
-                        <h3>Payment</h3>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <!-- <li class="nav-item">
+        </div>
+        <div class="breadcrumbs d-flex flex-row align-items-center" style="padding: 0px; margin: 0px">
+          <ul>
+            <li><a href="/home">Home</a></li>
+            <li>
+              <a href="/cart"><i class="fa fa-angle-right" aria-hidden="true"></i>Cart</a>
+            </li>
+            <li class="active">
+              <a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Checkout</a>
+            </li>
+          </ul>
+        </div>
+
+        <center>
+          <h2>Checkout</h2>
+        </center>
+        <div class="row">
+          <!-- Sidebar -->
+          <div class="col-md-3 col-lg-2">
+            <ul class="nav flex-column mt-4">
+              <li class="nav-item">
+                <ul>
+                  <li>
+                    <a class="nav-link active-link" onclick="showSection('address')">
+                      <h3>Address</h3>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="nav-link" onclick="showSection('orderSummary')">
+                      <h3>Summary</h3>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="nav-link" onclick="showSection('payment')">
+                      <h3>Payment</h3>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- <li class="nav-item">
                               <a class="nav-link " href="" onclick="showSection('overview')">Overview</a>
                           </li>
                           <li class="nav-item">
@@ -365,362 +305,200 @@
                           <li class="nav-item">
                               <a class="nav-link" href="" onclick="showSection('wishlist')">Wishlist</a>
                           </li> -->
-              </ul>
-            </div>
-  
-            <!-- Main Content -->
-            <div class="col-md-9 col-lg-10">
-              <!-- address  -->
-  
-              <div id="address" class="content-section active-section mt-4 ml-4">
-                <h4>Address selection</h4>
-  
-                <button
-                  type="button"
-                  id="addAddressBtn"
-                  class="nav-link btn btn-primary"
-                  onclick="addAddressFrom('open')"
-                >
-                  Add Address
-                </button>
-                <div>
-                  <!-- Add Address Button -->
-                  <section id="addressSection" style="display: none" class="">
-                    <div class="container">
-                      <h2>Add Address</h2>
-                      <form
-                        id="addressForm"
-                        action="/addAddress/checkout"
-                        method="POST"
-                      >
-                        <!-- Recipient Name -->
-                        <div class="form-group">
-                          <label for="recipientName">Recipient Name</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="recipientName"
-                            name="recipientName"
-                            required
-                          />
-                        </div>
-                        <!-- Phone Number -->
-                        <div class="form-group">
-                          <label for="phoneNumber">Phone Number</label>
-                          <input
-                            type="tel"
-                            class="form-control"
-                            id="phone"
-                            name="phoneNumber"
-                            required
-                          />
-                        </div>
-                        <!-- Address Line 1 -->
-                        <div class="form-group">
-                          <label for="addressLine1">Address Line</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="addressLine"
-                            name="addressLine"
-                            required
-                          />
-                        </div>
-                        <!-- Landmark (Optional) -->
-                        <div class="form-group">
-                          <label for="landmark">Landmark</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="landmark"
-                            name="landmark"
-                          />
-                        </div>
-                        <!-- City -->
-                        <div class="form-group">
-                          <label for="city">City</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="city"
-                            name="city"
-                            required
-                          />
-                        </div>
-                        <!-- State -->
-                        <div class="form-group">
-                          <label for="state">State</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="state"
-                            name="state"
-                            required
-                          />
-                        </div>
-                        <!-- Pin Code -->
-                        <div class="form-group">
-                          <label for="pinCode">Pin Code</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="pinCode"
-                            name="pinCode"
-                            required
-                          />
-                        </div>
-                        <!-- Country -->
-                        <div class="form-group">
-                          <label for="country">Country</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="country"
-                            name="country"
-                            value="India"
-                            readonly
-                          />
-                        </div>
-                        <!-- Set as Default Address -->
-                        <div class="form-group">
-                          <label>
-                            <input
-                              type="checkbox"
-                              id="isDefault"
-                              name="isDefault"
-                            />
-                            Set as Default Address
-                          </label>
-                        </div>
-                        <!-- Submit Button -->
-                        <button type="submit" class="btn btn-success">
-                          Save Address
-                        </button>
-                        <button
-                          id="cancelBtn"
-                          onclick="addAddressFrom('close')"
-                          class="btn btn-success"
-                        >
+            </ul>
+          </div>
+
+          <!-- Main Content -->
+          <div class="col-md-9 col-lg-10">
+            <!-- address  -->
+
+            <div id="address" class="content-section active-section mt-4 ml-4">
+              <h4>Address selection</h4>
+
+              <button type="button" id="addAddressBtn" class="nav-link btn btn-primary"
+                onclick="addAddressFrom('open')">
+                Add Address
+              </button>
+              <div>
+                <!-- Add Address Button -->
+                <section id="addressSection" style="display: none" class="">
+                  <div class="container">
+                    <h2>Add Address</h2>
+                    <form id="addressForm" action="/addAddress/checkout" method="POST">
+                      <!-- Recipient Name -->
+                      <div class="form-group">
+                        <label for="recipientName">Recipient Name</label>
+                        <input type="text" class="form-control" id="recipientName" name="recipientName" required />
+                      </div>
+                      <!-- Phone Number -->
+                      <div class="form-group">
+                        <label for="phoneNumber">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" name="phoneNumber" required />
+                      </div>
+                      <!-- Address Line 1 -->
+                      <div class="form-group">
+                        <label for="addressLine1">Address Line</label>
+                        <input type="text" class="form-control" id="addressLine" name="addressLine" required />
+                      </div>
+                      <!-- Landmark (Optional) -->
+                      <div class="form-group">
+                        <label for="landmark">Landmark</label>
+                        <input type="text" class="form-control" id="landmark" name="landmark" />
+                      </div>
+                      <!-- City -->
+                      <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" name="city" required />
+                      </div>
+                      <!-- State -->
+                      <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" class="form-control" id="state" name="state" required />
+                      </div>
+                      <!-- Pin Code -->
+                      <div class="form-group">
+                        <label for="pinCode">Pin Code</label>
+                        <input type="text" class="form-control" id="pinCode" name="pinCode" required />
+                      </div>
+                      <!-- Country -->
+                      <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text" class="form-control" id="country" name="country" value="India" readonly />
+                      </div>
+                      <!-- Set as Default Address -->
+                      <div class="form-group">
+                        <label>
+                          <input type="checkbox" id="isDefault" name="isDefault" />
+                          Set as Default Address
+                        </label>
+                      </div>
+                      <!-- Submit Button -->
+                      <button type="submit" class="btn btn-success">
+                        Save Address
+                      </button>
+                      <button id="cancelBtn" onclick="addAddressFrom('close')" class="btn btn-success">
+                        Cancel
+                      </button>
+                    </form>
+                  </div>
+                </section>
+
+                <!-- edit form section  -->
+                <div class="modal" id="editAddressModal" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Edit Address</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form id="editAddressForm">
+                          <input type="hidden" id="addressId" name="addressId" />
+
+                          <div class="mb-3">
+                            <label for="recipientName" class="form-label">Recipient Name</label>
+                            <input type="text" class="form-control" id="editRecipientName" name="recipientName"
+                              required />
+                          </div>
+                          <div class="mb-3">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="editPhoneNumber" name="phoneNumber" required />
+                          </div>
+                          <div class="mb-3">
+                            <label for="addressLine" class="form-label">Address Line</label>
+                            <input type="text" class="form-control" id="editAddressLine" name="addressLine" required />
+                          </div>
+                          <div class="mb-3">
+                            <label for="landmark" class="form-label">Landmark</label>
+                            <input type="text" class="form-control" id="editLandmark" name="landmark" />
+                          </div>
+                          <div class="mb-3">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" class="form-control" id="editCity" name="city" required />
+                          </div>
+                          <div class="mb-3">
+                            <label for="state" class="form-label">State</label>
+                            <input type="text" class="form-control" id="editState" name="state" required />
+                          </div>
+                          <div class="mb-3">
+                            <label for="pinCode" class="form-label">Pin Code</label>
+                            <input type="text" class="form-control" id="editPinCode" name="pinCode" required />
+                          </div>
+                          <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="editIsDefault" name="isDefault" />
+                            <label for="isDefault" class="form-check-label">Set as Default Address</label>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                           Cancel
                         </button>
-                      </form>
-                    </div>
-                  </section>
-  
-                  <!-- edit form section  -->
-                  <div
-                    class="modal"
-                    id="editAddressModal"
-                    tabindex="-1"
-                    aria-hidden="true"
-                  >
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title">Edit Address</h5>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div class="modal-body">
-                          <form id="editAddressForm">
-                            <input
-                              type="hidden"
-                              id="addressId"
-                              name="addressId"
-                            />
-  
-                            <div class="mb-3">
-                              <label for="recipientName" class="form-label"
-                                >Recipient Name</label
-                              >
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="editRecipientName"
-                                name="recipientName"
-                                required
-                              />
-                            </div>
-                            <div class="mb-3">
-                              <label for="phoneNumber" class="form-label"
-                                >Phone Number</label
-                              >
-                              <input
-                                type="tel"
-                                class="form-control"
-                                id="editPhoneNumber"
-                                name="phoneNumber"
-                                required
-                              />
-                            </div>
-                            <div class="mb-3">
-                              <label for="addressLine" class="form-label"
-                                >Address Line</label
-                              >
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="editAddressLine"
-                                name="addressLine"
-                                required
-                              />
-                            </div>
-                            <div class="mb-3">
-                              <label for="landmark" class="form-label"
-                                >Landmark</label
-                              >
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="editLandmark"
-                                name="landmark"
-                              />
-                            </div>
-                            <div class="mb-3">
-                              <label for="city" class="form-label">City</label>
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="editCity"
-                                name="city"
-                                required
-                              />
-                            </div>
-                            <div class="mb-3">
-                              <label for="state" class="form-label">State</label>
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="editState"
-                                name="state"
-                                required
-                              />
-                            </div>
-                            <div class="mb-3">
-                              <label for="pinCode" class="form-label"
-                                >Pin Code</label
-                              >
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="editPinCode"
-                                name="pinCode"
-                                required
-                              />
-                            </div>
-                            <div class="mb-3 form-check">
-                              <input
-                                type="checkbox"
-                                class="form-check-input"
-                                id="editIsDefault"
-                                name="isDefault"
-                              />
-                              <label for="isDefault" class="form-check-label"
-                                >Set as Default Address</label
-                              >
-                            </div>
-                          </form>
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-primary"
-                            onclick="saveAddress()"
-                          >
-                            Save Changes
-                          </button>
-                        </div>
+                        <button type="button" class="btn btn-primary" onclick="saveAddress()">
+                          Save Changes
+                        </button>
                       </div>
                     </div>
                   </div>
-  
-                  <!-- Display Address List -->
-                  <div id="addressList">
-                    <% userData.addresses.forEach((address, index)=> { %>
+                </div>
+
+                <!-- Display Address List -->
+                <div id="addressList">
+                  <% userData.addresses.forEach((address, index)=> { %>
                     <div class="address-card" id="addressCard<%= index %>">
                       <h3>
-                        Address <%= index + 1 %> <%= address.isDefault ? '*' : ''
-                        %>
+                        Address <%= index + 1 %>
+                          <%= address.isDefault ? '*' : '' %>
                       </h3>
                       <label for="Select address">Select address: </label>
                       <% if (index===0){ %>
-                      <input
-                        type="radio"
-                        name="addressSelected"
-                        value="<%= address._id %>"
-                        id="<%= address._id %>"
-                        checked
-                      />
-  
-                      <% } else{ %>
-  
-                      <input
-                        type="radio"
-                        name="addressSelected"
-                        value="<%= address._id %>"
-                        id="<%= address._id %>"
-                      />
-                      <% } %>
-                      <p>
-                        <strong>Recipient Name:</strong>
-                        <%= address.recipientName %>,
-                        <strong>Phone Number:</strong>
-                        <%= address.phoneNumber %>,
-                        <strong>Address Line 1:</strong>
-                        <%= address.addressLine1 %>,
-                        <strong>Landmark:</strong>
-                        <%= address.landmark %>,
-                        <strong>Place:</strong>
-                        <%= address.city %>, <%= address.state %>, India,
-                        <strong>Pin Code:</strong>
-                        <%= address.pinCode %>,
-                      </p>
-                      <button
-                        type="button"
-                        class="btn btn-primary"
-                        onclick="showEditForm('<%= index %>', '<%= JSON.stringify(address) %>')"
-                      >
-                        <i class="fa-solid fa-pen-to-square"></i>
-                      </button>
-                      <button
-                        type="button"
-                        class="btn btn-danger"
-                        onclick="showAlert('<%= address._id %>')"
-                      >
-                        <i class="fa-solid fa-trash"></i>
-                      </button>
+                        <input type="radio" name="addressSelected" value="<%= address._id %>" id="<%= address._id %>"
+                          checked />
+
+                        <% } else{ %>
+
+                          <input type="radio" name="addressSelected" value="<%= address._id %>"
+                            id="<%= address._id %>" />
+                          <% } %>
+                            <p>
+                              <strong>Recipient Name:</strong>
+                              <%= address.recipientName %>,
+                                <strong>Phone Number:</strong>
+                                <%= address.phoneNumber %>,
+                                  <strong>Address Line 1:</strong>
+                                  <%= address.addressLine1 %>,
+                                    <strong>Landmark:</strong>
+                                    <%= address.landmark %>,
+                                      <strong>Place:</strong>
+                                      <%= address.city %>, <%= address.state %>, India,
+                                          <strong>Pin Code:</strong>
+                                          <%= address.pinCode %>,
+                            </p>
+                            <button type="button" class="btn btn-primary"
+                              onclick="showEditForm('<%= index %>', '<%= JSON.stringify(address) %>')">
+                              <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger" onclick="showAlert('<%= address._id %>')">
+                              <i class="fa-solid fa-trash"></i>
+                            </button>
                     </div>
-  
+
                     <hr />
                     <% }); %>
-                  </div>
                 </div>
               </div>
-              <div id="orderSummary" class="content-section mt-4 ml-4 p-4">
-                <!-- Add recent order items here -->
-  
-                <h4>Order Summary</h4>
-                <div class="container p-4">
-                  <% userCart.forEach((cart,i)=>{ %>
-  
+            </div>
+            <div id="orderSummary" class="content-section mt-4 ml-4 p-4">
+              <!-- Add recent order items here -->
+
+              <h4>Order Summary</h4>
+              <div class="container p-4">
+                <% userCart.forEach((cart,i)=>{ %>
+
                   <div class="row border-top border-bottom">
                     <div class="row main align-items-center">
                       <div class="col-2">
-                        <img
-                          class="img-fluid"
-                          src="/images/<%= cart.productId.images[0] %>"
-                        />
+                        <img class="img-fluid" src="/images/<%= cart.productId.images[0] %>" />
                       </div>
                       <div class="col">
                         <div class="row text-muted">
@@ -740,8 +518,7 @@
                                                   onclick="incrementQuantity(event,'<%=i%>','<%= cart.productId._id %>')">+</a> -->
                       </div>
                       <div class="col">
-                        <i class="fa fa-rupee"></i
-                        ><a id="totalPrice<=%i%>">
+                        <i class="fa fa-rupee"></i><a id="totalPrice<=%i%>">
                           <%= cart.totalPrice.toFixed(2) %>
                         </a>
                         <!-- <a id="salePrice<=%i%>">d<%= cart.productId.salePrice %></a> -->
@@ -752,50 +529,40 @@
                       </div>
                     </div>
                   </div>
-  
+
                   <% }) %>
-                  <div
-                    class="row"
-                    style="
+                    <div class="row" style="
                       border-top: 1px solid rgba(0, 0, 0, 0.1);
                       padding: 2vh 0;
-                    "
-                  >
-                    <div class="col">
-                      <h3>TOTAL PRICE:</h3>
+                    ">
+                      <div class="col">
+                        <h3>TOTAL PRICE:</h3>
+                      </div>
+                      <div class="col text-right" id="checkoutTotal">
+                        <h3><i class="fa fa-rupee"></i>
+                          <%= checkout %>
+                        </h3>
+                      </div>
                     </div>
-                    <div class="col text-right" id="checkoutTotal">
-                      <h3><i class="fa fa-rupee"></i><%= checkout %></h3>
-                    </div>
-                  </div>
-                </div>
               </div>
-  
-              <div
-                id="payment"
-                class="content-section mt-4 ml-4 payment-container"
-              >
-                <div class="container mt-4">
-                  <!-- Two-column layout -->
-                  <div class="row">
-                    <!-- Left Section: Apply Coupon -->
-                    <div class="col-md-6">
-                      <div id="apply-coupon-section" class="">
-                        <h4>Apply Coupon</h4>
-                        <div class="d-flex flex-column align-items-start">
-                          <!-- Button to Open Select Box -->
-                          <button
-                            class="btn btn-primary mb-2"
-                            id="couponButton"
-                            onclick="toggleCouponSelect()"
-                          >
-                            View Available Coupons
-                          </button>
-  
-                          <!-- Dropdown-like Select Box -->
-                          <div
-                            id="couponSelectBox"
-                            style="
+            </div>
+
+            <div id="payment" class="content-section mt-4 ml-4 payment-container">
+              <div class="container mt-4">
+                <!-- Two-column layout -->
+                <div class="row">
+                  <!-- Left Section: Apply Coupon -->
+                  <div class="col-md-6">
+                    <div id="apply-coupon-section" class="">
+                      <h4>Apply Coupon</h4>
+                      <div class="d-flex flex-column align-items-start">
+                        <!-- Button to Open Select Box -->
+                        <button class="btn btn-primary mb-2" id="couponButton" onclick="toggleCouponSelect()">
+                          View Available Coupons
+                        </button>
+
+                        <!-- Dropdown-like Select Box -->
+                        <div id="couponSelectBox" style="
                               display: none;
                               margin-top: 10px;
                               width: 100%;
@@ -804,58 +571,39 @@
                               padding: 10px;
                               border-radius: 5px;
                               background: #f9f9f9;
-                            "
-                          >
-                            <label for="couponSelect" class="form-label"
-                              >Select a Coupon:</label
-                            >
-                            <select
-                              id="couponSelect"
-                              class="form-select"
-                              style="height: 50px"
-                            >
-                              <% coupons.forEach((coupon) => { %>
+                            ">
+                          <label for="couponSelect" class="form-label">Select a Coupon:</label>
+                          <select id="couponSelect" class="form-select" style="height: 50px">
+                            <% coupons.forEach((coupon)=> { %>
                               <option class="" value="<%= coupon.couponCode %>">
                                 <div>
-                                  <%= coupon.couponName %> (Code: <%=
-                                  coupon.couponCode %>)
+                                  <%= coupon.couponName %> (Code: <%= coupon.couponCode %>)
                                 </div>
                                 <br />
                                 <div>
-                                  Discount: <% if (coupon.discountType ===
-                                  'PERCENTAGE') { %> <%= coupon.discountValue %>%
-                                  Off <% } else { %> $<%= coupon.discountValue %>
-                                  Off <% } %>
+                                  Discount: <% if (coupon.discountType==='PERCENTAGE' ) { %>
+                                    <%= coupon.discountValue %>%
+                                      Off <% } else { %> $<%= coupon.discountValue %>
+                                          Off <% } %>
                                 </div>
                               </option>
                               <% }) %>
-                            </select>
-                            <button
-                              class="btn btn-success mt-3 w-100"
-                              onclick="applyCoupon()"
-                            >
-                              Select this Coupon
-                            </button>
-                          </div>
-                        </div>
-  
-                        <p>Enter Code</p>
-                        <div class="d-flex">
-                          <input
-                            id="couponCode"
-                            class="form-control me-2"
-                            placeholder="Enter your code"
-                          />
-                          <button
-                            id="applyButton"
-                            class="btn btn-primary"
-                            onclick="toggleCoupon()"
-                          >
-                            Apply
+                          </select>
+                          <button class="btn btn-success mt-3 w-100" onclick="applyCoupon()">
+                            Select this Coupon
                           </button>
                         </div>
                       </div>
-                      <!-- <% userCart.forEach((cart,i)=>{ %>
+
+                      <p>Enter Code</p>
+                      <div class="d-flex">
+                        <input id="couponCode" class="form-control me-2" placeholder="Enter your code" />
+                        <button id="applyButton" class="btn btn-primary" onclick="toggleCoupon()">
+                          Apply
+                        </button>
+                      </div>
+                    </div>
+                    <!-- <% userCart.forEach((cart,i)=>{ %>
                       <div>
                         <div class="row text-muted">
                           <%= cart.productId.productName %>
@@ -866,56 +614,49 @@
                       </div>
   
                     <% }) %> -->
-  
-                      <div
-                        class="row"
-                        style="
+
+                    <div class="row" style="
                           border-top: 1px solid rgba(0, 0, 0, 0.1);
                           padding: 2vh 0;
-                        "
-                      >
-                        <div class="col">Price:</div>
-                        <div class="col text-right">
-                          <i class="fa fa-rupee"></i><%= checkout %>
-                        </div>
+                        ">
+                      <div class="col">Price:</div>
+                      <div class="col text-right">
+                        <i class="fa fa-rupee"></i>
+                        <%= checkout %>
                       </div>
-                      <div
-                        class="row"
-                        style="
+                    </div>
+                    <div class="row" style="
                           border-top: 1px solid rgba(0, 0, 0, 0.1);
                           padding: 2vh 0;
-                        "
-                      >
-                        <div class="col">Discount</div>
-                        <div class="col text-right">
-                          - <span id="discount">0</span>
-                        </div>
+                        ">
+                      <div class="col">Discount</div>
+                      <div class="col text-right">
+                        - <span id="discount">0</span>
                       </div>
-                      <div
-                        class="row"
-                        style="
+                    </div>
+                    <div class="row" style="
                           border-top: 1px solid rgba(0, 0, 0, 0.1);
                           padding: 2vh 0;
-                        "
-                      >
-                        <div>
-                          <div class="col text-left">TOTAL PRICE</div>
-                          <div class="col text-right">
-                            <i class="fa fa-rupee"></i
-                            ><span id="grandTotal"><%= checkout %></span>
-                          </div>
+                        ">
+                      <div>
+                        <div class="col text-left">TOTAL PRICE</div>
+                        <div class="col text-right">
+                          <i class="fa fa-rupee"></i><span id="grandTotal">
+                            <%= checkout %>
+                          </span>
                         </div>
                       </div>
                     </div>
-  
-                    <!-- Right Section: Payment Method -->
-                    <div class="col-md-6">
-                      <div id="payment-method-section" class="">
-                        <h4>Select Payment Method</h4>
-                        <p>Select the payment method you want to use</p>
-  
-                        <!-- Payment Method Options -->
-                        <!-- <div class="payment-methods">
+                  </div>
+
+                  <!-- Right Section: Payment Method -->
+                  <div class="col-md-6">
+                    <div id="payment-method-section" class="">
+                      <h4>Select Payment Method</h4>
+                      <p>Select the payment method you want to use</p>
+
+                      <!-- Payment Method Options -->
+                      <!-- <div class="payment-methods">
                         <div class="payment-option">
                           <input type="radio" id="debitCard" name="paymentMethod" value="Debit Card" />
                           <label for="debitCard">Debit Card</label>
@@ -925,603 +666,581 @@
                           <input type="radio" id="netBanking" name="paymentMethod" value="Internet Banking" />
                           <label for="netBanking">Internet Banking</label>
                         </div> -->
-  
-                        <div class="payment-option">
-                          <input
-                            type="radio"
-                            id="upi"
-                            name="paymentMethod"
-                            value="razorPay"
-                          />
-                          <label for="upi">Razor Pay</label>
-                        </div>
-  
-                        <div class="payment-option">
-                          <input
-                            type="radio"
-                            id="wallet"
-                            name="paymentMethod"
-                            value="wallet"
-                          />
-                          <label for="wallet">Wallet</label>
-                        </div>
-  
-                        <div class="payment-option">
-                          <input
-                            type="radio"
-                            id="cod"
-                            name="paymentMethod"
-                            value="COD"
-                            checked
-                          />
-                          <label for="cod">Cash on Delivery</label>
-                        </div>
+
+                      <div class="payment-option">
+                        <input type="radio" id="upi" name="paymentMethod" value="razorPay" />
+                        <label for="upi">Razor Pay</label>
                       </div>
-  
-                      <button
-                        class="btn btn-danger mt-3"
-                        onclick="placeOrder()"
-                        id="placeOrder"
-                      >
-                        Place Order
-                      </button>
+
+                      <div class="payment-option">
+                        <input type="radio" id="wallet" name="paymentMethod" value="wallet" />
+                        <label for="wallet">Wallet</label>
+                      </div>
+
+                      <div class="payment-option">
+                        <input type="radio" id="cod" name="paymentMethod" value="COD" checked />
+                        <label for="cod">Cash on Delivery</label>
+                      </div>
                     </div>
+
+                    <button class="btn btn-danger mt-3" onclick="placeOrder()" id="placeOrder">
+                      Place Order
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-  
-            <div id="wishlist" class="content-section mt-4 ml-4">
-              <h4>Wishlist</h4>
-              <p>Items you’ve added to your wishlist.</p>
-              <!-- Add wishlist items here -->
-            </div>
+          </div>
+
+          <div id="wishlist" class="content-section mt-4 ml-4">
+            <h4>Wishlist</h4>
+            <p>Items you’ve added to your wishlist.</p>
+            <!-- Add wishlist items here -->
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Tabs -->
+  <!-- Tabs -->
 
-    <!-- Benefit -->
+  <!-- Benefit -->
 
-    <!-- Newsletter -->
+  <!-- Newsletter -->
 
-    <!-- Footer -->
+  <!-- Footer -->
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-    <script>
-      function showSection(section) {
-        // Hide all sections
-        document
-          .querySelectorAll(".content-section")
-          .forEach((el) => el.classList.remove("active-section"));
-        // Show the selected section
-        document.getElementById(section).classList.add("active-section");
-        // Update active link
-        document
-          .querySelectorAll(".nav-link")
-          .forEach((el) => el.classList.remove("active-link"));
-        event.currentTarget.classList.add("active-link");
+  <script>
+    function showSection(section) {
+      // Hide all sections
+      document
+        .querySelectorAll(".content-section")
+        .forEach((el) => el.classList.remove("active-section"));
+      // Show the selected section
+      document.getElementById(section).classList.add("active-section");
+      // Update active link
+      document
+        .querySelectorAll(".nav-link")
+        .forEach((el) => el.classList.remove("active-link"));
+      event.currentTarget.classList.add("active-link");
+    }
+
+    function toggleEdit(editMode) {
+      const form = document.getElementById("profileForm");
+      const saveButton = document.getElementById("saveButton");
+      const cancelButton = document.getElementById("cancelButton");
+      const editButton = document.getElementById("editButton");
+
+      // Enable or disable form fields based on editMode
+      Array.from(form.elements).forEach((element) => {
+        if (element.tagName !== "BUTTON") element.disabled = !editMode;
+      });
+
+      // Toggle visibility of buttons
+      saveButton.style.display = editMode ? "inline-block" : "none";
+      cancelButton.style.display = editMode ? "inline-block" : "none";
+      editButton.style.display = editMode ? "none" : "inline-block";
+    }
+
+    function addAddressFrom(btn) {
+      let form = document.getElementById("addressSection");
+
+      if (btn === "open") {
+        form.style.display = "block";
+      } else {
+        form.style.display = "none";
       }
+    }
 
-      function toggleEdit(editMode) {
-        const form = document.getElementById("profileForm");
-        const saveButton = document.getElementById("saveButton");
-        const cancelButton = document.getElementById("cancelButton");
-        const editButton = document.getElementById("editButton");
+    function showEditForm(index, address) {
+      const parsedAddress = JSON.parse(address);
 
-        // Enable or disable form fields based on editMode
-        Array.from(form.elements).forEach((element) => {
-          if (element.tagName !== "BUTTON") element.disabled = !editMode;
-        });
+      // Populate form fields with address data
+      document.getElementById("addressId").value = parsedAddress._id;
+      document.getElementById("editRecipientName").value =
+        parsedAddress.recipientName;
+      document.getElementById("editPhoneNumber").value =
+        parsedAddress.phoneNumber;
+      document.getElementById("editAddressLine").value =
+        parsedAddress.addressLine;
+      document.getElementById("editLandmark").value = parsedAddress.landmark;
+      document.getElementById("editCity").value = parsedAddress.city;
+      document.getElementById("editState").value = parsedAddress.state;
+      document.getElementById("editPinCode").value = parsedAddress.pinCode;
+      document.getElementById("editIsDefault").checked =
+        parsedAddress.isDefault;
 
-        // Toggle visibility of buttons
-        saveButton.style.display = editMode ? "inline-block" : "none";
-        cancelButton.style.display = editMode ? "inline-block" : "none";
-        editButton.style.display = editMode ? "none" : "inline-block";
-      }
+      // Show the modal
+      const editAddressModal = new bootstrap.Modal(
+        document.getElementById("editAddressModal")
+      );
+      editAddressModal.show();
+    }
 
-      function addAddressFrom(btn) {
-        let form = document.getElementById("addressSection");
+    async function saveAddress() {
+      const addressId = document.getElementById("addressId").value;
+      const updatedAddress = {
+        recipientName: document.getElementById("editRecipientName").value,
+        phoneNumber: document.getElementById("editPhoneNumber").value,
+        addressLine: document.getElementById("editAddressLine").value,
+        landmark: document.getElementById("editLandmark").value,
+        city: document.getElementById("editCity").value,
+        state: document.getElementById("editState").value,
+        pinCode: document.getElementById("editPinCode").value,
+        isDefault: document.getElementById("editIsDefault").checked,
+      };
 
-        if (btn === "open") {
-          form.style.display = "block";
-        } else {
-          form.style.display = "none";
-        }
-      }
-
-      function showEditForm(index, address) {
-        const parsedAddress = JSON.parse(address);
-
-        // Populate form fields with address data
-        document.getElementById("addressId").value = parsedAddress._id;
-        document.getElementById("editRecipientName").value =
-          parsedAddress.recipientName;
-        document.getElementById("editPhoneNumber").value =
-          parsedAddress.phoneNumber;
-        document.getElementById("editAddressLine").value =
-          parsedAddress.addressLine;
-        document.getElementById("editLandmark").value = parsedAddress.landmark;
-        document.getElementById("editCity").value = parsedAddress.city;
-        document.getElementById("editState").value = parsedAddress.state;
-        document.getElementById("editPinCode").value = parsedAddress.pinCode;
-        document.getElementById("editIsDefault").checked =
-          parsedAddress.isDefault;
-
-        // Show the modal
-        const editAddressModal = new bootstrap.Modal(
-          document.getElementById("editAddressModal")
+      try {
+        const response = await axios.post(
+          `/address/edit/${addressId}`,
+          updatedAddress
         );
-        editAddressModal.show();
+        if (response.status === 200) {
+          Swal.fire({
+            title: "Success",
+            text: "Your address has been updated successfully.",
+            icon: "success",
+            showCancelButton: false,
+            showConfirmButton: false, // Hide confirm button
+            timer: 2000, // Close after 3 seconds
+          }).then(() => {
+            window.location.reload();
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        Swal.fire({
+          icon: "error", // Displays an error icon
+          title: "Update Failed",
+          text: "Failed to update address.", // Custom message
+        });
       }
+    }
 
-      async function saveAddress() {
-        const addressId = document.getElementById("addressId").value;
-        const updatedAddress = {
-          recipientName: document.getElementById("editRecipientName").value,
-          phoneNumber: document.getElementById("editPhoneNumber").value,
-          addressLine: document.getElementById("editAddressLine").value,
-          landmark: document.getElementById("editLandmark").value,
-          city: document.getElementById("editCity").value,
-          state: document.getElementById("editState").value,
-          pinCode: document.getElementById("editPinCode").value,
-          isDefault: document.getElementById("editIsDefault").checked,
+    // delete address
+    function showAlert(id) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: `You want to delete this address?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#d33",
+        confirmButtonText: `Yes, delete it!`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Redirect to the action URL
+          window.location.href = `/address/checkout/delete/${id}`;
+        }
+      });
+    }
+
+    document
+      .getElementById("profileForm")
+      .addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevents default form submission
+
+        const formData = {
+          fullName: document.getElementById("fullName").value,
+          userName: document.getElementById("userName").value,
+          email: document.getElementById("email").value,
+          phoneNumber: document.getElementById("phoneNumber").value,
         };
 
-        try {
-          const response = await axios.post(
-            `/address/edit/${addressId}`,
-            updatedAddress
-          );
-          if (response.status === 200) {
+        axios
+          .post("/profile", formData)
+          .then((response) => {
+            // Handle success response, e.g., show a success message or redirect
             Swal.fire({
               title: "Success",
-              text: "Your address has been updated successfully.",
+              text: "Your profile has been updated successfully.",
               icon: "success",
               showCancelButton: false,
               showConfirmButton: false, // Hide confirm button
               timer: 2000, // Close after 3 seconds
             }).then(() => {
-              window.location.reload();
+              window.location.href = "/checkout"; // Reload profile page after the alert disappears
             });
-          }
-        } catch (error) {
-          console.error(error);
-          Swal.fire({
-            icon: "error", // Displays an error icon
-            title: "Update Failed",
-            text: "Failed to update address.", // Custom message
-          });
-        }
-      }
-
-      // delete address
-      function showAlert(id) {
-        Swal.fire({
-          title: "Are you sure?",
-          text: `You want to delete this address?`,
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#d33",
-          cancelButtonColor: "#d33",
-          confirmButtonText: `Yes, delete it!`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Redirect to the action URL
-            window.location.href = `/address/checkout/delete/${id}`;
-          }
-        });
-      }
-
-      document
-        .getElementById("profileForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault(); // Prevents default form submission
-
-          const formData = {
-            fullName: document.getElementById("fullName").value,
-            userName: document.getElementById("userName").value,
-            email: document.getElementById("email").value,
-            phoneNumber: document.getElementById("phoneNumber").value,
-          };
-
-          axios
-            .post("/profile", formData)
-            .then((response) => {
-              // Handle success response, e.g., show a success message or redirect
-              Swal.fire({
-                title: "Success",
-                text: "Your profile has been updated successfully.",
-                icon: "success",
-                showCancelButton: false,
-                showConfirmButton: false, // Hide confirm button
-                timer: 2000, // Close after 3 seconds
-              }).then(() => {
-                window.location.href = "/checkout"; // Reload profile page after the alert disappears
-              });
-              toggleEdit(false); // Optionally reset form to non-editable
-            })
-            .catch((error) => {
-              // Handle error response
-              console.error("Error updating profile:", error);
-              Swal.fire({
-                icon: "error", // Displays an error icon
-                title: "Profile Update Failed",
-                text: "Failed to update profile.", // Custom message
-              });
-            });
-        });
-
-      async function placeOrder() {
-        try {
-          const addressId = document.querySelector(
-            'input[name="addressSelected"]:checked'
-          )?.value;
-          const paymentMethod = document.querySelector(
-            'input[name="paymentMethod"]:checked'
-          )?.value;
-          const amount = parseInt(
-            document.getElementById("grandTotal").innerHTML
-          );
-
-          const couponCode = document.getElementById("couponCode").value;
-
-          if (!addressId || !paymentMethod) {
+            toggleEdit(false); // Optionally reset form to non-editable
+          })
+          .catch((error) => {
+            // Handle error response
+            console.error("Error updating profile:", error);
             Swal.fire({
-              title: "Error",
-              text: "Please select an address and payment method.",
-              icon: "error",
-              confirmButtonText: "OK",
+              icon: "error", // Displays an error icon
+              title: "Profile Update Failed",
+              text: "Failed to update profile.", // Custom message
             });
-            return;
-          }
+          });
+      });
 
-          if (paymentMethod === "razorPay") {
-            const orderResponse = await axios.post("/razorPay", {
-              amount: amount,
-              currency: "INR",
-              receipt: "receipt#123",
-            });
+    async function placeOrder() {
+      try {
+        const addressId = document.querySelector(
+          'input[name="addressSelected"]:checked'
+        )?.value;
+        const paymentMethod = document.querySelector(
+          'input[name="paymentMethod"]:checked'
+        )?.value;
+        const amount = parseInt(
+          document.getElementById("grandTotal").innerHTML
+        );
 
-            if (orderResponse.data.success) {
-              const order = orderResponse.data.order;
-              const options = {
-                key: orderResponse.data.key, // Replace with your Razorpay key ID
-                amount: amount * 100,
-                currency: order.currency,
-                name: "Zoro's Comic Store",
-                description: "Test Transaction",
-                order_id: order.id, // Razorpay Order ID
-                handler: async function (response) {
-                  try {
-                    const confirmResponse = await axios.post(
-                      "/placeOrder",
-                      {
-                        addressId: addressId,
-                        paymentMethod: paymentMethod,
-                        paymentStatus: "Success",
-                        amount: amount,
-                        couponCode: couponCode,
-                        razorpayPaymentId: response.razorpay_payment_id,
-                      }
-                    );
+        const couponCode = document.getElementById("couponCode").value;
 
-                    handleSuccess(confirmResponse.data.orderId);
-                  } catch (error) {
-                    console.error("Error confirming payment:", error);
-                    Swal.fire({
-                      icon: "error", // Displays an error icon
-                      title: "Payment Failed",
-                      text: "Failed to confirm the payment. Please try again.", // Custom message
-                    });
-                  }
-                },
-                prefill: {
-                  name: "Customer Name",
-                  email: "customer@example.com",
-                  contact: "9876543210",
-                },
-                theme: {
-                  color: "#3399cc",
-                },
-              };
+        if (!addressId || !paymentMethod) {
+          Swal.fire({
+            title: "Error",
+            text: "Please select an address and payment method.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+          return;
+        }
 
-              const razorpay = new Razorpay(options);
+        if (paymentMethod === "razorPay") {
+          const orderResponse = await axios.post("/razorPay", {
+            amount: amount,
+            currency: "INR",
+            receipt: "receipt#123",
+          });
 
-              razorpay.on("payment.failed", function (response) {
-                // Handle failed payment
-                console.error("Payment Failed", response);
-                alert(`Payment Failed: ${response.error.description}`);
-                // Optionally, send failure details to the backend
-                const failedResponse = axios.post("/paymentFailed", {
-                  addressId: addressId,
-                        paymentMethod: paymentMethod,
-                        paymentStatus: "Failed",
-                        amount: amount,
-                        couponCode: couponCode,
-                        razorpayPaymentId: response.razorpay_payment_id,
-                });
-                Swal.fire({
-          title: "Failed",
-          text: failedResponse.data.message,
-          icon: "Failed",
-          showCancelButton: false,
-          showConfirmButton: false,
-          timer: 2000,
-        }).then(() => {
-          window.location.href = `/profile`;
-        });
+          if (orderResponse.data.success) {
+            const order = orderResponse.data.order;
+            const options = {
+              key: orderResponse.data.key, // Replace with your Razorpay key ID
+              amount: amount * 100,
+              currency: order.currency,
+              name: "Zoro's Comic Store",
+              description: "Test Transaction",
+              order_id: order.id, // Razorpay Order ID
+              handler: async function (response) {
+                try {
+                  const confirmResponse = await axios.post(
+                    "/placeOrder",
+                    {
+                      addressId: addressId,
+                      paymentMethod: paymentMethod,
+                      paymentStatus: "Success",
+                      amount: amount,
+                      couponCode: couponCode, 
+                      razorpayPaymentId: response.razorpay_payment_id,
+                    }
+                  );
 
-              });
-              razorpay.open();
-            } else {
-              console.error("Order creation failed:", orderResponse.data.error);
-            }
-          }
-
-          if (paymentMethod === "wallet") {
-            try {
-              // Step 1: Request to process wallet payment transaction
-              const walletTransactionResponse = await axios.post(
-                "/walletTransaction",
-                {
-                  amount: amount,
-                }
-              );
-
-              if (walletTransactionResponse.data.success) {
-                // Step 2: If wallet transaction is successful, place the order
-                const orderResponse = await axios.post("/placeOrder", {
-                  addressId: addressId,
-                  paymentMethod: paymentMethod,
-                  paymentStatus: "Success",
-                  amount: amount,
-                  couponCode: couponCode,
-                  transactionId: walletTransactionResponse.data.transactionId, // Pass wallet transaction ID
-                });
-
-                if (orderResponse.data.success) {
-                  handleSuccess(orderResponse.data.orderId); // Handle successful order
+                  handleSuccess(confirmResponse.data.orderId);
+                } catch (error) {
+                  console.error("Error confirming payment:", error);
                   Swal.fire({
-                    icon: "success", // Displays a success icon
-                    title: "Payment Successful!",
-                    text: "Your order has been placed.", // Custom message
-                  });
-                  handleSuccess(orderResponse.data.orderId);
-                } else {
-                  Swal.fire({
-                    icon: "error", // Show 'error' icon
-                    title: "Order Failed",
-                    text:
-                      orderResponse.data.message ||
-                      "Order placement failed. Please try again.", // Display dynamic or fallback message
+                    icon: "error", // Displays an error icon
+                    title: "Payment Failed",
+                    text: "Failed to confirm the payment. Please try again.", // Custom message
                   });
                 }
-              } else {
-                // Handle failure due to insufficient balance or other errors
-                Swal.fire({
-                  icon: "error", // Show 'error' icon
-                  title: "Transaction Failed",
-                  text:
-                    walletTransactionResponse.data.message ||
-                    "Wallet transaction failed. Please try again.", // Display dynamic or fallback message
-                });
-              }
-            } catch (error) {
-              console.error(
-                "Error during wallet transaction or order placement:",
-                error
-              );
-              Swal.fire({
-                icon: "error", // Show 'error' icon
-                title: "Payment Error",
-                text: "There was an error processing your payment. Please try again.", // Custom error message
-              });
-            }
-          }
+              },
+              prefill: {
+                name: "Customer Name",
+                email: "customer@example.com",
+                contact: "9876543210",
+              },
+              theme: {
+                color: "#3399cc",
+              },
+            };
 
-          if (paymentMethod === "COD") {
-            const response = await axios.post("/placeOrder", {
-              addressId: addressId,
-              paymentMethod: paymentMethod,
-              amount: amount,
-              paymentStatus: "COD",
-              couponCode: couponCode,
-            });
-            if (response.data.success == false) {
+            const razorpay = new Razorpay(options);
+
+            razorpay.on("payment.failed", function (response) {
+              // Handle failed payment
+              console.error("Payment Failed", response);
+              alert(`Payment Failed: ${response.error.description}`);
+              // Optionally, send failure details to the backend
+              const failedResponse = axios.post("/paymentFailed", {
+                addressId: addressId,
+                paymentMethod: paymentMethod,
+                paymentStatus: "Failed",
+                amount: amount,
+                couponCode: couponCode,
+                razorpayPaymentId: response.razorpay_payment_id,
+              });
               Swal.fire({
-                title: "error",
-                text: response.data.message,
-                icon: "success",
+                title: "Failed",
+                text: failedResponse.data.message,
+                icon: "Failed",
                 showCancelButton: false,
                 showConfirmButton: false,
                 timer: 2000,
+              }).then(() => {
+                window.location.href = `/profile`;
+              });
+
+            });
+            razorpay.open();
+          } else {
+            console.error("Order creation failed:", orderResponse.data.error);
+          }
+        }
+
+        if (paymentMethod === "wallet") {
+          try {
+            // Step 1: Request to process wallet payment transaction
+            const walletTransactionResponse = await axios.post(
+              "/walletTransaction",
+              {
+                amount: amount,
+              }
+            );
+
+            if (walletTransactionResponse.data.success) {
+              // Step 2: If wallet transaction is successful, place the order
+              const orderResponse = await axios.post("/placeOrder", {
+                addressId: addressId,
+                paymentMethod: paymentMethod,
+                paymentStatus: "Success",
+                amount: amount,
+                couponCode: couponCode,
+                transactionId: walletTransactionResponse.data.transactionId, // Pass wallet transaction ID
+              });
+
+              if (orderResponse.data.success) {
+                handleSuccess(orderResponse.data.orderId); // Handle successful order
+                Swal.fire({
+                  icon: "success", // Displays a success icon
+                  title: "Payment Successful!",
+                  text: "Your order has been placed.", // Custom message
+                });
+                handleSuccess(orderResponse.data.orderId);
+              } else {
+                Swal.fire({
+                  icon: "error", // Show 'error' icon
+                  title: "Order Failed",
+                  text:
+                    orderResponse.data.message ||
+                    "Order placement failed. Please try again.", // Display dynamic or fallback message
+                });
+              }
+            } else {
+              // Handle failure due to insufficient balance or other errors
+              Swal.fire({
+                icon: "error", // Show 'error' icon
+                title: "Transaction Failed",
+                text:
+                  walletTransactionResponse.data.message ||
+                  "Wallet transaction failed. Please try again.", // Display dynamic or fallback message
               });
             }
-            if (response.data.success == true) {
-              handleSuccess(response.data.orderId);
-            }
+          } catch (error) {
+            console.error(
+              "Error during wallet transaction or order placement:",
+              error
+            );
+            Swal.fire({
+              icon: "error", // Show 'error' icon
+              title: "Payment Error",
+              text: "There was an error processing your payment. Please try again.", // Custom error message
+            });
           }
-        } catch (error) {
-          console.error("Error placing order:", error);
-          Swal.fire({
-            icon: "error", // Show 'error' icon
-            title: "Order Placement Failed",
-            text: "Failed to place the order. Please try again.", // Custom error message
-          });
         }
-      }
 
-      // Helper function for success messages
-      function handleSuccess(orderId) {
+        if (paymentMethod === "COD") {
+          const response = await axios.post("/placeOrder", {
+            addressId: addressId,
+            paymentMethod: paymentMethod,
+            amount: amount,
+            paymentStatus: "COD",
+            couponCode: couponCode,
+          });
+          if (response.data.success == false) {
+            Swal.fire({
+              title: "error",
+              text: response.data.message,
+              icon: "success",
+              showCancelButton: false,
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          }
+          if (response.data.success == true) {
+            handleSuccess(response.data.orderId);
+          }
+        }
+      } catch (error) {
+        console.error("Error placing order:", error);
         Swal.fire({
-          title: "Success",
-          text: "Your order was successful.",
-          icon: "success",
-          showCancelButton: false,
-          showConfirmButton: false,
-          timer: 2000,
-        }).then(() => {
-          window.location.href = `/orderConfirmation/${orderId}`;
+          icon: "error", // Show 'error' icon
+          title: "Order Placement Failed",
+          text: "Failed to place the order. Please try again.", // Custom error message
         });
       }
-    </script>
+    }
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    // Helper function for success messages
+    function handleSuccess(orderId) {
+      Swal.fire({
+        title: "Success",
+        text: "Your order was successful.",
+        icon: "success",
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 2000,
+      }).then(() => {
+        window.location.href = `/orderConfirmation/${orderId}`;
+      });
+    }
+  </script>
 
-    <script src="/user/js/jquery-3.2.1.min.js"></script>
-    <script src="/user/styles/bootstrap4/popper.js"></script>
-    <script src="/user/styles/bootstrap4/bootstrap.min.js"></script>
-    <script src="/user/plugins/Isotope/isotope.pkgd.min.js"></script>
-    <script src="/user/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-    <script src="/user/plugins/easing/easing.js"></script>
-    <script src="/user/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-    <script src="/user/js/single_custom.js"></script>
-    <script
-      src="/user/plugins/zoom/jquery.zoom.min.js"
-      type="text/javascript"
-    ></script>
-    <script>
-      // Sample Coupons Data
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-      // Function to Toggle Select Box
-      function toggleCouponSelect() {
-        const selectBox = document.getElementById("couponSelectBox");
+  <script src="/user/js/jquery-3.2.1.min.js"></script>
+  <script src="/user/styles/bootstrap4/popper.js"></script>
+  <script src="/user/styles/bootstrap4/bootstrap.min.js"></script>
+  <script src="/user/plugins/Isotope/isotope.pkgd.min.js"></script>
+  <script src="/user/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+  <script src="/user/plugins/easing/easing.js"></script>
+  <script src="/user/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+  <script src="/user/js/single_custom.js"></script>
+  <script src="/user/plugins/zoom/jquery.zoom.min.js" type="text/javascript"></script>
+  <script>
+    // Sample Coupons Data
+
+    // Function to Toggle Select Box
+    function toggleCouponSelect() {
+      const selectBox = document.getElementById("couponSelectBox");
+      selectBox.style.display =
+        selectBox.style.display === "none" ? "block" : "none";
+
+      // Populate the Select Box
+    }
+
+    // Function to Apply Selected Coupon
+    function applyCoupon() {
+      const selectedCoupon = document.getElementById("couponSelect").value;
+      const selectBox = document.getElementById("couponSelectBox");
+      if (selectedCoupon) {
+        document.getElementById("couponCode").value = selectedCoupon;
         selectBox.style.display =
           selectBox.style.display === "none" ? "block" : "none";
-
-        // Populate the Select Box
+      } else {
+        Swal.fire({
+          icon: "warning", // Show a warning icon
+          title: "Coupon Required",
+          text: "Please select a coupon before applying.",
+          toast: true, // Makes it a toast notification
+          position: "top", // Position of the toast
+          timer: 3000, // Duration in milliseconds (3 seconds)
+          showConfirmButton: false, // Hide confirm button
+        });
       }
+    }
+    // async function apply (){
 
-      // Function to Apply Selected Coupon
-      function applyCoupon() {
-        const selectedCoupon = document.getElementById("couponSelect").value;
-        const selectBox = document.getElementById("couponSelectBox");
-        if (selectedCoupon) {
-          document.getElementById("couponCode").value = selectedCoupon;
-          selectBox.style.display =
-            selectBox.style.display === "none" ? "block" : "none";
-        } else {
+    //               const couponCode = document.getElementById('couponCode').value
+    //               if(couponCode){
+    //                 await axios.post('/applyCoupon',{couponCode})
+    //               .then(response =>{
+    //                 // alert(response.data.totalPrice)
+    //                   grandTotal.innerText = response.data.totalPrice
+    //                   grandTotal.innerText = response.data.totalPrice
+
+    //               })
+    //               .catch(response =>{
+    //                   alert("Something error happesdfned")
+    //               })
+    //               }else{
+    //                 alert("Please select a coupon before applying.");
+
+    //               }
+    //           }
+
+    let appliedCoupon = null; // Track the applied coupon
+
+    async function toggleCoupon() {
+      const couponCodeInput = document.getElementById("couponCode");
+      const couponCode = couponCodeInput.value.trim();
+      const applyButton = document.getElementById("applyButton");
+
+      if (appliedCoupon) {
+        // If a coupon is already applied, remove it
+        appliedCoupon = null; // Clear the applied coupon
+        couponCodeInput.value = ""; // Clear the input field
+        couponCodeInput.disabled = false; // Re-enable the input field
+        applyButton.innerText = "Apply"; // Change button text back to 'Apply'
+
+        // Reset total price (send request to recalculate the price without coupon)
+        try {
+          const response = await axios.post("/removeCoupon"); // Backend endpoint to reset the price
+          document.getElementById("grandTotal").innerText =
+            response.data.totalPrice;
+          document.getElementById("discount").innerText =
+            "<%= checkout %>" - response.data.totalPrice;
+        } catch (error) {
           Swal.fire({
-            icon: "warning", // Show a warning icon
-            title: "Coupon Required",
-            text: "Please select a coupon before applying.",
+            icon: "error", // Show 'error' icon
+            title: "Failed to Remove Coupon",
+            text: "Failed to remove coupon. Please try again.",
             toast: true, // Makes it a toast notification
-            position: "top", // Position of the toast
+            position: "top", // Position it in the middle of the top
             timer: 3000, // Duration in milliseconds (3 seconds)
             showConfirmButton: false, // Hide confirm button
           });
         }
-      }
-      // async function apply (){
+      } else {
+        // Apply the coupon if no coupon is applied yet
+        if (!couponCode) {
+          Swal.fire({
+            icon: "warning", // Show 'warning' icon
+            title: "Coupon Code Required",
+            text: "Please enter a coupon code before applying.",
+            toast: true, // Makes it a toast notification
+            position: "top", // Position the toast at the middle of the top
+            timer: 3000, // Duration in milliseconds (3 seconds)
+            showConfirmButton: false, // Hide the confirm button
+          });
+          return;
+        }
 
-      //               const couponCode = document.getElementById('couponCode').value
-      //               if(couponCode){
-      //                 await axios.post('/applyCoupon',{couponCode})
-      //               .then(response =>{
-      //                 // alert(response.data.totalPrice)
-      //                   grandTotal.innerText = response.data.totalPrice
-      //                   grandTotal.innerText = response.data.totalPrice
+        try {
+          const response = await axios.post("/applyCoupon", {
+            couponCode,
+          });
+          const { totalPrice } = response.data;
 
-      //               })
-      //               .catch(response =>{
-      //                   alert("Something error happesdfned")
-      //               })
-      //               }else{
-      //                 alert("Please select a coupon before applying.");
-
-      //               }
-      //           }
-
-      let appliedCoupon = null; // Track the applied coupon
-
-      async function toggleCoupon() {
-        const couponCodeInput = document.getElementById("couponCode");
-        const couponCode = couponCodeInput.value.trim();
-        const applyButton = document.getElementById("applyButton");
-
-        if (appliedCoupon) {
-          // If a coupon is already applied, remove it
-          appliedCoupon = null; // Clear the applied coupon
-          couponCodeInput.value = ""; // Clear the input field
-          couponCodeInput.disabled = false; // Re-enable the input field
-          applyButton.innerText = "Apply"; // Change button text back to 'Apply'
-
-          // Reset total price (send request to recalculate the price without coupon)
-          try {
-            const response = await axios.post("/removeCoupon"); // Backend endpoint to reset the price
-            document.getElementById("grandTotal").innerText =
-              response.data.totalPrice;
+          // Update UI after successfully applying the coupon
+          if (response.data.success === false) {
+            Swal.fire({
+              icon: response.data.message.includes("error")
+                ? "error"
+                : "info", // Determine icon based on the message content
+              title: "Notification",
+              text: response.data.message, // Display the dynamic message
+            });
+            couponCodeInput.value = "";
+          } else {
+            appliedCoupon = couponCode; // Track the applied coupon
+            document.getElementById("grandTotal").innerText = totalPrice; // Update the total price
             document.getElementById("discount").innerText =
               "<%= checkout %>" - response.data.totalPrice;
-          } catch (error) {
-            Swal.fire({
-              icon: "error", // Show 'error' icon
-              title: "Failed to Remove Coupon",
-              text: "Failed to remove coupon. Please try again.",
-              toast: true, // Makes it a toast notification
-              position: "top", // Position it in the middle of the top
-              timer: 3000, // Duration in milliseconds (3 seconds)
-              showConfirmButton: false, // Hide confirm button
-            });
-          }
-        } else {
-          // Apply the coupon if no coupon is applied yet
-          if (!couponCode) {
-            Swal.fire({
-              icon: "warning", // Show 'warning' icon
-              title: "Coupon Code Required",
-              text: "Please enter a coupon code before applying.",
-              toast: true, // Makes it a toast notification
-              position: "top", // Position the toast at the middle of the top
-              timer: 3000, // Duration in milliseconds (3 seconds)
-              showConfirmButton: false, // Hide the confirm button
-            });
-            return;
-          }
 
-          try {
-            const response = await axios.post("/applyCoupon", {
-              couponCode,
-            });
-            const { totalPrice } = response.data;
-
-            // Update UI after successfully applying the coupon
-            if (response.data.success === false) {
-              Swal.fire({
-                icon: response.data.message.includes("error")
-                  ? "error"
-                  : "info", // Determine icon based on the message content
-                title: "Notification",
-                text: response.data.message, // Display the dynamic message
-              });
-              couponCodeInput.value = "";
-            } else {
-              appliedCoupon = couponCode; // Track the applied coupon
-              document.getElementById("grandTotal").innerText = totalPrice; // Update the total price
-              document.getElementById("discount").innerText =
-                "<%= checkout %>" - response.data.totalPrice;
-
-              couponCodeInput.disabled = true; // Disable the input field
-              applyButton.innerText = "Remove"; // Change button text to 'Remove'
-            }
-          } catch (error) {
-            Swal.fire({
-              icon: "error", // Show 'error' icon
-              title: "Coupon Code Error",
-              text: "Something went wrong. Please check the coupon code and try again.", // Custom error message
-            });
+            couponCodeInput.disabled = true; // Disable the input field
+            applyButton.innerText = "Remove"; // Change button text to 'Remove'
           }
+        } catch (error) {
+          Swal.fire({
+            icon: "error", // Show 'error' icon
+            title: "Coupon Code Error",
+            text: "Something went wrong. Please check the coupon code and try again.", // Custom error message
+          });
         }
       }
-    </script>
-    <!-- product zoom -->
-  </body>
+    }
+  </script>
+  <!-- product zoom -->
+</body>
+
 </html>
